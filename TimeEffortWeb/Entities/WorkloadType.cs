@@ -7,20 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TimeEffortWeb
+namespace TimeEffortWeb.Entities
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Access
+    public partial class WorkloadType
     {
-        public int ID { get; set; }
-        public int UserID { get; set; }
-        public int ProjectID { get; set; }
-        public int RoleID { get; set; }
+        public WorkloadType()
+        {
+            this.Workload = new HashSet<Workload>();
+        }
     
-        public virtual Project Project { get; set; }
-        public virtual Role Role { get; set; }
-        public virtual UserInfo UserInfo { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
+    
+        public virtual ICollection<Workload> Workload { get; set; }
     }
 }

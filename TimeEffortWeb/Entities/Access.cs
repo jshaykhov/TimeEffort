@@ -7,17 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TimeEffortWeb
+namespace TimeEffortWeb.Entities
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagrams
+    public partial class Access
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public int ID { get; set; }
+        public int UserID { get; set; }
+        public int ProjectID { get; set; }
+        public int RoleID { get; set; }
+    
+        public virtual Project Project { get; set; }
+        public virtual Role Role { get; set; }
+        public virtual UserInfo UserInfo { get; set; }
     }
 }

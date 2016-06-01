@@ -7,21 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TimeEffortWeb
+namespace TimeEffortWeb.Entities
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Position
+    public partial class sp_helpdiagramdefinition_Result
     {
-        public Position()
-        {
-            this.UserInfo = new HashSet<UserInfo>();
-        }
-    
-        public int ID { get; set; }
-        public string Name { get; set; }
-    
-        public virtual ICollection<UserInfo> UserInfo { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

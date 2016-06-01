@@ -7,21 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TimeEffortWeb
+namespace TimeEffortWeb.Entities
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Role
+    public partial class sp_helpdiagrams_Result
     {
-        public Role()
-        {
-            this.Access = new HashSet<Access>();
-        }
-    
-        public int ID { get; set; }
+        public string Database { get; set; }
         public string Name { get; set; }
-    
-        public virtual ICollection<Access> Access { get; set; }
+        public int ID { get; set; }
+        public string Owner { get; set; }
+        public int OwnerID { get; set; }
     }
 }

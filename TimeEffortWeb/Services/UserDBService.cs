@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TimeEffortWeb.Services
 {
-    public class UserService
+    public class UserDBService
     {
 
     }

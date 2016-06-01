@@ -7,21 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TimeEffortWeb
+namespace TimeEffortWeb.Entities
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class WorkloadType
+    public partial class sysdiagrams
     {
-        public WorkloadType()
-        {
-            this.Workload = new HashSet<Workload>();
-        }
-    
-        public int ID { get; set; }
-        public string Name { get; set; }
-    
-        public virtual ICollection<Workload> Workload { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }
