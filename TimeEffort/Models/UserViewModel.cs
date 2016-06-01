@@ -34,15 +34,21 @@ namespace TimeEffort.Models
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Position")]
         public string Position { get; set; }
+        
+        
         [Required]
         [DataType(DataType.Text)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Username")]
         public string UserName { get; set; }
+        
+
+
         [Required]
         [DataType(DataType.Password)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Password")]
         public string Password { get; set; }
+
     }
 }

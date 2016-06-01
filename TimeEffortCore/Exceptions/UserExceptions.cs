@@ -6,6 +6,42 @@ using System.Threading.Tasks;
 
 namespace TimeEffortCore.Exceptions
 {
+    [Serializable]
+    public class NoFirstNameException : Exception
+    {
+        public NoFirstNameException()
+        {
+        }
+
+        public NoFirstNameException(string message)
+            : base(message)
+        {
+        }
+
+        public NoFirstNameException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+    }
+
+    [Serializable]
+    public class NoLastNameException : Exception
+    {
+        public NoLastNameException()
+        {
+        }
+
+        public NoLastNameException(string message)
+            : base(message)
+        {
+        }
+
+        public NoLastNameException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+    }
+
      [Serializable]
     public class NoUserNameException : Exception
     {
@@ -59,4 +95,21 @@ namespace TimeEffortCore.Exceptions
         }
     }
     
+    [Serializable]
+    public class NoUserPhoneException : Exception
+    {
+        public NoUserPhoneException()
+        {
+        }
+
+        public NoUserPhoneException(string message)
+            : base(message)
+        {
+        }
+
+        public NoUserPhoneException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+    }
 }
