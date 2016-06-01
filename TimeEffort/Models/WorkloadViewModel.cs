@@ -6,13 +6,15 @@ using System.Web;
 
 namespace TimeEffort.Models
 {
-    public class RegistrationViewModel
+    public class WorkloadViewModel
     {
         [Required]
         [DataType(DataType.Text)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "First name")]
         public string FirstName { get; set; }
+
+
         [Required]
         [DataType(DataType.Text)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
@@ -49,6 +51,5 @@ namespace TimeEffort.Models
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Repeat password")]
         public string RepeatPassword { get; set; }
-     
     }
 }

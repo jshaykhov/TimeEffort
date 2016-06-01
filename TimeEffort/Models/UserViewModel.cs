@@ -6,7 +6,7 @@ using System.Web;
 
 namespace TimeEffort.Models
 {
-    public class RegistrationViewModel
+    public class UserViewModel
     {
         [Required]
         [DataType(DataType.Text)]
@@ -25,7 +25,7 @@ namespace TimeEffort.Models
         public string Email { get; set; }
         [Required]
         [DataType(DataType.PhoneNumber)]
-        [StringLength(maximumLength: 13, MinimumLength = 1)]
+        [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Phone")]
         public string Phone { get; set; }
         public int PositionId { get; set; }
@@ -43,12 +43,5 @@ namespace TimeEffort.Models
         [DataType(DataType.Password)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Password")]
-        public string Password { get; set; }
-        [Required]
-        [DataType(DataType.Password)]
-        [StringLength(maximumLength: 100, MinimumLength = 1)]
-        [Display(Name = "Repeat password")]
-        public string RepeatPassword { get; set; }
-     
     }
 }
