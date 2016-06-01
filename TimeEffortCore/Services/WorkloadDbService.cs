@@ -37,6 +37,13 @@ namespace TimeEffortCore.Services
                 throw new ArgumentNullException("Workload does not exist");
             return item;
         }
+        public UserInfo GetByName(string name)
+        {
+            var item = db.UserInfo.FirstOrDefault(u => u.Username == name);
+            if (item == null)
+                throw new ArgumentNullException("Workload does not exist");
+            return item;
+        }
 
         public void Update(Workload item)
         {

@@ -20,6 +20,7 @@
         <AssociationConnector Association="time_trackerModel.FK_Workload_Project" ManuallyRouted="false" />
         <AssociationConnector Association="time_trackerModel.FK_Workload_UserInfo" ManuallyRouted="false" />
         <AssociationConnector Association="time_trackerModel.FK_Workload_WorkloadType" ManuallyRouted="false" />
+        <AssociationConnector Association="time_trackerModel.FK_Project_UserInfo" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

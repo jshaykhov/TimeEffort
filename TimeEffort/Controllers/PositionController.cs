@@ -3,66 +3,85 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TimeEffort.Mappers;
+using TimeEffort.Models;
+using TimeEffortCore.Services;
 
 namespace TimeEffort.Controllers
 {
     public class PositionController : Controller
     {
-        //
+        //static properties does not requiere instantiation on accessing different Actions
+        static PositionDBService _Position;
+        //singleton to ensure that there is only one instance of the service
+
+        private PositionDBService Position
+        {
+            get
+            {
+                if (_Position == null)
+                    _Position = new PositionDBService();
+                return _Position;
+            }
+        }
         // GET: /Position/
         public ActionResult Index()
         {
-            return View();
+            var allPositions = Position.GetAll();
+            var list = PositionMapper.MapPositionsToModels(allPositions);
+            return View(list);
         }
 
-        //
-        // GET: /Position/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        //
-        // GET: /Position/Create
+        // GET: Position/Create
         public ActionResult Create()
         {
+            var model = new PositionViewModel();
             return View();
         }
 
-        //
-        // POST: /Position/Create
+        // POST: Position/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(PositionViewModel model)
         {
             try
             {
-                // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    var position = PositionMapper.MapPositionFromModel(model);
 
-                return RedirectToAction("Index");
+                    Position.Insert(position);
+                    return RedirectToAction("Index");
+                }
+
+                return View(model);
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                ModelState.AddModelError("", e.Message);
+                return View(model);
             }
         }
-
-        //
-        // GET: /Position/Edit/5
+        // GET: Position/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var model = PositionMapper.MapPositionToModel(Position.GetById(id));
+            return View(model);
         }
 
-        //
-        // POST: /Position/Edit/5
+        // POST: Position/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, PositionViewModel model)
         {
+            model.Id = id;
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    var position = PositionMapper.MapPositionFromModel(model);
+                    Position.Update(position);
+                    return RedirectToAction("Index");
+                }
+                return View(model);
             }
             catch
             {
@@ -70,27 +89,29 @@ namespace TimeEffort.Controllers
             }
         }
 
-        //
-        // GET: /Position/Delete/5
+        // GET: Position/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var position = Position.GetById(id);
+            var model = PositionMapper.MapPositionToModel(position);
+            return View(model);
         }
 
-        //
-        // POST: /Position/Delete/5
+        // POST: Position/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                Position.Delete(id);
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                var position = Position.GetById(id);
+                var model = PositionMapper.MapPositionToModel(position);
+                ModelState.AddModelError("", e.Message);
+                return View(model);
             }
         }
     }
