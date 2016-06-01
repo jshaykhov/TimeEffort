@@ -3,35 +3,29 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using TimeEffortCore.Entities;
 
 namespace TimeEffort.Models
 {
     public class WorkloadViewModel
     {
-        [Required]
-        [DataType(DataType.Text)]
-        [StringLength(maximumLength: 100, MinimumLength = 1)]
-        [Display(Name = "First name")]
-        public string FirstName { get; set; }
+        public int Id { get; set; }
 
-
-        [Required]
-        [DataType(DataType.Text)]
-        [StringLength(maximumLength: 100, MinimumLength = 1)]
-        [Display(Name = "Last name")]
-        public string LastName { get; set; }
-
-
-        [Required]
-        [DataType(DataType.Text)]
-        [StringLength(maximumLength: 100, MinimumLength = 1)]
+        public UserInfo User { get; set; }
+        
         [Display(Name = "Project")]
-        public string Project { get; set; }
+        public Project Project { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
         [Display(Name = "Date")]
         public DateTime Date { get; set; }
+
+        [Required]
+        [DataType(DataType.Duration)]
+        [Display(Name = "Date")]
+        public decimal Duration { get; set; }
+
 
         [Required]
         [Display(Name = "Approved Status")]
@@ -44,7 +38,7 @@ namespace TimeEffort.Models
         [Required]
         [DataType(DataType.Text)]
         [Display(Name="Choose Type")]
-        public string WorkLoadType { get; set; }
+        public WorkloadType WorkLoadType { get; set; }
 
     }
 }
