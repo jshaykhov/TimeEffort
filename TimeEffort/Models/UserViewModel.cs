@@ -43,5 +43,6 @@ namespace TimeEffort.Models
         [DataType(DataType.Password)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Password")]
+        public string Password { get; set; }
     }
 }

@@ -58,21 +58,5 @@ namespace TimeEffortCore.Exceptions
         {
         }
     }
-    [Serializable]
-    public class NoUserEmailException : Exception
-    {
-        public NoUserEmailException()
-        {
-        }
-
-        public NoUserEmailException(string message)
-            : base(message)
-        {
-        }
-
-        public NoUserEmailException(string message, Exception inner)
-            : base(message, inner)
-        {
-        }
-    }
+    
 }

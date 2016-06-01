@@ -20,36 +20,31 @@ namespace TimeEffort.Models
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Last name")]
         public string LastName { get; set; }
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        [StringLength(maximumLength: 100, MinimumLength = 1)]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-        [Required]
-        [DataType(DataType.PhoneNumber)]
-        [StringLength(maximumLength: 13, MinimumLength = 1)]
-        [Display(Name = "Phone")]
-        public string Phone { get; set; }
-        public int PositionId { get; set; }
+
+
         [Required]
         [DataType(DataType.Text)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
-        [Display(Name = "Position")]
-        public string Position { get; set; }
+        [Display(Name = "Project")]
+        public string Project { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Date")]
+        public DateTime Date { get; set; }
+
+        [Required]
+        [Display(Name = "Approved Status")]
+        public bool Approved { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Task / Note")]
+        public string Note { get; set; }
+
         [Required]
         [DataType(DataType.Text)]
-        [StringLength(maximumLength: 100, MinimumLength = 1)]
-        [Display(Name = "Username")]
-        public string UserName { get; set; }
-        [Required]
-        [DataType(DataType.Password)]
-        [StringLength(maximumLength: 100, MinimumLength = 1)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
-        [Required]
-        [DataType(DataType.Password)]
-        [StringLength(maximumLength: 100, MinimumLength = 1)]
-        [Display(Name = "Repeat password")]
-        public string RepeatPassword { get; set; }
+        [Display(Name="Choose Type")]
+        public string WorkLoadType { get; set; }
+
     }
 }
