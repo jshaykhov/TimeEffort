@@ -98,6 +98,7 @@
     <Compile Include="Exceptions\UserExceptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\WorkloadDbService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
