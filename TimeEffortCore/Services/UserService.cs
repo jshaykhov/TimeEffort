@@ -1,31 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using TimeEffortCore.Entities;
 using TimeEffortCore.Exceptions;
 
+
 namespace TimeEffortCore.Services
 {
     public class UserService
     {
-        private static time_trackerEntities db;
+        private static time_trackerEntities1 db;
         public UserService()
         {
-            db = new time_trackerEntities();
+            db = new time_trackerEntities1();
         }
 
-       //copied
-        public string APIAuthenticate(string username, string password)
-        {
-            var curUser = new UserInfo
-            {
-                Username = username,
-                Password = password,
-            };
-            return APIAuthenticate(curUser);
-        }
 
         public int? Authenticate(UserInfo userInfo)
         {
@@ -47,25 +39,6 @@ namespace TimeEffortCore.Services
             }
         }
 
-        public bool APIAuthenticate(string token)
-        {
-            var user = db.UserInfo.FirstOrDefault(u => u.APItoken == token);
-            if (user == null)
-                return false;
-
-            return true;
-        }
-
-        public string APIAuthenticate(UserInfo userInfo)
-        {
-            var id = Authenticate(userInfo);
-            if (!id.HasValue)
-                return string.Empty;
-            var token = GenerateAPIToken(id.Value, userInfo.Username, userInfo.Password);
-            db.UserInfo.First(u => u.ID == id).APItoken = token;
-            db.SaveChanges();
-            return token;
-        }
         private string GenerateAPIToken(int id, string username, string password)
         {
             var toEncrypt = username + id + password;
@@ -76,7 +49,16 @@ namespace TimeEffortCore.Services
             //in this string you got the encrypted password
             return Convert.ToBase64String(hashBytes);
         }
-
+        public string APIAuthenticate(UserInfo userInfo)
+        {
+            var id = Authenticate(userInfo);
+            if (!id.HasValue)
+                return string.Empty;
+            var token = GenerateAPIToken(id.Value, userInfo.Username, userInfo.Password);
+            //db.UserInfo.First(u => u.ID == id).APItoken = token;
+            db.SaveChanges();
+            return token;
+        }
         /// <summary>
         ///algorithm for Hash with Salt
         ///but the Salt is dinamic - unique for each user instance
@@ -117,14 +99,18 @@ namespace TimeEffortCore.Services
         }
         public bool IsUserDataValid(UserInfo userInfo)
         {
+            if (userInfo.FirstName == null)
+                throw new NoUserNameException("First name is not provided");
+            if (userInfo.LastName == null)
+                throw new NoUserNameException("Last name is not provided");
             if (userInfo.Username == null)
                 throw new NoUserNameException("User Name is not provided");
             if (userInfo.Password == null)
                 throw new NoUserPasswordException("Password is not provided");
             if (userInfo.Email == null)
                 throw new NoUserEmailException("Email is not provided");
-            if (userInfo.Address == null || userInfo.FirstName == null || userInfo.LastName == null)
-                throw new ArgumentException("Address, First Name or Last Name missing");
+            if (userInfo.Phone == null || userInfo.Phone == null || userInfo.Phone == null)
+                throw new ArgumentException("Phone, First Name or Last Name missing");
             return true;
         }
         //method to check if the user name exists or not

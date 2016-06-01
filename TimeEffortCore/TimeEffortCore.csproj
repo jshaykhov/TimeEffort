@@ -102,6 +102,7 @@
     <Compile Include="Services\PositionDBService.cs" />
     <Compile Include="Services\RoleDBService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\WorkloadDbService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />

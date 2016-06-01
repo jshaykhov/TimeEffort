@@ -3,95 +3,83 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TimeEffort.Models;
+using TimeEffortCore.Entities;
+using TimeEffortCore.Services;
 
 namespace TimeEffort.Controllers
 {
     public class UserController : Controller
     {
-        //
-        // GET: /User/
-        public ActionResult Index()
+        static UserService _userService = new UserService();
+
+        // GET: User/Login
+        public ActionResult Login()
         {
             return View();
         }
 
-        //
-        // GET: /User/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        //
-        // GET: /User/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        //
-        // POST: /User/Create
+        // POST: User/Login
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Login(LoginViewModel loginVM)
         {
+            if (!ModelState.IsValid)
+                return View(loginVM);
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                var curUser = new UserInfo
+                {
+                    Username = loginVM.UserName,
+                    Password = loginVM.Password
+                };
+                if (_userService.Authenticate(curUser).HasValue)
+                    return RedirectToAction("Index", "Home");
+                else
+                {
+                    ModelState.AddModelError("", "Invalid credentials");
+                    return View(loginVM);
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ModelState.AddModelError("", ex.Message);
+                return View(loginVM);
             }
-        }
 
-        //
-        // GET: /User/Edit/5
-        public ActionResult Edit(int id)
+        }
+        //REGISTER 
+         public ActionResult Registration()
         {
             return View();
         }
 
-        //
-        // POST: /User/Edit/5
+        // POST: User/Register
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Registration(RegistrationViewModel registrationVM)
         {
+            if (!ModelState.IsValid)
+                return View(registrationVM);
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                var curUser = new UserInfo
+                {
+                    FirstName = registrationVM.FirstName,
+                    LastName = registrationVM.LastName,
+                    Username = registrationVM.UserName,
+                    Password = registrationVM.Password,
+                    Phone=registrationVM.Phone,
+                    PositionID=registrationVM.PositionId,                    
+                    Email = registrationVM.Email
+                };
+                _userService.Register(curUser);
+                return RedirectToAction("Login");
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                ModelState.AddModelError("", ex.Message);
+                return View(registrationVM);
             }
         }
 
-        //
-        // GET: /User/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
         }
-
-        //
-        // POST: /User/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-    }
-}
+  }
