@@ -6,7 +6,7 @@ using System.Web;
 using TimeEffortCore.Entities;
 using TimeEffort.Models;
 
-namespace Shop.Web.Mappers
+namespace TimeEffort.Mappers
 {
     public class WloadTypeMapper
     {

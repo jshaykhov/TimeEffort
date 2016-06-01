@@ -3,16 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TimeEffort.Mappers;
+using TimeEffortCore.Services;
 
 namespace TimeEffort.Controllers
 {
     public class ProjectController : Controller
     {
+        //static properties does not requiere instantiation on accessing different Actions
+        static ProjectDBService _Service;
+        //singleton to ensure that there is only one instance of the service
+        private ProjectDBService Service
+        {
+            get
+            {
+                if (_Service == null)
+                    _Service = new ProjectDBService();
+                return _Service;
+            }
+        }
+
         //
         // GET: /Project/
         public ActionResult Index()
         {
-            return View();
+            var allProjects = Service.GetAll();
+            var list = ProjectMapper.MapProjectsToModels(allProjects);
+            return View(list);
+
         }
 
         //
