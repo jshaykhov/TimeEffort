@@ -42,10 +42,12 @@ namespace TimeEffort.Controllers
         [HttpPost]
         public ActionResult Create(WorkloadViewModel model)
         {
-            var username = this.HttpContext.User.Identity.Name;
+            /*var username = this.HttpContext.User.Identity.Name;
             var user = db.GetByName(username);
+            model.User = user;*/
 
-            model.User = user;
+            model.User = db.GetByName(this.HttpContext.User.Identity.Name); //Get current user via his username
+
             
             if (ModelState.IsValid)
             {
@@ -54,6 +56,58 @@ namespace TimeEffort.Controllers
                 return RedirectToAction("Index");
             }
             return View(model);
+        }
+
+        // GET: Service/Edit/5
+        public ActionResult Edit(int id)
+        {
+            var model = WorkloadMapper.MapWorkloadToModel(db.GetById(id));
+            return View(model);
+        }
+
+        // POST: Service/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, WorkloadViewModel model)
+        {
+            model.Id = id;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var service = WorkloadMapper.MapWorkloadFromModel(model);
+                    db.Update(service);
+                    return RedirectToAction("Index");
+                }
+                return View(model);
+
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Service/Delete/5
+        public ActionResult Delete(int id)
+        {
+            var model = WorkloadMapper.MapWorkloadToModel(db.GetById(id));
+            return View(model);
+        }
+
+        // POST: Service/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
+        {
+            try
+            {
+                db.Delete(id);
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
 	}
 }
