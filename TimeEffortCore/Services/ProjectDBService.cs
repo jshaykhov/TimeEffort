@@ -9,58 +9,54 @@ namespace TimeEffortCore.Services
 {
     public class ProjectDBService
     {
-        private time_trackerEntities db;
+        private time_trackerEntities1 db;
         public ProjectDBService()
         {
-            db = new time_trackerEntities();
+            db = new time_trackerEntities1();
         }
-        //public void Delete(int itemId)
-        //{
-        //    var item = db.Project.FirstOrDefault(p => p.Id == itemId);
-        //    if (item == null)
-        //        throw new ArgumentNullException("You cannot delete a null Project");
-        //    db.Project.Remove(item);
-        //    db.SaveChanges();
-        //}
+        public void Delete(int itemId)
+        {
+            var item = db.Project.FirstOrDefault(p => p.ID == itemId);
+            if (item == null)
+                throw new ArgumentNullException("You cannot delete a project");
+            db.Project.Remove(item);
+            db.SaveChanges();
+        }
 
-        //public List<Project> GetAll()
-        //{
-        //    return db.Project.ToList();
-        //}
+        public List<Project> GetAll()
+        {
+            return db.Project.ToList();
+        }
 
-        //public Project GetById(int id)
-        //{
-        //    var item = db.Project.FirstOrDefault(p => p.Id == id);
-        //    if (item == null)
-        //        throw new ArgumentNullException("Project does not exist");
-        //    return item;
-        //}
+        public Project GetById(int Id)
+        {
+            var item = db.Project.FirstOrDefault(p => p.ID == Id);
+            if (item == null)
+                throw new ArgumentNullException("Project does not exist");
+            return item;
+        }
 
-        //public void Insert(Project item)
-        //{
-        //    item.Created = DateTime.Now;
-        //    db.Project.Add(item);
-        //    db.SaveChanges();
-        //}
+        public void Insert(Project item)
+        {
+            db.Project.Add(item);
+            db.SaveChanges();
+        }
 
-        //public void Update(Project item)
-        //{
-        //    var dbItem = db.Project.FirstOrDefault(p => p.Id == item.ID);
-        //    if (dbItem == null)
-        //        throw new ArgumentNullException("Project does not exist");
-        //    dbItem.Title = item.Title;
-        //    dbItem.Price = item.Price;
-        //    dbItem.Description = item.Description;
-        //    dbItem.Manufacturer = item.Manufacturer;
-        //    dbItem.Brand = item.Brand;
-        //    dbItem.TitleRu = item.TitleRu;
-        //    dbItem.PriceRu = item.PriceRu;
-        //    dbItem.DescriptionRu = item.DescriptionRu;
-        //    dbItem.ManufacturerRu = item.ManufacturerRu;
-        //    dbItem.BrandRu = item.BrandRu;
-        //    dbItem.CategoryId = item.CategoryId;
-        //    dbItem.Updated = DateTime.Now;
-        //    db.SaveChanges();
-        //}
+        public void Update(Project item)
+        {
+            var dbItem = db.Project.FirstOrDefault(p => p.ID == item.ID);
+            if (dbItem == null)
+                throw new ArgumentNullException("Project does not exist");
+            dbItem.Code = item.Code;
+            dbItem.Name = item.Name;
+            dbItem.ContractUSD = item.ContractUSD;
+            dbItem.ContractUZS = item.ContractUZS;
+            dbItem.ManagerID = item.ManagerID;
+            dbItem.StartDate = item.StartDate;
+            dbItem.EndDate = item.EndDate;
+            dbItem.Status = item.Status;
+
+            db.SaveChanges();
+        }
     }
 }

@@ -2,67 +2,88 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.ApplicationServices;
 using System.Web.Mvc;
+using TimeEffort.Mappers;
+using TimeEffort.Models;
+using TimeEffortCore.Entities;
+using TimeEffortCore.Services;
 
 namespace TimeEffort.Controllers
 {
     public class RoleController : Controller
     {
-        //
+        //static properties does not requiere instantiation on accessing different Actions
+        static RoleDBService _Service;
+        //singleton to ensure that there is only one instance of the service
+
+        private RoleDBService Service
+        {
+            get
+            {
+                if (_Service == null)
+                    _Service = new RoleDBService();
+                return _Service;
+            }
+        }
         // GET: /Role/
         public ActionResult Index()
         {
-            return View();
+            var allRoles = Service.GetAll();
+            var list = RoleMapper.MapRolesToModels(allRoles);
+            return View(list);
         }
 
-        //
-        // GET: /Role/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        //
-        // GET: /Role/Create
+        // GET: Role/Create
         public ActionResult Create()
         {
+            var model = new RoleViewModel();
             return View();
         }
 
-        //
-        // POST: /Role/Create
+        // POST: Role/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(RoleViewModel model)
         {
             try
             {
-                // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    var role = RoleMapper.MapRoleFromModel(model);
 
-                return RedirectToAction("Index");
+                    Service.Insert(role);
+                    return RedirectToAction("Index");
+                }
+
+                return View(model);
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                ModelState.AddModelError("", e.Message);
+                return View(model);
             }
         }
-
-        //
-        // GET: /Role/Edit/5
+        // GET: Role/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var model = RoleMapper.MapRoleToModel(Service.GetById(id));
+            return View(model);
         }
 
-        //
-        // POST: /Role/Edit/5
+        // POST: Role/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, RoleViewModel model)
         {
+            model.Id = id;
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    var role = RoleMapper.MapRoleFromModel(model);
+                    Service.Update(role);
+                    return RedirectToAction("Index");
+                }
+                return View(model);
             }
             catch
             {
@@ -70,27 +91,29 @@ namespace TimeEffort.Controllers
             }
         }
 
-        //
-        // GET: /Role/Delete/5
+        // GET: Role/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var role = Service.GetById(id);
+            var model = RoleMapper.MapRoleToModel(role);
+            return View(model);
         }
 
-        //
-        // POST: /Role/Delete/5
+        // POST: Role/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                Service.Delete(id);
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                var role = Service.GetById(id);
+                var model = RoleMapper.MapRoleToModel(role);
+                ModelState.AddModelError("", e.Message);
+                return View(model);
             }
         }
     }

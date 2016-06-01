@@ -18,6 +18,7 @@ namespace TimeEffortCore.Entities
         {
             this.Access = new HashSet<Access>();
             this.Workload = new HashSet<Workload>();
+            this.Project = new HashSet<Project>();
         }
     
         public int ID { get; set; }
@@ -32,5 +33,6 @@ namespace TimeEffortCore.Entities
         public virtual ICollection<Access> Access { get; set; }
         public virtual Position Position { get; set; }
         public virtual ICollection<Workload> Workload { get; set; }
+        public virtual ICollection<Project> Project { get; set; }
     }
 }

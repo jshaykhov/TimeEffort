@@ -32,5 +32,6 @@ namespace TimeEffortCore.Entities
     
         public virtual ICollection<Access> Access { get; set; }
         public virtual ICollection<Workload> Workload { get; set; }
+        public virtual UserInfo UserInfo { get; set; }
     }
 }
