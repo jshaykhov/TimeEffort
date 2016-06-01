@@ -34,14 +34,14 @@ namespace TimeEffort.Controllers
             return View(list);
         }
 
-        // GET: Category/Create
+        // GET: Role/Create
         public ActionResult Create()
         {
             var model = new RoleViewModel();
             return View();
         }
 
-        // POST: Category/Create
+        // POST: Role/Create
         [HttpPost]
         public ActionResult Create(RoleViewModel model)
         {
@@ -63,14 +63,14 @@ namespace TimeEffort.Controllers
                 return View(model);
             }
         }
-        // GET: Category/Edit/5
+        // GET: Role/Edit/5
         public ActionResult Edit(int id)
         {
             var model = RoleMapper.MapRoleToModel(Service.GetById(id));
             return View(model);
         }
 
-        // POST: Category/Edit/5
+        // POST: Role/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, RoleViewModel model)
         {
@@ -91,7 +91,7 @@ namespace TimeEffort.Controllers
             }
         }
 
-        // GET: Category/Delete/5
+        // GET: Role/Delete/5
         public ActionResult Delete(int id)
         {
             var role = Service.GetById(id);
@@ -99,7 +99,7 @@ namespace TimeEffort.Controllers
             return View(model);
         }
 
-        // POST: Category/Delete/5
+        // POST: Role/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
