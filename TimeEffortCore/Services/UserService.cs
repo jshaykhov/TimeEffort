@@ -18,16 +18,6 @@ namespace TimeEffortCore.Services
             db = new time_trackerEntities1();
         }
 
-       //copied
-        public string APIAuthenticate(string username, string password)
-        {
-            var curUser = new UserInfo
-            {
-                Username = username,
-                Password = password,
-            };
-            return APIAuthenticate(curUser);
-        }
 
         public int? Authenticate(UserInfo userInfo)
         {
