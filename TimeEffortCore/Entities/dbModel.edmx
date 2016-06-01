@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="time_trackerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="time_trackerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Access">
           <Key>
             <PropertyRef Name="ID" />
@@ -421,7 +421,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="time_trackerEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="time_trackerEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Access" EntityType="Self.Access" />
           <EntitySet Name="Position" EntityType="Self.Position" />
           <EntitySet Name="Project" EntityType="Self.Project" />
@@ -505,7 +505,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="time_trackerModelStoreContainer" CdmEntityContainer="time_trackerEntities">
+        <EntityContainerMapping StorageEntityContainer="time_trackerModelStoreContainer" CdmEntityContainer="time_trackerEntities1">
           <EntitySetMapping Name="Access">
             <EntityTypeMapping TypeName="time_trackerModel.Access">
               <MappingFragment StoreEntitySet="Access">
@@ -634,7 +634,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="026a2cee9bfa40afb4c905b19993a550" Name="Diagram1">
+      <Diagram DiagramId="05182bf6f3ac4ac48a758ed8afca354b" Name="Diagram1">
         <EntityTypeShape EntityType="time_trackerModel.Access" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="time_trackerModel.Position" Width="1.5" PointX="1.5" PointY="12.875" IsExpanded="true" />
         <EntityTypeShape EntityType="time_trackerModel.Project" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
