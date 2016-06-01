@@ -48,7 +48,7 @@ namespace TimeEffort.Controllers
 
         }
         //REGISTER 
-                public ActionResult Register()
+         public ActionResult Registration()
         {
             return View();
         }
