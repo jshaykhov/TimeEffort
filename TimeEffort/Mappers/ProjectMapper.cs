@@ -20,8 +20,7 @@ namespace TimeEffort.Mappers
                 CMoneyUsd=project.ContractUSD,
                 CMoneyUzs=project.ContractUZS,
                 PManagerId=project.ManagerID,
-                PManagerFName=project.UserInfo.FirstName,
-                PManagerLName = project.UserInfo.LastName,
+                ManagerName=project.UserInfo.FirstName+" "+project.UserInfo.LastName,
                 StartDate=project.StartDate,
                 FinishDate=project.EndDate,
                 Status=project.Status
@@ -52,8 +51,7 @@ namespace TimeEffort.Mappers
                     ProjectName = c.Name,
                     CMoneyUsd = c.ContractUSD,
                     CMoneyUzs = c.ContractUZS,
-                    PManagerFName = c.UserInfo.FirstName,
-                    PManagerLName = c.UserInfo.LastName,
+                    ManagerName = c.UserInfo.FirstName + " " + c.UserInfo.LastName,
                     StartDate = c.StartDate,
                     FinishDate = c.EndDate,
                 }).ToList();

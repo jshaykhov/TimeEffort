@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TimeEffort.Mappers;
+using TimeEffort.Models;
 using TimeEffortCore.Services;
 
 namespace TimeEffort.Controllers
@@ -44,55 +45,74 @@ namespace TimeEffort.Controllers
         // GET: /Project/Create
         public ActionResult Create()
         {
-            return View();
+            var model = new ProjectViewModel();
+            return View(model);
+
         }
 
         //
         // POST: /Project/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(ProjectViewModel model)
         {
             try
             {
-                // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    var project = ProjectMapper.MapProjectFromModel(model);
 
-                return RedirectToAction("Index");
+                    Service.Insert(project);
+                    return RedirectToAction("Index");
+                }
+
+                return View(model);
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                ModelState.AddModelError("", e.Message);
+                return View(model);
             }
+
         }
 
         //
         // GET: /Project/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var model = ProjectMapper.MapProjectToModel(Service.GetById(id));
+            return View(model);
         }
 
         //
         // POST: /Project/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, ProjectViewModel model)
         {
+            model.Id = id;
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    var project = ProjectMapper.MapProjectFromModel(model);
+                    Service.Update(project);
+                    return RedirectToAction("Index");
+                }
+                return View(model);
             }
             catch
             {
                 return View();
             }
+
         }
 
         //
         // GET: /Project/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var project = Service.GetById(id);
+            var model = ProjectMapper.MapProjectToModel(project);
+            return View(model);
         }
 
         //
@@ -102,14 +122,17 @@ namespace TimeEffort.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
-
+                Service.Delete(id);
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                var project = Service.GetById(id);
+                var model = ProjectMapper.MapProjectToModel(project);
+                ModelState.AddModelError("", e.Message);
+                return View(model);
             }
+
         }
     }
 }

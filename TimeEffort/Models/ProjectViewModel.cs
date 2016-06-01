@@ -31,8 +31,8 @@ namespace TimeEffort.Models
         [DataType(DataType.Text)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Project Manager")]
-        public string PManagerFName { get; set; }
-        public string PManagerLName { get; set; }
+        public string ManagerName { get; set; }
+        //public string PManagerLName { get; set; }
         [Required]
         [DataType(DataType.Date)]
         [Display(Name = "Start Date")]
