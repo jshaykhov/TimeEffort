@@ -126,6 +126,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Mapper\PositionMapper.cs" />
+    <Compile Include="Mapper\RoleMapper.cs" />
+    <Compile Include="Mapper\WLoadTypeMapper.cs" />
+    <Compile Include="Mapper\ProjectMapper.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\PositionViewModel.cs" />

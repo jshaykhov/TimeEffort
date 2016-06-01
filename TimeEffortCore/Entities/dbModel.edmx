@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="time_trackerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="time_trackerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Access">
           <Key>
             <PropertyRef Name="ID" />
@@ -121,6 +121,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Project_UserInfo">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="ManagerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserInfo_Position">
           <End Role="Position" Type="Self.Position" Multiplicity="1" />
           <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="*" />
@@ -221,6 +233,10 @@
             <End Role="UserInfo" EntitySet="UserInfo" />
             <End Role="Access" EntitySet="Access" />
           </AssociationSet>
+          <AssociationSet Name="FK_Project_UserInfo" Association="Self.FK_Project_UserInfo">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserInfo_Position" Association="Self.FK_UserInfo_Position">
             <End Role="Position" EntitySet="Position" />
             <End Role="UserInfo" EntitySet="UserInfo" />
@@ -238,8 +254,7 @@
             <End Role="Workload" EntitySet="Workload" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="time_trackerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -278,6 +293,7 @@
           <Property Name="Status" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Access" Relationship="Self.FK_Access_Project" FromRole="Project" ToRole="Access" />
           <NavigationProperty Name="Workload" Relationship="Self.FK_Workload_Project" FromRole="Project" ToRole="Workload" />
+          <NavigationProperty Name="UserInfo" Relationship="time_trackerModel.FK_Project_UserInfo" FromRole="Project" ToRole="UserInfo" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -312,6 +328,7 @@
           <NavigationProperty Name="Access" Relationship="Self.FK_Access_UserInfo" FromRole="UserInfo" ToRole="Access" />
           <NavigationProperty Name="Position" Relationship="Self.FK_UserInfo_Position" FromRole="UserInfo" ToRole="Position" />
           <NavigationProperty Name="Workload" Relationship="Self.FK_Workload_UserInfo" FromRole="UserInfo" ToRole="Workload" />
+          <NavigationProperty Name="Project" Relationship="time_trackerModel.FK_Project_UserInfo" FromRole="UserInfo" ToRole="Project" />
         </EntityType>
         <EntityType Name="Workload">
           <Key>
@@ -488,6 +505,10 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <AssociationSet Name="FK_Project_UserInfo" Association="time_trackerModel.FK_Project_UserInfo">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -500,6 +521,18 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <Association Name="FK_Project_UserInfo">
+          <End Type="time_trackerModel.UserInfo" Role="UserInfo" Multiplicity="1" />
+          <End Type="time_trackerModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="ManagerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
