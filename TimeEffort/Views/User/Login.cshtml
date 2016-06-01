@@ -17,6 +17,10 @@
     <title>LG CNS Time Effort</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -27,50 +31,60 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", null, new { @class = "navbar-brand" })
+                @Html.ActionLink("Time Effort", "Index", "Home", null, new { @class = "navbar-brand" })
             </div>
         </div>
     </div>
     <div class="container body-content">
 
         <!-------------------------------------------------------------------------------------->
+        
+            <p><img src="/Images/lg.jpg" alt="logo" style="width: 300px; height: 200px; position:fixed;"> </p>
+        
+            <div style="border: 1px solid black; border-radius: 25px; padding: 3px; width: 300px; height:auto; absolute; left: 0; right: 0; margin: auto;" >
+            <h3>Login</h3> 
+            
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
 
+    <div class="form-horizontal">
 
-        <h2>Login</h2>
+        <hr />
+        @Html.ValidationSummary(true)
 
+        <div class="form-group">
 
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
+            <div class="col-md-10">
+                <p><span class="glyphicon glyphicon-user"></span></p>
+                @Html.EditorFor(model => model.UserName)
+                @Html.ValidationMessageFor(model => model.UserName)
+            </div>
+        </div>
 
-            <div class="form-horizontal">
-               
-                <hr />
-                @Html.ValidationSummary(true)
+        <div class="form-group">
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.UserName, new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.UserName)
-                        @Html.ValidationMessageFor(model => model.UserName)
-                    </div>
+            <div class="col-md-10">
+                <p><span class="glyphicon glyphicon-cog"></span></p>
+                @Html.EditorFor(model => model.Password)
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+        </div>
+        <div class="form-group">
+
+            <div class="col-md-10">
+                <label><input id="rememberme" name="rememberme" value="Remember me" type="checkbox" /> &nbsp;Remember me</label>
                 </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Password, new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Password)
-                        @Html.ValidationMessageFor(model => model.Password)
-                    </div>
-                </div>
-
+            </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" value="Login" class="btn btn-default" />
                     </div>
                 </div>
             </div>
-        }
+            }
+
+        </div>
 
         <div>
             @Html.ActionLink("Back to List", "Index")
