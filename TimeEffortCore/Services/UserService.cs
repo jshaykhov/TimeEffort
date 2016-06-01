@@ -14,5 +14,9 @@ namespace TimeEffortCore.Services
         {
             db = new time_trackerEntities();
         }
+
+       
+
+
     }
 }
