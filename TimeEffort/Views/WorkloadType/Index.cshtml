@@ -5,10 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <h2>List of Workload Types</h2>
 
-
-<table class="table">
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-condensed">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.WloadType)
@@ -16,19 +19,17 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.WloadType)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.WloadType)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
