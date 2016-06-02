@@ -187,10 +187,10 @@
     <Content Include="Views\Role\Create.cshtml" />
     <Content Include="Views\Role\Edit.cshtml" />
     <Content Include="Views\Role\Delete.cshtml" />
-    <Content Include="Views\Position\Index.cshtml" />
     <Content Include="Views\Position\Create.cshtml" />
     <Content Include="Views\Position\Edit.cshtml" />
     <Content Include="Views\Position\Delete.cshtml" />
+    <Content Include="Views\Position\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
