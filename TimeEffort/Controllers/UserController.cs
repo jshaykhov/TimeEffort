@@ -30,6 +30,8 @@ namespace TimeEffort.Controllers
         [HttpPost]
         public ActionResult Login(LoginViewModel loginVM, FormCollection collection, string returnUrl)
         {
+            
+
             if (!ModelState.IsValid)
                 return View(loginVM);
             try
@@ -42,17 +44,9 @@ namespace TimeEffort.Controllers
                 if (_userService.Authenticate(curUser).HasValue)
                 {
                     FormsAuthentication.SetAuthCookie(curUser.Username, false);
-  
-                    if (loginVM.RememberMe)
-                    {
-                        HttpCookie cookie = new HttpCookie("microsoftwindowscachedontdelete");
-                        cookie.Values.Add("username", curUser.Username);
-                        cookie.Expires = DateTime.Now.AddDays(15);
-                        Response.Cookies.Add(cookie);
-                    }
-
                     if (returnUrl == null || returnUrl == "")
                         return RedirectToAction("Index","Home");
+
                     return Redirect(returnUrl);
                 }
 
@@ -91,7 +85,7 @@ namespace TimeEffort.Controllers
             }
             try
             {
-
+                
                 var curUser = new UserInfo
                 {
                     FirstName = registrationVM.FirstName,
@@ -126,4 +120,4 @@ namespace TimeEffort.Controllers
         }
 
     }
-}
+  }
