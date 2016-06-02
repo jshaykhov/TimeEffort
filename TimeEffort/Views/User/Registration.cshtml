@@ -5,7 +5,7 @@
     ViewBag.Title = "Registration";    
 }
 
-<h2>Registration</h2>
+<h2>New User Registration</h2>
 
 
 @using (Html.BeginForm()) 
@@ -13,7 +13,6 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>RegistrationViewModel</h4>
         <hr />
         @Html.ValidationSummary(true)
 
@@ -88,10 +87,6 @@
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

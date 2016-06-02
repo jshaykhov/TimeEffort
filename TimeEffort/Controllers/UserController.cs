@@ -8,6 +8,10 @@ using TimeEffort.Mappers;
 using TimeEffortCore.Entities;
 using TimeEffortCore.Services;
 using System.Web.Security;
+using System.Net;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security;
 
 namespace TimeEffort.Controllers
 {
@@ -24,7 +28,7 @@ namespace TimeEffort.Controllers
 
         // POST: User/Login
         [HttpPost]
-        public ActionResult Login(LoginViewModel loginVM, string returnUrl)
+        public ActionResult Login(LoginViewModel loginVM, FormCollection collection, string returnUrl)
         {
             
 
@@ -40,9 +44,6 @@ namespace TimeEffort.Controllers
                 if (_userService.Authenticate(curUser).HasValue)
                 {
                     FormsAuthentication.SetAuthCookie(curUser.Username, false);
-
-                    var state = User.Identity;
-
                     if (returnUrl == null || returnUrl == "")
                         return RedirectToAction("Index","Home");
 
@@ -61,7 +62,11 @@ namespace TimeEffort.Controllers
                 return View(loginVM);
             }
 
+
+
         }
+
+
         //REGISTER 
         public ActionResult Registration()
         {
@@ -88,7 +93,7 @@ namespace TimeEffort.Controllers
                     Username = registrationVM.UserName.Trim().ToLower(),
                     Password = registrationVM.Password,
                     Phone = registrationVM.Phone,
-                    PositionID =registrationVM.PositionId,
+                    PositionID = registrationVM.PositionId,
                     Email = registrationVM.Email
                 };
                 _userService.Register(curUser);
