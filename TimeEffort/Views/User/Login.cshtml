@@ -71,9 +71,8 @@
                                             <span class="field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
                                         </div>
                                         <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> &nbsp;Remember me
-                                            </label>
+                                            @Html.CheckBoxFor(m => m.RememberMe)
+                                            @Html.LabelFor(m => m.RememberMe)
                                         </div>
 
                                         <div class="form-group">

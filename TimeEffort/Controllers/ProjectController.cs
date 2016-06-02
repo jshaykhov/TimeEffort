@@ -27,10 +27,25 @@ namespace TimeEffort.Controllers
 
         //
         // GET: /Project/
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? page, string currentFilter, string searchByPName)
         {
             var allProjects = Service.GetAll();
             var list = ProjectMapper.MapProjectsToModels(allProjects);
+
+
+            if (searchByPName != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchByPName = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchByPName;
+            if (!String.IsNullOrEmpty(searchByPName))
+            {
+                list = list.Where(p => p.ProjectName.ToLower().Contains(searchByPName.ToLower())).ToList();
+            }
             int pageSize = 3;
             int pageNumber = (page ?? 1);
             return View(list.ToPagedList(pageNumber, pageSize));
