@@ -8,6 +8,10 @@ using TimeEffort.Mappers;
 using TimeEffortCore.Entities;
 using TimeEffortCore.Services;
 using System.Web.Security;
+using System.Net;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security;
 
 namespace TimeEffort.Controllers
 {
@@ -24,7 +28,7 @@ namespace TimeEffort.Controllers
 
         // POST: User/Login
         [HttpPost]
-        public ActionResult Login(LoginViewModel loginVM, string returnUrl)
+        public ActionResult Login(LoginViewModel loginVM, FormCollection collection, string returnUrl)
         {
             if (!ModelState.IsValid)
                 return View(loginVM);
@@ -38,6 +42,15 @@ namespace TimeEffort.Controllers
                 if (_userService.Authenticate(curUser).HasValue)
                 {
                     FormsAuthentication.SetAuthCookie(curUser.Username, false);
+  
+                    if (loginVM.RememberMe)
+                    {
+                        HttpCookie cookie = new HttpCookie("microsoftwindowscachedontdelete");
+                        cookie.Values.Add("username", curUser.Username);
+                        cookie.Expires = DateTime.Now.AddDays(15);
+                        Response.Cookies.Add(cookie);
+                    }
+
                     if (returnUrl == null || returnUrl == "")
                         return RedirectToAction("Index","Home");
                     return Redirect(returnUrl);
@@ -55,7 +68,11 @@ namespace TimeEffort.Controllers
                 return View(loginVM);
             }
 
+
+
         }
+
+
         //REGISTER 
         public ActionResult Registration()
         {
@@ -74,7 +91,7 @@ namespace TimeEffort.Controllers
             }
             try
             {
-                
+
                 var curUser = new UserInfo
                 {
                     FirstName = registrationVM.FirstName,
@@ -82,7 +99,7 @@ namespace TimeEffort.Controllers
                     Username = registrationVM.UserName.Trim().ToLower(),
                     Password = registrationVM.Password,
                     Phone = registrationVM.Phone,
-                    PositionID =registrationVM.PositionId,
+                    PositionID = registrationVM.PositionId,
                     Email = registrationVM.Email
                 };
                 _userService.Register(curUser);
@@ -109,4 +126,4 @@ namespace TimeEffort.Controllers
         }
 
     }
-  }
+}
