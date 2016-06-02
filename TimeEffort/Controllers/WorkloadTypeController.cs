@@ -1,0 +1,119 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using TimeEffort.Mappers;
+using TimeEffort.Models;
+using TimeEffortCore.Services;
+
+namespace TimeEffort.Controllers
+{
+    public class WorkloadTypeController : Controller
+    {
+        
+        //static properties does not requiere instantiation on accessing different Actions
+        static WloadTypeDBService _Service;
+        //singleton to ensure that there is only one instance of the service
+
+        private WloadTypeDBService Service
+        {
+            get
+            {
+                if (_Service == null)
+                    _Service = new WloadTypeDBService();
+                return _Service;
+            }
+        }
+        // GET: /WloadType/
+        public ActionResult Index()
+        {
+            var allWloadTypes = Service.GetAll();
+            var list = WloadTypeMapper.MapWorkloadTypesToModels(allWloadTypes);
+            return View(list);
+        }
+
+        // GET: WloadType/Create
+        public ActionResult Create()
+        {
+            var model = new WloadTypeViewModel();
+            return View();
+        }
+
+        // POST: WloadType/Create
+        [HttpPost]
+        public ActionResult Create(WloadTypeViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var wloadtype = WloadTypeMapper.MapWorkloadTypeFromModel(model);
+
+                    Service.Insert(wloadtype);
+                    return RedirectToAction("Index");
+                }
+
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
+                return View(model);
+            }
+        }
+        // GET: WloadType/Edit/5
+        public ActionResult Edit(int id)
+        {
+            var model = WloadTypeMapper.MapWorkloadTypeToModel(Service.GetById(id));
+            return View(model);
+        }
+
+        // POST: WloadType/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, WloadTypeViewModel model)
+        {
+            model.Id = id;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var wloadtype = WloadTypeMapper.MapWorkloadTypeFromModel(model);
+                    Service.Update(wloadtype);
+                    return RedirectToAction("Index");
+                }
+                return View(model);
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: WloadType/Delete/5
+        public ActionResult Delete(int id)
+        {
+            var wloadtype = Service.GetById(id);
+            var model = WloadTypeMapper.MapWorkloadTypeToModel(wloadtype);
+            return View(model);
+        }
+
+        // POST: WloadType/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
+        {
+            try
+            {
+                Service.Delete(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                var wloadtype = Service.GetById(id);
+                var model = WloadTypeMapper.MapWorkloadTypeToModel(wloadtype);
+                ModelState.AddModelError("", e.Message);
+                return View(model);
+            }
+        }
+    }
+    }
