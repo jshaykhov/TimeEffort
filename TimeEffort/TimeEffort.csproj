@@ -191,6 +191,10 @@
     <Content Include="Views\Position\Edit.cshtml" />
     <Content Include="Views\Position\Delete.cshtml" />
     <Content Include="Views\Position\Index.cshtml" />
+    <Content Include="Views\Workload\Index.cshtml" />
+    <Content Include="Views\Workload\Create.cshtml" />
+    <Content Include="Views\Workload\Edit.cshtml" />
+    <Content Include="Views\Workload\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
