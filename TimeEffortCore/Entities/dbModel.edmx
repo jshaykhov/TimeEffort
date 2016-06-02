@@ -63,7 +63,7 @@
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
           <Property Name="PositionID" Type="int" Nullable="false" />
           <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="64" Nullable="false" />
         </EntityType>
         <EntityType Name="Workload">
           <Key>
@@ -324,7 +324,7 @@
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PositionID" Type="Int32" Nullable="false" />
           <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Access" Relationship="Self.FK_Access_UserInfo" FromRole="UserInfo" ToRole="Access" />
           <NavigationProperty Name="Position" Relationship="Self.FK_UserInfo_Position" FromRole="UserInfo" ToRole="Position" />
           <NavigationProperty Name="Workload" Relationship="Self.FK_Workload_UserInfo" FromRole="UserInfo" ToRole="Workload" />

@@ -58,5 +58,11 @@ namespace TimeEffortCore.Services
 
             db.SaveChanges();
         }
+
+        //users
+        public List<UserInfo> GetAllUsers()
+        {
+            return db.UserInfo.ToList();
+        }
     }
 }

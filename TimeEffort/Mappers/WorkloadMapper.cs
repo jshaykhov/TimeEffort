@@ -21,7 +21,7 @@ namespace TimeEffort.Mappers
                 Approved = item.Approved,
                 Duration = item.Duration,
                 Note = item.Note,
-                WorkLoadType = item.WorkloadType
+                WorkLoadType = item.WorkloadType             //pay attention
             };
         }
 
@@ -56,7 +56,7 @@ namespace TimeEffort.Mappers
                 Approved = item.Approved,
                 Note = item.Note,
                 Duration = item.Duration,
-                WorkLoadType = item.WorkloadType
+                WorkLoadType = item.WorkloadType             //pay attention
             }).ToList();
         }
 

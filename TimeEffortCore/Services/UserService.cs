@@ -127,6 +127,11 @@ namespace TimeEffortCore.Services
             return users;
         }
 
+        //Positions
+        public List<Position> GetAllPositions()
+        {
+            return db.Position.ToList();
+        }
 
 
     }
