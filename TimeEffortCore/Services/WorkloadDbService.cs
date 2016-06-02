@@ -62,5 +62,14 @@ namespace TimeEffortCore.Services
             db.SaveChanges();
         }
 
+        public void Delete(int id)
+        {
+            var item = db.Workload.FirstOrDefault(w => w.ID == id);
+            if (item == null)
+                throw new ArgumentNullException("You cannot delete a null service");
+            db.Workload.Remove(item);
+            db.SaveChanges();
+        }
+
     }
 }
