@@ -7,6 +7,7 @@ using TimeEffort.Models;
 using TimeEffort.Mappers;
 using TimeEffortCore.Entities;
 using TimeEffortCore.Services;
+using System.Web.Security;
 
 namespace TimeEffort.Controllers
 {
@@ -23,7 +24,7 @@ namespace TimeEffort.Controllers
 
         // POST: User/Login
         [HttpPost]
-        public ActionResult Login(LoginViewModel loginVM)
+        public ActionResult Login(LoginViewModel loginVM, string returnUrl)
         {
             if (!ModelState.IsValid)
                 return View(loginVM);
@@ -31,11 +32,17 @@ namespace TimeEffort.Controllers
             {
                 var curUser = new UserInfo
                 {
-                    Username = loginVM.UserName,
+                    Username = loginVM.UserName.Trim().ToLower(),
                     Password = loginVM.Password
                 };
                 if (_userService.Authenticate(curUser).HasValue)
-                    return RedirectToAction("Index", "Home");
+                {
+                    FormsAuthentication.SetAuthCookie(curUser.Username, false);
+                    if (returnUrl == null || returnUrl == "")
+                        return RedirectToAction("Index","Home");
+                    return Redirect(returnUrl);
+                }
+
                 else
                 {
                     ModelState.AddModelError("", "Invalid credentials");
@@ -72,7 +79,7 @@ namespace TimeEffort.Controllers
                 {
                     FirstName = registrationVM.FirstName,
                     LastName = registrationVM.LastName,
-                    Username = registrationVM.UserName,
+                    Username = registrationVM.UserName.Trim().ToLower(),
                     Password = registrationVM.Password,
                     Phone = registrationVM.Phone,
                     PositionID =registrationVM.PositionId,

@@ -9,6 +9,7 @@ using TimeEffortCore.Services;
 
 namespace TimeEffort.Controllers
 {
+    [Authorize]
     public class WorkloadController : Controller
     {
         //---------------Singleton------------------

@@ -6,9 +6,10 @@ using System.Web.Mvc;
 using TimeEffort.Mappers;
 using TimeEffort.Models;
 using TimeEffortCore.Services;
-
+using PagedList;
 namespace TimeEffort.Controllers
 {
+    [Authorize]
     public class ProjectController : Controller
     {
         //static properties does not requiere instantiation on accessing different Actions
@@ -26,11 +27,13 @@ namespace TimeEffort.Controllers
 
         //
         // GET: /Project/
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             var allProjects = Service.GetAll();
             var list = ProjectMapper.MapProjectsToModels(allProjects);
-            return View(list);
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(list.ToPagedList(pageNumber, pageSize));
 
         }
 
@@ -45,7 +48,8 @@ namespace TimeEffort.Controllers
         // GET: /Project/Create
         public ActionResult Create()
         {
-            CreateSelectListForDropDown();
+            CreateSelectListForDropDownStatus();
+            CreateSelectListForDropDownUsers();
             var model = new ProjectViewModel();
             return View(model);
 
@@ -65,7 +69,8 @@ namespace TimeEffort.Controllers
                     Service.Insert(project);
                     return RedirectToAction("Index");
                 }
-                CreateSelectListForDropDown();
+                CreateSelectListForDropDownUsers();
+                CreateSelectListForDropDownStatus();
                 return View(model);
             }
             catch (Exception e)
@@ -80,6 +85,8 @@ namespace TimeEffort.Controllers
         // GET: /Project/Edit/5
         public ActionResult Edit(int id)
         {
+            CreateSelectListForDropDownUsers();
+            CreateSelectListForDropDownStatus();
             var model = ProjectMapper.MapProjectToModel(Service.GetById(id));
             return View(model);
         }
@@ -98,7 +105,8 @@ namespace TimeEffort.Controllers
                     Service.Update(project);
                     return RedirectToAction("Index");
                 }
-                CreateSelectListForDropDown();
+                CreateSelectListForDropDownUsers();
+                CreateSelectListForDropDownStatus();
                 return View(model);
             }
             catch
@@ -136,7 +144,7 @@ namespace TimeEffort.Controllers
             }
 
         }
-        private void CreateSelectListForDropDown()
+        private void CreateSelectListForDropDownUsers()
         {
             //Create selectlist of users 
             //to pass it to view's dropdown
@@ -147,6 +155,13 @@ namespace TimeEffort.Controllers
             //store list of users in ViewBag 
             //for further use in view's dropdown list
             ViewBag.Users = users;
+        }
+        private void CreateSelectListForDropDownStatus()
+        {
+            SelectList items = new SelectList(new List<String>() {"Active", "Inactive"});
+            //store list of users in ViewBag 
+            //for further use in view's dropdown list
+            ViewBag.Items = items;
         }
 
     }
