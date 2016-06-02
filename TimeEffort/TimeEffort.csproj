@@ -126,6 +126,7 @@
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WorkloadController.cs" />
+    <Compile Include="Controllers\WorkloadTypeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -198,6 +199,10 @@
     <Content Include="Views\Position\Edit.cshtml" />
     <Content Include="Views\Position\Delete.cshtml" />
     <Content Include="Views\Position\Index.cshtml" />
+    <Content Include="Views\WorkloadType\Index.cshtml" />
+    <Content Include="Views\WorkloadType\Create.cshtml" />
+    <Content Include="Views\WorkloadType\Edit.cshtml" />
+    <Content Include="Views\WorkloadType\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -1,20 +1,21 @@
-﻿@model TimeEffort.Models.PositionViewModel
+﻿@model TimeEffort.Models.WloadTypeViewModel
 
 @{
-    ViewBag.Title = "Removing Position";
+    ViewBag.Title = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Are you sure to delete this position?</h2>
+
+<h2>Are you sure to delete this Workload Type?</h2>
 <div>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Position)
+            @Html.DisplayNameFor(model => model.WloadType)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Position)
+            @Html.DisplayFor(model => model.WloadType)
         </dd>
 
     </dl>
@@ -24,7 +25,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("List of Positions", "Index")
+            @Html.ActionLink("Back to List", "Index")
         </div>
     }
 </div>

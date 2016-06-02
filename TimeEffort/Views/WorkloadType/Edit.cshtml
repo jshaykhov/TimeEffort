@@ -1,11 +1,11 @@
-﻿@model TimeEffort.Models.PositionViewModel
+﻿@model TimeEffort.Models.WloadTypeViewModel
 
 @{
-    ViewBag.Title = "Edit Position";
+    ViewBag.Title = "Edit Workload Type";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit Position</h2>
+<h2>Edit Workload Type</h2>
 
 @using (Html.BeginForm())
 {
@@ -17,10 +17,10 @@
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Position, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.WloadType, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Position)
-                @Html.ValidationMessageFor(model => model.Position)
+                @Html.EditorFor(model => model.WloadType)
+                @Html.ValidationMessageFor(model => model.WloadType)
             </div>
         </div>
 
@@ -33,5 +33,5 @@
 }
 
 <div>
-    @Html.ActionLink("List of Positions", "Index")
+    @Html.ActionLink("List of WorkloadTypes", "Index")
 </div>
