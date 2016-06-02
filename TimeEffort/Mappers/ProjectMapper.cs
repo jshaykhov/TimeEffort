@@ -23,7 +23,7 @@ namespace TimeEffort.Mappers
                 ManagerName=project.UserInfo.FirstName+" "+project.UserInfo.LastName,
                 StartDate=project.StartDate,
                 FinishDate=project.EndDate,
-                Status=project.Status
+                Status=(project.Status ==true )? "Active": "Inactive"
             };
          
         }
@@ -37,9 +37,9 @@ namespace TimeEffort.Mappers
                 ContractUSD = model.CMoneyUsd,
                 ContractUZS = model.CMoneyUzs,
                 ManagerID = model.PManagerId,
-                StartDate = model.StartDate,
-                EndDate = model.FinishDate,
-                Status = model.Status
+                StartDate = model.StartDate.Date,
+                EndDate = model.FinishDate.Date,
+                Status = (model.Status=="Active") ? true:false
             };
         }
         public static List<ProjectViewModel> MapProjectsToModels(List<Project> list)
@@ -55,6 +55,7 @@ namespace TimeEffort.Mappers
                     ManagerName = c.UserInfo.FirstName + " " + c.UserInfo.LastName,
                     StartDate = c.StartDate,
                     FinishDate = c.EndDate,
+                    Status=(c.Status ==true )? "Active": "Inactive"
                 }).ToList();
         }
 

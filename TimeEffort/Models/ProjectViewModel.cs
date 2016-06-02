@@ -18,11 +18,9 @@ namespace TimeEffort.Models
         [Display(Name = "Project name")]
         public string ProjectName { get; set; }
         [Required]
-        [DataType(DataType.Currency)]
         [Display(Name = "USD")]
         public decimal CMoneyUsd { get; set; }
         [Required]
-        [DataType(DataType.Currency)]
         [Display(Name = "UZS")]
         public decimal CMoneyUzs { get; set; }
 
@@ -36,13 +34,15 @@ namespace TimeEffort.Models
         //public string PManagerLName { get; set; }
         [Required]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
         [Required]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Finish Date")]
         public DateTime FinishDate { get; set; }
-        public bool Status { get; set; }
+        public string Status { get; set; }
 
     }
 }
