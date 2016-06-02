@@ -11,6 +11,7 @@ using TimeEffortCore.Services;
 
 namespace TimeEffort.Controllers
 {
+    [Authorize]
     public class RoleController : Controller
     {
         //static properties does not requiere instantiation on accessing different Actions

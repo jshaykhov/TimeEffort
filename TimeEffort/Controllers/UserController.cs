@@ -4,14 +4,21 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TimeEffort.Models;
+using TimeEffort.Mappers;
 using TimeEffortCore.Entities;
 using TimeEffortCore.Services;
+using System.Web.Security;
+using System.Net;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security;
 
 namespace TimeEffort.Controllers
 {
     public class UserController : Controller
     {
         static UserService _userService = new UserService();
+
 
         // GET: User/Login
         public ActionResult Login()
@@ -21,19 +28,28 @@ namespace TimeEffort.Controllers
 
         // POST: User/Login
         [HttpPost]
-        public ActionResult Login(LoginViewModel loginVM)
+        public ActionResult Login(LoginViewModel loginVM, FormCollection collection, string returnUrl)
         {
+            
+
             if (!ModelState.IsValid)
                 return View(loginVM);
             try
             {
                 var curUser = new UserInfo
                 {
-                    Username = loginVM.UserName,
+                    Username = loginVM.UserName.Trim().ToLower(),
                     Password = loginVM.Password
                 };
                 if (_userService.Authenticate(curUser).HasValue)
-                    return RedirectToAction("Index", "Home");
+                {
+                    FormsAuthentication.SetAuthCookie(curUser.Username, false);
+                    if (returnUrl == null || returnUrl == "")
+                        return RedirectToAction("Index","Home");
+
+                    return Redirect(returnUrl);
+                }
+
                 else
                 {
                     ModelState.AddModelError("", "Invalid credentials");
@@ -46,10 +62,15 @@ namespace TimeEffort.Controllers
                 return View(loginVM);
             }
 
+
+
         }
+
+
         //REGISTER 
-         public ActionResult Registration()
+        public ActionResult Registration()
         {
+            CreateSelectListForDropDown();
             return View();
         }
 
@@ -58,28 +79,45 @@ namespace TimeEffort.Controllers
         public ActionResult Registration(RegistrationViewModel registrationVM)
         {
             if (!ModelState.IsValid)
+            {
+                CreateSelectListForDropDown();
                 return View(registrationVM);
+            }
             try
             {
+                
                 var curUser = new UserInfo
                 {
                     FirstName = registrationVM.FirstName,
                     LastName = registrationVM.LastName,
-                    Username = registrationVM.UserName,
+                    Username = registrationVM.UserName.Trim().ToLower(),
                     Password = registrationVM.Password,
-                    Phone=registrationVM.Phone,
-                    PositionID=registrationVM.PositionId,                    
+                    Phone = registrationVM.Phone,
+                    PositionID = registrationVM.PositionId,
                     Email = registrationVM.Email
                 };
                 _userService.Register(curUser);
                 return RedirectToAction("Login");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
                 return View(registrationVM);
             }
         }
 
+        private void CreateSelectListForDropDown()
+        {
+            //Create selectlist of positions 
+            //to pass it to view's dropdown
+            //to allow user selection during registration
+            var listOfPositions = _userService.GetAllPositions();
+            SelectList positions = new SelectList(PositionMapper.MapPositionsToModels(listOfPositions),
+                                                   "Id ", "Position");
+            //store list of positions in ViewBag 
+            //for further use in view's dropdown list
+            ViewBag.Positions = positions;
         }
+
+    }
   }

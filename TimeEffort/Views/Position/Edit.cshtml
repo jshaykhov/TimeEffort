@@ -1,18 +1,17 @@
 ﻿@model TimeEffort.Models.PositionViewModel
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit Position";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+<h2>Edit Position</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>PositionViewModel</h4>
         <hr />
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.Id)
@@ -34,5 +33,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("List of Positions", "Index")
 </div>

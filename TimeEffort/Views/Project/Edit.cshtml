@@ -52,16 +52,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PManagerId, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PManagerId)
+                @Html.DropDownListFor(model => model.PManagerId,(SelectList)ViewBag.Users)
                 @Html.ValidationMessageFor(model => model.PManagerId)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ManagerName, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ManagerName)
-                @Html.ValidationMessageFor(model => model.ManagerName)
             </div>
         </div>
 
@@ -84,7 +76,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Status, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Status)
+                @Html.DropDownListFor(model => model.Status, (SelectList)ViewBag.Items)
                 @Html.ValidationMessageFor(model => model.Status)
             </div>
         </div>

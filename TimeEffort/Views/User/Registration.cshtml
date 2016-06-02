@@ -5,7 +5,7 @@
     ViewBag.Title = "Registration";    
 }
 
-<h2>Registration</h2>
+<h2>New User Registration</h2>
 
 
 @using (Html.BeginForm()) 
@@ -13,7 +13,6 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>RegistrationViewModel</h4>
         <hr />
         @Html.ValidationSummary(true)
 
@@ -52,16 +51,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PositionId, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PositionId)
+                @Html.DropDownListFor(model => model.PositionId, (SelectList)ViewBag.Positions)
                 @Html.ValidationMessageFor(model => model.PositionId)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Position, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Position)
-                @Html.ValidationMessageFor(model => model.Position)
             </div>
         </div>
 
@@ -97,10 +88,10 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
 }
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

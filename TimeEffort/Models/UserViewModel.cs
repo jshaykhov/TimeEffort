@@ -8,6 +8,8 @@ namespace TimeEffort.Models
 {
     public class UserViewModel
     {
+        public int Id { get; set; }
+        public string FullName { get; set; }
         [Required]
         [DataType(DataType.Text)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
@@ -25,7 +27,8 @@ namespace TimeEffort.Models
         public string Email { get; set; }
         [Required]
         [DataType(DataType.PhoneNumber)]
-        [StringLength(maximumLength: 100, MinimumLength = 1)]
+        [StringLength(maximumLength: 10, MinimumLength = 10)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]
         [Display(Name = "Phone")]
         public string Phone { get; set; }
         public int PositionId { get; set; }

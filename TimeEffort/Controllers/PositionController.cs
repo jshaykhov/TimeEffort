@@ -9,6 +9,7 @@ using TimeEffortCore.Services;
 
 namespace TimeEffort.Controllers
 {
+    [Authorize]
     public class PositionController : Controller
     {
         //static properties does not requiere instantiation on accessing different Actions
