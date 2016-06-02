@@ -8,10 +8,10 @@ namespace TimeEffort.Controllers
 {
     public class HomeController : Controller
     {
-        [Authorize]
+        [Authorize(Roles="Admin, Master, Monitor, User")]
         public ActionResult Index()
         {
-            return View();
+            return View("Index" , masterName:"~/Views/Shared/_Layout.cshtml");
         }
 
         public ActionResult About()
