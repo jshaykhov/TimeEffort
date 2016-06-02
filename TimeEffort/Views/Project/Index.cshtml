@@ -11,6 +11,20 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+<p>
+    @using (Html.BeginForm("Index", "Project", FormMethod.Get))
+    {
+
+    <p>
+        <b>Search by:</b><br />
+        <b>Project name</b> @Html.TextBox("SearchByPName", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" class="btn btn-default" />
+    </p>
+    }
+ </p>
+
+
+
 @{int rowNo = 0;}
 <table class="table">
     <tr>
@@ -86,4 +100,4 @@
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page}))
+                                new { page, currentFilter = ViewBag.CurrentFilter, searchByPName = ViewBag.searchByPName }))

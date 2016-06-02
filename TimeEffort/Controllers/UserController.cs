@@ -26,6 +26,8 @@ namespace TimeEffort.Controllers
         [HttpPost]
         public ActionResult Login(LoginViewModel loginVM, string returnUrl)
         {
+            
+
             if (!ModelState.IsValid)
                 return View(loginVM);
             try
@@ -38,8 +40,12 @@ namespace TimeEffort.Controllers
                 if (_userService.Authenticate(curUser).HasValue)
                 {
                     FormsAuthentication.SetAuthCookie(curUser.Username, false);
+
+                    var state = User.Identity;
+
                     if (returnUrl == null || returnUrl == "")
                         return RedirectToAction("Index","Home");
+
                     return Redirect(returnUrl);
                 }
 
