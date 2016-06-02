@@ -51,10 +51,21 @@ namespace TimeEffort.Mappers
                     ProjectName = c.Name,
                     CMoneyUsd = c.ContractUSD,
                     CMoneyUzs = c.ContractUZS,
+                    PManagerId=c.ManagerID,
                     ManagerName = c.UserInfo.FirstName + " " + c.UserInfo.LastName,
                     StartDate = c.StartDate,
                     FinishDate = c.EndDate,
                 }).ToList();
+        }
+
+        //users
+        public static List<UserViewModel> MapUsersToModels(List<UserInfo> list)
+        {
+            return list.Select(u => new UserViewModel
+            {
+                Id = u.ID,
+                FullName=u.FirstName + " "+u.LastName
+            }).ToList();
         }
     }
 }

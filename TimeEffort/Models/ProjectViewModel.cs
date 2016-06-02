@@ -23,11 +23,12 @@ namespace TimeEffort.Models
         public decimal CMoneyUsd { get; set; }
         [Required]
         [DataType(DataType.Currency)]
-        [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "UZS")]
         public decimal CMoneyUzs { get; set; }
+
+        [Display(Name = "Project Manager")]
         public int PManagerId { get; set; }
-        [Required]
+   
         [DataType(DataType.Text)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Project Manager")]
@@ -39,7 +40,6 @@ namespace TimeEffort.Models
         public DateTime StartDate { get; set; }
         [Required]
         [DataType(DataType.Date)]
-        [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Finish Date")]
         public DateTime FinishDate { get; set; }
         public bool Status { get; set; }

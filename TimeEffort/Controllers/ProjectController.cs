@@ -45,6 +45,7 @@ namespace TimeEffort.Controllers
         // GET: /Project/Create
         public ActionResult Create()
         {
+            CreateSelectListForDropDown();
             var model = new ProjectViewModel();
             return View(model);
 
@@ -64,7 +65,7 @@ namespace TimeEffort.Controllers
                     Service.Insert(project);
                     return RedirectToAction("Index");
                 }
-
+                CreateSelectListForDropDown();
                 return View(model);
             }
             catch (Exception e)
@@ -97,6 +98,7 @@ namespace TimeEffort.Controllers
                     Service.Update(project);
                     return RedirectToAction("Index");
                 }
+                CreateSelectListForDropDown();
                 return View(model);
             }
             catch
@@ -134,5 +136,18 @@ namespace TimeEffort.Controllers
             }
 
         }
+        private void CreateSelectListForDropDown()
+        {
+            //Create selectlist of users 
+            //to pass it to view's dropdown
+            //to allow user selection during project update/create
+            var listOfUsers = Service.GetAllUsers();
+            SelectList users = new SelectList(ProjectMapper.MapUsersToModels(listOfUsers),
+                                                   "Id ", "FullName");
+            //store list of users in ViewBag 
+            //for further use in view's dropdown list
+            ViewBag.Users = users;
+        }
+
     }
 }
