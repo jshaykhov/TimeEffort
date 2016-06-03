@@ -5,27 +5,3 @@
 <h3>@ViewBag.Message</h3>
 
 <p>Use this area to provide additional information.</p> 
-<div id="calendar">
-</div>
-<script type="text/javascript">
-    
-
-        // page is now ready, initialize the calendar...
-
-    $('#calendar').fullCalendar({
-        weekends: false,// will hide Saturdays and Sundays
-        dayClick: function (date) {
-            var serviceURL = '/Calendar/Index';
-
-            $.ajax({
-                type: "GET",
-                url: serviceURL,
-                data: 'dateClicked='+date.format(),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json"
-            });
-        }
-        });
-            
-
-</script>

@@ -161,8 +161,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helper\HelperProject.cs" />
-    <Compile Include="Helper\HelperUser.cs" />
     <Compile Include="Mappers\PositionMapper.cs" />
     <Compile Include="Mappers\RoleMapper.cs" />
     <Compile Include="Mappers\WLoadTypeMapper.cs" />
@@ -187,6 +185,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\footerlogo.bmp" />
     <Content Include="Images\lg.jpg" />
     <Content Include="Images\LGCNSEFFORT.png" />
     <Content Include="Scripts\bootstrap.js" />
@@ -239,7 +238,9 @@
     <Content Include="Views\Shared\_LayoutMaster.cshtml" />
     <Content Include="Views\Shared\_LayoutMonitor.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Project\ManagerProject.cshtml" />
+    <Content Include="Views\Workload\Index.cshtml" />
+    <Content Include="Views\Workload\Create.cshtml" />
+    <Content Include="Views\Workload\Monitor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

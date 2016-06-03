@@ -11,10 +11,10 @@ namespace TimeEffort.Models
     {
         public int Id { get; set; }
 
-        public UserInfo User { get; set; }
-        
-        [Display(Name = "Project")]
-        public Project Project { get; set; }
+        public int UserId { get; set; }
+         [Required]
+        [Display(Name = "Project name")]
+        public int ProjectId { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
@@ -23,12 +23,12 @@ namespace TimeEffort.Models
 
         [Required]
         [DataType(DataType.Duration)]
-        [Display(Name = "Date")]
+        [Display(Name = "Duration")]
         public decimal Duration { get; set; }
 
 
         [Required]
-        [Display(Name = "Approved Status")]
+        [Display(Name = "Approval Status")]
         public bool Approved { get; set; }
 
         [DataType(DataType.MultilineText)]
@@ -37,8 +37,9 @@ namespace TimeEffort.Models
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name="Choose Type")]
-        public WorkloadType WorkLoadType { get; set; }
+        [Display(Name="Work Type")]
+        public int WorkLoadTypeId { get; set; }
+        public int WorkLoadType { get; set; }
 
     }
 }
