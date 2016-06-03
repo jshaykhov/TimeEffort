@@ -38,7 +38,7 @@ namespace TimeEffort.Controllers
         }
         private Dictionary<String, Decimal> GetWorkloadDuration(List<WorkloadViewModel> list)
         { 
-           
+       
                 return null;
         }
         [HttpGet]
