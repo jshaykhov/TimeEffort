@@ -119,6 +119,11 @@ namespace TimeEffortCore.Services
             return db.UserInfo.Any(u => u.Username == username);
         }
 
+        public UserInfo GetUserByUsername(string username)
+        {
+            return db.UserInfo.FirstOrDefault(u => u.Username == username);
+        }
+
         public IEnumerable<UserInfo> GetAllUsers()
         {
             var users = db.UserInfo.Where(u => u.Username != "");
@@ -133,11 +138,5 @@ namespace TimeEffortCore.Services
             return db.Position.ToList();
         }
 
-
-
-        public UserInfo GetUserByUsername(string username)
-        {
-            return db.UserInfo.FirstOrDefault(u => u.Username == username);
-        }
     }
 }
