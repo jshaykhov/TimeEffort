@@ -23,7 +23,7 @@ namespace TimeEffort.Models
 
         [Required]
         [DataType(DataType.Duration)]
-        [Display(Name = "Date")]
+        [Display(Name = "Duration")]
         public decimal Duration { get; set; }
 
 

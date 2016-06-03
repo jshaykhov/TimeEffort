@@ -30,26 +30,33 @@ namespace TimeEffort.Controllers
         // GET: /Workload/
         public ActionResult Index()
         {
-            //var list = WorkloadMapper.MapWorkloadsToModels(db.GetAll());
+            var username = this.HttpContext.User.Identity.Name;
+            int userId = db.GetUserByUsername(username);
+            var list = WorkloadMapper.MapWorkloadsToModels(db.GetAll());
+            list = list.Where(u => u.UserId == userId).ToList();
             return View();
         }
-
+        private Dictionary<String, Decimal> GetWorkloadDuration(List<WorkloadViewModel> list)
+        { 
+           
+                return null;
+        }
+        [HttpGet]
         public ActionResult Create(string dateClicked)
         {
             var model = new WorkloadViewModel();
             model.Date = DateTime.Parse(dateClicked);
+            CreateSelectListForDropDownWlTypes();
+            CreateSelectListForDropDownProjects();
             return View(model);
         }
 
         [HttpPost]
         public ActionResult Create(WorkloadViewModel model)
         {
-            /*var username = this.HttpContext.User.Identity.Name;
-            var user = db.GetByName(username);
-            model.User = user;*/
-
-            //model.User = db.GetByName(this.HttpContext.User.Identity.Name); //Get current user via his username
-
+            var username = this.HttpContext.User.Identity.Name;
+            model.UserId = db.GetUserByUsername(username);
+            model.Approved = false;
             
             if (ModelState.IsValid)
             {
@@ -117,9 +124,19 @@ namespace TimeEffort.Controllers
             var list = db.GetAllTypes();
             SelectList types = new SelectList(WloadTypeMapper.MapWorkloadTypesToModels(list),
                                                    "Id ", "WloadType");
-            //store list of users in ViewBag 
+            //store list of types in ViewBag 
             //for further use in view's dropdown list
             ViewBag.Types = types;
+        }
+        private void CreateSelectListForDropDownProjects()
+        {
+
+            var list = db.GetAllProjects();
+            SelectList projects = new SelectList(ProjectMapper.MapProjectsToModels(list),
+                                                   "Id ", "FullProjectName");
+            //store list of projects in ViewBag 
+            //for further use in view's dropdown list
+            ViewBag.Projects = projects;
         }
 	}
 }

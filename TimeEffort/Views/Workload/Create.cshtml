@@ -16,18 +16,18 @@
         <hr />
         @Html.ValidationSummary(true)
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.UserId, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.UserId)
                 @Html.ValidationMessageFor(model => model.UserId)
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.ProjectId, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ProjectId)
+                @Html.DropDownListFor(model => model.ProjectId, (SelectList)ViewBag.Projects)
                 @Html.ValidationMessageFor(model => model.ProjectId)
             </div>
         </div>
@@ -35,7 +35,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Date, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Date)
+                @Html.DisplayFor(model => model.Date)
                 @Html.ValidationMessageFor(model => model.Date)
             </div>
         </div>
@@ -48,13 +48,13 @@
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.Approved, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Approved)
                 @Html.ValidationMessageFor(model => model.Approved)
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Note, new { @class = "control-label col-md-2" })
@@ -67,18 +67,18 @@
         <div class="form-group">
             @Html.LabelFor(model => model.WorkLoadTypeId, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.WorkLoadTypeId)
+                @Html.DropDownListFor(model => model.WorkLoadTypeId,(SelectList)ViewBag.Types)
                 @Html.ValidationMessageFor(model => model.WorkLoadTypeId)
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.WorkLoadType, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.WorkLoadType)
                 @Html.ValidationMessageFor(model => model.WorkLoadType)
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
