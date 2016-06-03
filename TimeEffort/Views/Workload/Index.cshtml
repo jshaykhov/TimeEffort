@@ -1,13 +1,19 @@
-﻿
+﻿@model IEnumerable<TimeEffort.Models.ProjectViewModel>
 @{
     ViewBag.Title = "Index";
 }
 <h2>Timesheet</h2>
+@{object[] arr;}
+@{int counter=0;}
 @using (Html.BeginForm("Create", "Workload", FormMethod.Get))
 {
     
     @Html.TextBox("DateClicked", "", htmlAttributes: new { @id = "tbxDate", @class = "hidden" })
     <input style="display:none" id="test" type="submit"/>
+}
+@foreach (var item in Model)
+{
+
 }
     <div id="calendar">
     </div>
@@ -19,9 +25,13 @@
             dayClick: function (date) {
                 $('#tbxDate').val(date.format());
                 $('#test').trigger("click");
+                
             }
         });
-
+        function populateCalendar()
+        {
+            
+        }
     </script>
 
 

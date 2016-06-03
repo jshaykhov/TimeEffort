@@ -34,18 +34,26 @@ namespace TimeEffort.Controllers
             int userId = db.GetUserByUsername(username);
             var list = WorkloadMapper.MapWorkloadsToModels(db.GetAll());
             list = list.Where(u => u.UserId == userId).ToList();
+            GetWorkloadDuration(list);
             return View();
         }
-        private Dictionary<String, Decimal> GetWorkloadDuration(List<WorkloadViewModel> list)
-        { 
-       
-                return null;
+        private Dictionary<DateTime, Decimal> GetWorkloadDuration(List<WorkloadViewModel> list)
+        {
+            int length = list.Select(u => u.Date).Distinct().Count();
+            List < DateTime >dates= list.Select(u => u.Date).Distinct().ToList();
+            Dictionary<DateTime, Decimal> result = new Dictionary<DateTime, Decimal>();
+            List<WorkloadViewModel> listOf = (from l in list group l by l.Date into g select new WorkloadViewModel { Date=g.First().Date, Duration=g.Sum(d=>d.Duration)}).ToList();
+            foreach (var a in listOf)
+            {
+                result.Add(a.Date, a.Duration);
+            }
+            return result;
         }
         [HttpGet]
         public ActionResult Create(string dateClicked)
         {
             var model = new WorkloadViewModel();
-            model.Date = DateTime.Parse(dateClicked);
+            model.Date = DateTime.Parse(dateClicked).Date;
             CreateSelectListForDropDownWlTypes();
             CreateSelectListForDropDownProjects();
             return View(model);
