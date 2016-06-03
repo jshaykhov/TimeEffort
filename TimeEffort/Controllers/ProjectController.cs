@@ -39,15 +39,13 @@ namespace TimeEffort.Controllers
 
             var list = ProjectMapper.MapProjectsToModels(allProjects);
 
+            list.FirstOrDefault().PMProjects = ManagedProjects(page, currentFilter, searchByPName);
 
             if (searchByPName != null)
-            {
                 page = 1;
-            }
             else
-            {
                 searchByPName = currentFilter;
-            }
+
             ViewBag.CurrentFilter = searchByPName;
             if (!String.IsNullOrEmpty(searchByPName))
             {
@@ -59,13 +57,12 @@ namespace TimeEffort.Controllers
             return View(model: list.ToPagedList(pageNumber, pageSize), masterName: "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", viewName: "Index");
         }
 
-        [Authorize(Roles = "User")]
-        public ActionResult ManagedProjects(int? page, string currentFilter, string searchByPName)
+
+        public IPagedList<ProjectViewModel> ManagedProjects(int? page, string currentFilter, string searchByPName)
         {
             var allProjects = HelperUser.GetProjectsByManager(User);
             var list = ProjectMapper.MapProjectsToModels(allProjects);
-
-
+            
             if (searchByPName != null)
             {
                 page = 1;
@@ -82,7 +79,8 @@ namespace TimeEffort.Controllers
             int pageSize = 3;
             int pageNumber = (page ?? 1);
 
-            return View(model: list.ToPagedList(pageNumber, pageSize), masterName: "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", viewName: "Index");
+            return list.ToPagedList(pageNumber, pageSize);
+
         }
 
         //
