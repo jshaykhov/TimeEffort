@@ -24,8 +24,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("List of Workload Types", "Index")
+            <input type="submit" value="Delete" class="btn btn-default" /> 
+            <input type="button" onclick="location.href='@Url.Action("Index","WorkloadType")'" value="Cancel" class="btn btn-default" />
         </div>
     }
 </div>
