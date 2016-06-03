@@ -138,11 +138,5 @@ namespace TimeEffortCore.Services
             return db.Position.ToList();
         }
 
-
-
-        public UserInfo GetUserByUsername(string username)
-        {
-            return db.UserInfo.FirstOrDefault(u => u.Username == username);
-        }
     }
 }
