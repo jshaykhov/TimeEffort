@@ -61,7 +61,8 @@
         {
             <tr>
                 <td>
-                    @(rowNu += 1)
+                    @{rowNu += 1}
+                    @rowNu
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Code)
