@@ -18,8 +18,7 @@ namespace TimeEffort.Controllers
     public class UserController : Controller
     {
         static UserService _userService = new UserService();
-
-
+       
         // GET: User/Login
         public ActionResult Login()
         {
@@ -139,7 +138,12 @@ namespace TimeEffort.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "User");
         }
-
-
+        //List of Users
+        public ActionResult Index()
+        {
+            var allUsers = _userService.GetAll();
+            var list = UserMapper.MapUsersToModels(allUsers);
+            return View(list);
+        }
     }
 }

@@ -132,6 +132,12 @@ namespace TimeEffortCore.Services
             return users;
         }
 
+        //to get all users 
+        public List<UserInfo> GetAll()
+        {
+            return db.UserInfo.ToList();
+        }
+
         //Positions
         public List<Position> GetAllPositions()
         {
