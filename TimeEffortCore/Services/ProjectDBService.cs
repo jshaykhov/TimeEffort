@@ -64,5 +64,11 @@ namespace TimeEffortCore.Services
         {
             return db.UserInfo.ToList();
         }
+
+        public List<Project> GetProjectsByManager(int projectManagerId)
+        {
+            return db.Project.Where(p => p.ManagerID == projectManagerId).ToList();
+        }
+
     }
 }

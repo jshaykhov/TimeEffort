@@ -21,9 +21,21 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Static data<span class="caret"></span>                            
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Position", "Index", "Position")</li>
+                            <li>@Html.ActionLink("Workload Type", "Index", "WorkloadType")</li>
+                            <li>@Html.ActionLink("Project", "Index", "Role")</li>
+                        </ul>
+                    </li>
+                    <li>@Html.ActionLink("Projects", "Index", "Project")</li>
+                    <li>@Html.ActionLink("User", "Index", "User")</li>
+                    <li>@Html.ActionLink("My efforts", "Index", "Workload")</li>
                 </ul>
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
