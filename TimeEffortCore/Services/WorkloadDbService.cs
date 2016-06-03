@@ -71,5 +71,16 @@ namespace TimeEffortCore.Services
             db.SaveChanges();
         }
 
+        //Project
+        public List<Project> GetAllProjects()
+        {
+            return db.Project.ToList();
+        }
+
+        //WorkloadType
+        public List<WorkloadType> GetAllTypes()
+        {
+            return db.WorkloadType.ToList();
+        }
     }
 }

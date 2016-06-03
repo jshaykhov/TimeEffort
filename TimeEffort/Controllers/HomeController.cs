@@ -16,7 +16,7 @@ namespace TimeEffort.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description asd. vika izmenila";
+            ViewBag.Message = "Your application description.";
 
             return View();
         }

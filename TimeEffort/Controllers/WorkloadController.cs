@@ -30,14 +30,15 @@ namespace TimeEffort.Controllers
         // GET: /Workload/
         public ActionResult Index()
         {
-            var list = WorkloadMapper.MapWorkloadsToModels(db.GetAll());
-            return View(list);
+            //var list = WorkloadMapper.MapWorkloadsToModels(db.GetAll());
+            return View();
         }
 
-        public ActionResult Create()
+        public ActionResult Create(string dateClicked)
         {
             var model = new WorkloadViewModel();
-            return View();
+            model.Date = DateTime.Parse(dateClicked);
+            return View(model);
         }
 
         [HttpPost]
@@ -47,7 +48,7 @@ namespace TimeEffort.Controllers
             var user = db.GetByName(username);
             model.User = user;*/
 
-            model.User = db.GetByName(this.HttpContext.User.Identity.Name); //Get current user via his username
+            //model.User = db.GetByName(this.HttpContext.User.Identity.Name); //Get current user via his username
 
             
             if (ModelState.IsValid)
@@ -109,6 +110,16 @@ namespace TimeEffort.Controllers
             {
                 return View();
             }
+        }
+        private void CreateSelectListForDropDownWlTypes()
+        {
+            
+            var list = db.GetAllTypes();
+            SelectList types = new SelectList(WloadTypeMapper.MapWorkloadTypesToModels(list),
+                                                   "Id ", "WloadType");
+            //store list of users in ViewBag 
+            //for further use in view's dropdown list
+            ViewBag.Types = types;
         }
 	}
 }

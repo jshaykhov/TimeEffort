@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Timesheet</h2>
+<div id="calendar">
+</div>
+<script type="text/javascript">
+    // page is now ready, initialize the calendar...
+
+    $('#calendar').fullCalendar({
+        weekends: false,// will hide Saturdays and Sundays
+        dayClick: function (date) {
+            var serviceURL = '/Workload/Create';
+
+            $.ajax({
+                type: "GET",
+                url: serviceURL,
+                data: 'dateClicked=' + date.format(),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+            });
+        }
+    });
+
+
+</script>
+
+
+

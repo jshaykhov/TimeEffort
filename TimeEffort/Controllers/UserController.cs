@@ -92,7 +92,7 @@ namespace TimeEffort.Controllers
         {
             if (!ModelState.IsValid)
             {
-                CreateSelectListForDropDown();
+               
                 return View(registrationVM);
             }
             try
@@ -113,6 +113,7 @@ namespace TimeEffort.Controllers
             }
             catch (Exception ex)
             {
+                CreateSelectListForDropDown();
                 ModelState.AddModelError("", ex.Message);
                 return View(registrationVM);
             }
