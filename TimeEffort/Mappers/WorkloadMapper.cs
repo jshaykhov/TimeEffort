@@ -47,18 +47,19 @@ namespace TimeEffort.Mappers
 
         public static List<WorkloadViewModel> MapWorkloadsToModels(List<Workload> list)
         {
-            //return list.Select(item => new WorkloadViewModel
-            //{
-            //    Id = item.ID,
-            //    Date = item.Date,
-            //    Project = item.Project,                     //pay attention
-            //    User = item.UserInfo,                       //pay attention
-            //    Approved = item.Approved,
-            //    Note = item.Note,
-            //    Duration = item.Duration,
-            //    WorkLoadType = item.WorkloadType             //pay attention
-            //}).ToList();
-            return new List<WorkloadViewModel>();
+            return list.Select(item => new WorkloadViewModel
+            {
+                Id = item.ID,
+               Date = item.Date,
+               //Project = item.Project,                     //pay attention
+               //User = item.UserInfo,                       //pay attention
+               Approved = item.Approved,
+               UserId=item.UserID,
+               Note = item.Note,
+               Duration = item.Duration,
+              // WorkLoadType = item.WorkloadType             //pay attention
+            }).ToList();
+          
         }
 
         //public static List<Workload> MapWorkloadsFromModels(List<WorkloadViewModel> list)

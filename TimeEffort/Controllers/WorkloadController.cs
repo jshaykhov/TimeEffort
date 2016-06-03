@@ -37,7 +37,7 @@ namespace TimeEffort.Controllers
         public ActionResult Create(string dateClicked)
         {
             var model = new WorkloadViewModel();
-            model.Date = DateTime.Parse(dateClicked);
+            //model.Date = DateTime.Parse(dateClicked);
             return View(model);
         }
 
@@ -121,5 +121,12 @@ namespace TimeEffort.Controllers
             //for further use in view's dropdown list
             ViewBag.Types = types;
         }
+        public ActionResult Monitor()
+        {
+            var allWorkloads = WorkloadMapper.MapWorkloadsToModels(db.GetAll());
+             return View(allWorkloads);
+            
+        }
+
 	}
 }
