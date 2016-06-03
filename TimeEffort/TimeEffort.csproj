@@ -165,6 +165,7 @@
     <Compile Include="Helper\HelperUser.cs" />
     <Compile Include="Mappers\PositionMapper.cs" />
     <Compile Include="Mappers\RoleMapper.cs" />
+    <Compile Include="Mappers\UserMapper.cs" />
     <Compile Include="Mappers\WLoadTypeMapper.cs" />
     <Compile Include="Mappers\ProjectMapper.cs" />
     <Compile Include="Mappers\WorkloadMapper.cs" />
@@ -249,6 +250,7 @@
     <Content Include="Views\Home\IndexMonitor.cshtml" />
     <Content Include="Views\Home\IndexUser.cshtml" />
     <Content Include="Views\Shared\_LayoutUser.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

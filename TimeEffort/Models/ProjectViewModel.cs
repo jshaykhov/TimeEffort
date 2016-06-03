@@ -46,5 +46,7 @@ namespace TimeEffort.Models
 
         public string FullProjectName { get; set; }
 
+        public PagedList.IPagedList<TimeEffort.Models.ProjectViewModel> PMProjects { get; set; }
+
     }
 }

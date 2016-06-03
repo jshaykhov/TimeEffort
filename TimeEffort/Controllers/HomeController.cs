@@ -18,7 +18,7 @@ namespace TimeEffort.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description.";
+            ViewBag.Message = "Time Effort web application for the employees of LG CNS Uzbekistan";
 
             return View();
         }
