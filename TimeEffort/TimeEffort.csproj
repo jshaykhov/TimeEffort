@@ -240,6 +240,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Workload\Index.cshtml" />
     <Content Include="Views\Workload\Create.cshtml" />
+    <Content Include="Views\Workload\Monitor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
