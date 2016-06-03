@@ -55,7 +55,8 @@ namespace TimeEffort.Mappers
                     ManagerName = c.UserInfo.FirstName + " " + c.UserInfo.LastName,
                     StartDate = c.StartDate,
                     FinishDate = c.EndDate,
-                    Status=(c.Status ==true )? "Active": "Inactive"
+                    Status=(c.Status ==true )? "Active": "Inactive",
+                    FullProjectName=c.Code+" "+c.Name
                 }).ToList();
         }
 

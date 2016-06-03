@@ -44,5 +44,7 @@ namespace TimeEffort.Models
         public DateTime FinishDate { get; set; }
         public string Status { get; set; }
 
+        public string FullProjectName { get; set; }
+
     }
 }
