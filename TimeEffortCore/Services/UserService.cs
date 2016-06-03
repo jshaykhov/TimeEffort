@@ -134,5 +134,10 @@ namespace TimeEffortCore.Services
         }
 
 
+
+        public UserInfo GetUserByUsername(string username)
+        {
+            return db.UserInfo.FirstOrDefault(u => u.Username == username);
+        }
     }
 }

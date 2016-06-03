@@ -7,6 +7,11 @@ using TimeEffort.Models;
 using TimeEffort.Mappers;
 using TimeEffortCore.Entities;
 using TimeEffortCore.Services;
+using System.Web.Security;
+using System.Net;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security;
 
 namespace TimeEffort.Controllers
 {
@@ -23,7 +28,7 @@ namespace TimeEffort.Controllers
 
         // POST: User/Login
         [HttpPost]
-        public ActionResult Login(LoginViewModel loginVM)
+        public ActionResult Login(LoginViewModel loginVM, FormCollection collection, string returnUrl)
         {
             if (!ModelState.IsValid)
                 return View(loginVM);
@@ -31,11 +36,19 @@ namespace TimeEffort.Controllers
             {
                 var curUser = new UserInfo
                 {
-                    Username = loginVM.UserName,
+                    Username = loginVM.UserName.Trim().ToLower(),
                     Password = loginVM.Password
                 };
                 if (_userService.Authenticate(curUser).HasValue)
-                    return RedirectToAction("Index", "Home");
+                {
+                    var cookie = CreateTicket(loginVM.UserName, loginVM.RememberMe);
+                    System.Web.HttpContext.Current.Response.Cookies.Add(cookie);
+
+                    if (returnUrl == null || returnUrl == "")
+                        return RedirectToAction("Index", "Home");
+                    return Redirect(returnUrl);
+                }
+
                 else
                 {
                     ModelState.AddModelError("", "Invalid credentials");
@@ -47,8 +60,25 @@ namespace TimeEffort.Controllers
                 ModelState.AddModelError("", ex.Message);
                 return View(loginVM);
             }
-
         }
+
+        private HttpCookie CreateTicket(string username, bool remember)
+        {
+            var authTicket = new FormsAuthenticationTicket(
+                1,                                                      //VERSION
+                username,
+                DateTime.Now,
+                DateTime.Now.AddMinutes(20),
+                remember,
+                _userService.GetUserByUsername(username).Position.Name  //ROLE OF THE USER
+            );
+            string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
+            var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+
+            return authCookie;
+        }
+
+
         //REGISTER 
         public ActionResult Registration()
         {
@@ -56,7 +86,7 @@ namespace TimeEffort.Controllers
             return View();
         }
 
-        // POST: User/Register
+// POST: User/Register
         [HttpPost]
         public ActionResult Registration(RegistrationViewModel registrationVM)
         {
@@ -67,15 +97,15 @@ namespace TimeEffort.Controllers
             }
             try
             {
-                
+
                 var curUser = new UserInfo
                 {
                     FirstName = registrationVM.FirstName,
                     LastName = registrationVM.LastName,
-                    Username = registrationVM.UserName,
+                    Username = registrationVM.UserName.Trim().ToLower(),
                     Password = registrationVM.Password,
                     Phone = registrationVM.Phone,
-                    PositionID =registrationVM.PositionId,
+                    PositionID = registrationVM.PositionId,
                     Email = registrationVM.Email
                 };
                 _userService.Register(curUser);
@@ -101,5 +131,14 @@ namespace TimeEffort.Controllers
             ViewBag.Positions = positions;
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOff()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login", "User");
+        }
+
+
     }
-  }
+}

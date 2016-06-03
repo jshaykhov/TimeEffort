@@ -1,0 +1,31 @@
+﻿@model TimeEffort.Models.WloadTypeViewModel
+
+@{
+    ViewBag.Title = "Removing Workload Type";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Are you sure to delete this Workload Type?</h2>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.WloadType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WloadType)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("List of Workload Types", "Index")
+        </div>
+    }
+</div>
