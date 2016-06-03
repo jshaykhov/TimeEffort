@@ -18,7 +18,10 @@ namespace TimeEffort.Controllers
     public class UserController : Controller
     {
         static UserService _userService = new UserService();
+
+
        
+
         // GET: User/Login
         public ActionResult Login()
         {
@@ -145,5 +148,32 @@ namespace TimeEffort.Controllers
             var list = UserMapper.MapUsersToModels(allUsers);
             return View(list);
         }
+
+        //Delete user
+        public ActionResult Delete(int id)
+        {
+            var user = _userService.GetById(id);
+            var model = UserMapper.MapUserToModel(user);
+            return View(model);
+        }
+
+        // POST: Position/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
+        {
+            try
+            {
+                _userService.Delete(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                var user = _userService.GetById(id);
+                var model = UserMapper.MapUserToModel(user);
+                ModelState.AddModelError("", e.Message);
+                return View(model);
+            }
+        }
+
     }
 }

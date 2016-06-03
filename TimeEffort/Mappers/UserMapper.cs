@@ -18,11 +18,32 @@ namespace TimeEffort.Mappers
                 LastName=c.LastName,
                 Phone=c.Phone,
                 Email=c.Email,
-                PositionId=c.PositionID,
+                Position=c.Position.Name,
                 UserName=c.Username              
                
             }).ToList();
         }
 
+            public static UserViewModel MapUserToModel(UserInfo userInfo)
+            {
+                return new UserViewModel
+                {
+                    Id =userInfo.ID,
+                    FirstName = userInfo.FirstName,
+                    LastName = userInfo.LastName,
+                    Phone = userInfo.Phone,
+                    Email = userInfo.Email,
+                    Position = userInfo.Position.Name,
+                    UserName = userInfo.Username  
+                };
+
+            }
+
+
+
            }
+
+
+
+
 }
