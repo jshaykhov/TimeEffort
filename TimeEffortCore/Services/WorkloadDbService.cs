@@ -82,5 +82,15 @@ namespace TimeEffortCore.Services
         {
             return db.WorkloadType.ToList();
         }
+
+        //User
+        public int GetUserByUsername(string username)
+        {
+                var user=db.UserInfo.FirstOrDefault(u => u.Username == username);
+                if (user == null)
+                    throw new ArgumentNullException("User not found");
+                return user.ID;
+           
+        }
     }
 }
