@@ -27,6 +27,7 @@ namespace TimeEffort.Controllers
 
         //
         // GET: /Project/
+        [Authorize(Roles = "Admin")]
         public ActionResult Index(int? page, string currentFilter, string searchByPName)
         {
             var allProjects = Service.GetAll();

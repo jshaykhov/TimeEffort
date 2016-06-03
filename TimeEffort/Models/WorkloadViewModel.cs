@@ -11,10 +11,10 @@ namespace TimeEffort.Models
     {
         public int Id { get; set; }
 
-        public UserInfo User { get; set; }
-        
+        public int UserId { get; set; }
+         [Required]
         [Display(Name = "Project")]
-        public Project Project { get; set; }
+        public int ProjectId { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
@@ -38,7 +38,8 @@ namespace TimeEffort.Models
         [Required]
         [DataType(DataType.Text)]
         [Display(Name="Choose Type")]
-        public WorkloadType WorkLoadType { get; set; }
+        public int WorkLoadTypeId { get; set; }
+        public int WorkLoadType { get; set; }
 
     }
 }

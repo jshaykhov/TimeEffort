@@ -30,8 +30,6 @@ namespace TimeEffort.Controllers
         [HttpPost]
         public ActionResult Login(LoginViewModel loginVM, FormCollection collection, string returnUrl)
         {
-            
-
             if (!ModelState.IsValid)
                 return View(loginVM);
             try
@@ -43,10 +41,11 @@ namespace TimeEffort.Controllers
                 };
                 if (_userService.Authenticate(curUser).HasValue)
                 {
-                    FormsAuthentication.SetAuthCookie(curUser.Username, false);
-                    if (returnUrl == null || returnUrl == "")
-                        return RedirectToAction("Index","Home");
+                    var cookie = CreateTicket(loginVM.UserName, loginVM.RememberMe);
+                    System.Web.HttpContext.Current.Response.Cookies.Add(cookie);
 
+                    if (returnUrl == null || returnUrl == "")
+                        return RedirectToAction("Index", "Home");
                     return Redirect(returnUrl);
                 }
 
@@ -61,9 +60,22 @@ namespace TimeEffort.Controllers
                 ModelState.AddModelError("", ex.Message);
                 return View(loginVM);
             }
+        }
 
+        private HttpCookie CreateTicket(string username, bool remember)
+        {
+            var authTicket = new FormsAuthenticationTicket(
+                1,                                                      //VERSION
+                username,
+                DateTime.Now,
+                DateTime.Now.AddMinutes(20),
+                remember,
+                _userService.GetUserByUsername(username).Position.Name  //ROLE OF THE USER
+            );
+            string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
+            var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
 
-
+            return authCookie;
         }
 
 
@@ -74,18 +86,18 @@ namespace TimeEffort.Controllers
             return View();
         }
 
-        // POST: User/Register
+// POST: User/Register
         [HttpPost]
         public ActionResult Registration(RegistrationViewModel registrationVM)
         {
             if (!ModelState.IsValid)
             {
-                CreateSelectListForDropDown();
+               
                 return View(registrationVM);
             }
             try
             {
-                
+
                 var curUser = new UserInfo
                 {
                     FirstName = registrationVM.FirstName,
@@ -101,6 +113,7 @@ namespace TimeEffort.Controllers
             }
             catch (Exception ex)
             {
+                CreateSelectListForDropDown();
                 ModelState.AddModelError("", ex.Message);
                 return View(registrationVM);
             }
@@ -119,5 +132,14 @@ namespace TimeEffort.Controllers
             ViewBag.Positions = positions;
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOff()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login", "User");
+        }
+
+
     }
-  }
+}
