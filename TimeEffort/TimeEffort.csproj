@@ -185,6 +185,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\footerlogo.bmp" />
     <Content Include="Images\lg.jpg" />
     <Content Include="Images\LGCNSEFFORT.png" />
     <Content Include="Scripts\bootstrap.js" />
