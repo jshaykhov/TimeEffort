@@ -41,30 +41,8 @@ namespace TimeEffort.Controllers
                 };
                 if (_userService.Authenticate(curUser).HasValue)
                 {
-
-                    var authTicket = new FormsAuthenticationTicket(
-                        1,                                                              //VERSION
-                        loginVM.UserName,
-                        DateTime.Now,           
-                        DateTime.Now.AddMinutes(20),
-                        loginVM.RememberMe,
-                        "Admin;Moderator"// _userService.GetUserByUsername(curUser.Username).Position.Name  //ROLE OF THE USER
-                        );
-                    var my = _userService.GetUserByUsername(curUser.Username).Position.Name;
-                    string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
-
-                    var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
-                    System.Web.HttpContext.Current.Response.Cookies.Add(authCookie);
-
-                   // FormsAuthentication.SetAuthCookie(curUser.Username, false);
-
-                    //if (loginVM.RememberMe)
-                    //{
-                    //    HttpCookie cookie = new HttpCookie(my);
-                    //    cookie.Values.Add("username", curUser.Username);
-                    //    cookie.Expires = DateTime.Now.AddDays(15);
-                    //    Response.Cookies.Add(cookie);
-                    //}
+                    var cookie = CreateTicket(loginVM.UserName, loginVM.RememberMe);
+                    System.Web.HttpContext.Current.Response.Cookies.Add(cookie);
 
                     if (returnUrl == null || returnUrl == "")
                         return RedirectToAction("Index", "Home");
@@ -84,20 +62,20 @@ namespace TimeEffort.Controllers
             }
         }
 
-        private void CreateTicket(string username)
+        private HttpCookie CreateTicket(string username, bool remember)
         {
-            var ticket = new FormsAuthenticationTicket(
-                    version: 1,
-                    name: username,
-                    issueDate: DateTime.Now,
-                    expiration: DateTime.Now.AddSeconds(HttpContext.Session.Timeout),
-                    isPersistent: false,
-                    userData: String.Join("|", "Admin", "Monitor", "User2"));
+            var authTicket = new FormsAuthenticationTicket(
+                1,                                                      //VERSION
+                username,
+                DateTime.Now,
+                DateTime.Now.AddMinutes(20),
+                remember,
+                _userService.GetUserByUsername(username).Position.Name  //ROLE OF THE USER
+            );
+            string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
+            var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
 
-            var encryptedTicket = FormsAuthentication.Encrypt(ticket);
-            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
-
-            HttpContext.Response.Cookies.Add(cookie);
+            return authCookie;
         }
 
 
@@ -108,7 +86,7 @@ namespace TimeEffort.Controllers
             return View();
         }
 
-        // POST: User/Register
+// POST: User/Register
         [HttpPost]
         public ActionResult Registration(RegistrationViewModel registrationVM)
         {
@@ -153,13 +131,13 @@ namespace TimeEffort.Controllers
             ViewBag.Positions = positions;
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult LogOff()
-        //{
-        //    AuthenticationManager.SignOut();
-        //    return RedirectToAction("Index", "Home");
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOff()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login", "User");
+        }
 
 
     }
