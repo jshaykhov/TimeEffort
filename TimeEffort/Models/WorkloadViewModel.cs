@@ -13,7 +13,7 @@ namespace TimeEffort.Models
 
         public int UserId { get; set; }
          [Required]
-        [Display(Name = "Project name")]
+        [Display(Name = "Project")]
         public int ProjectId { get; set; }
 
         [Required]
@@ -28,7 +28,7 @@ namespace TimeEffort.Models
 
 
         [Required]
-        [Display(Name = "Approval Status")]
+        [Display(Name = "Approved Status")]
         public bool Approved { get; set; }
 
         [DataType(DataType.MultilineText)]
@@ -37,7 +37,7 @@ namespace TimeEffort.Models
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name="Work Type")]
+        [Display(Name="Choose Type")]
         public int WorkLoadTypeId { get; set; }
         public int WorkLoadType { get; set; }
 

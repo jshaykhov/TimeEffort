@@ -29,11 +29,11 @@ namespace TimeEffort.Models
         [Display(Name = "Phone")]
         public string Phone { get; set; }
 
-        [Display(Name = "Position")]
+        [Display(Name = "System role")]
         public int PositionId { get; set; }
         [DataType(DataType.Text)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
-        [Display(Name = "Position")]
+        [Display(Name = "System role")]
         public string Position { get; set; }
         [Required]
         [DataType(DataType.Text)]
