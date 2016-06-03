@@ -11,7 +11,8 @@ namespace TimeEffort.Controllers
         [Authorize(Roles="Admin, Master, Monitor, User")]
         public ActionResult Index()
         {
-            return View("Index" , masterName:"~/Views/Shared/_Layout.cshtml");
+            //+ HelperUser.GetRoleName(User)
+            return View("Index", masterName: "~/Views/Shared/_Layout.cshtml");
         }
 
         public ActionResult About()

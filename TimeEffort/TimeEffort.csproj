@@ -239,6 +239,9 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Workload\Index.cshtml" />
     <Content Include="Views\Workload\Create.cshtml" />
+    <Content Include="Views\Home\IndexMaster.cshtml" />
+    <Content Include="Views\Home\IndexMonitor.cshtml" />
+    <Content Include="Views\Home\IndexUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
