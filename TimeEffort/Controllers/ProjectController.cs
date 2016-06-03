@@ -7,6 +7,8 @@ using TimeEffort.Mappers;
 using TimeEffort.Models;
 using TimeEffortCore.Services;
 using PagedList;
+using TimeEffort.Helper;
+using TimeEffortCore.Entities;
 namespace TimeEffort.Controllers
 {
     [Authorize]
@@ -27,10 +29,14 @@ namespace TimeEffort.Controllers
 
         //
         // GET: /Project/
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Master,CTO,Monitor,User")]
         public ActionResult Index(int? page, string currentFilter, string searchByPName)
         {
             var allProjects = Service.GetAll();
+
+            if (User.IsInRole("User"))                                          //If user's role is USER
+                allProjects = HelperUser.GetProjectsByWorkingUser(User);        //show him only projects he is involved in
+
             var list = ProjectMapper.MapProjectsToModels(allProjects);
 
 
@@ -49,8 +55,34 @@ namespace TimeEffort.Controllers
             }
             int pageSize = 3;
             int pageNumber = (page ?? 1);
-            return View(list.ToPagedList(pageNumber, pageSize));
 
+            return View(model: list.ToPagedList(pageNumber, pageSize), masterName: "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", viewName: "Index");
+        }
+
+        [Authorize(Roles = "User")]
+        public ActionResult ManagedProjects(int? page, string currentFilter, string searchByPName)
+        {
+            var allProjects = HelperUser.GetProjectsByManager(User);
+            var list = ProjectMapper.MapProjectsToModels(allProjects);
+
+
+            if (searchByPName != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchByPName = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchByPName;
+            if (!String.IsNullOrEmpty(searchByPName))
+            {
+                list = list.Where(p => p.ProjectName.ToLower().Contains(searchByPName.ToLower())).ToList();
+            }
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+
+            return View(model: list.ToPagedList(pageNumber, pageSize), masterName: "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", viewName: "Index");
         }
 
         //
