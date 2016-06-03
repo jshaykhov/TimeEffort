@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TimeEffort.Helper;
 
 namespace TimeEffort.Controllers
 {
@@ -11,8 +12,8 @@ namespace TimeEffort.Controllers
         [Authorize(Roles="Admin, Master, Monitor, User")]
         public ActionResult Index()
         {
-            //+ HelperUser.GetRoleName(User)
-            return View("Index", masterName: "~/Views/Shared/_Layout.cshtml");
+            //
+            return View("Index" + HelperUser.GetRoleName(User), masterName: "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml");
         }
 
         public ActionResult About()
