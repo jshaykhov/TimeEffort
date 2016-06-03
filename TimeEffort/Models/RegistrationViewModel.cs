@@ -25,8 +25,7 @@ namespace TimeEffort.Models
         public string Email { get; set; }
         [Required]
         [DataType(DataType.PhoneNumber)]
-        [StringLength(maximumLength: 14, MinimumLength = 14)]
-        [RegularExpression(@"^\(([0-9]{3})\)[-. ]([0-9]{3})[-. ]([0-9]{4})$", ErrorMessage = "Not a valid Phone number. Format: (XXX)-XXX-XXXX")]
+        [RegularExpression(@"^[+]([0-9]{12})$", ErrorMessage = "Not a valid Phone number. Format: +XXXXXXXXXX")]
         [Display(Name = "Phone")]
         public string Phone { get; set; }
 
