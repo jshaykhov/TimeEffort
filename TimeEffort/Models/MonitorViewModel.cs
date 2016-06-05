@@ -4,19 +4,28 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using TimeEffortCore.Entities;
-
+using Newtonsoft.Json;
+using System.Runtime.Serialization;
 namespace TimeEffort.Models
 {
     public class MonitorViewModel
     {
-        public ProjectMontior projects { get; set; }
-        public EmployeeMonitor employees { get; set; }
+        public List<ProjectMontior> projects { get; set; }
+        public List<EmployeeMonitor> employees { get; set; }
+
+        public List<Project> allProjects { get; set; }
+        public List<UserInfo> allEmployees { get; set; }
         public QueryMonitor query { get; set; }
     }
 
     public class ProjectMontior
     {
         public int Id { get; set; }
+
+        [DataType(DataType.Text)]
+        [StringLength(maximumLength: 100, MinimumLength = 1)]
+        [Display(Name = "Project")]
+        public string Project { get; set; }
 
         [DataType(DataType.Text)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
@@ -67,19 +76,34 @@ namespace TimeEffort.Models
 
     public class QueryMonitor
     {
-        public UserInfo Employee { get; set; }
-        public Project Project { get; set; }
+        public string Employee { get; set; }
+        public string Project { get; set; }
 
         [DataType(DataType.Date)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Date")]
-        public DateTime Date { get; set; }
+        public DateTime FromDate { get; set; }
 
         [DataType(DataType.Date)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Date")]
-        public DateTime Date { get; set; }
+        public DateTime ToDate { get; set; }
     }
 
 
+    [DataContract]
+    public class QueryJson
+    {
+        [DataMember(Name = "FromDate")]
+        public string FromDate { get; set; }
+
+        [DataMember(Name = "ToDate")]
+        public string ToDate { get; set; }
+
+        [DataMember(Name = "SelectedUser")]
+        public string SelectedUser { get; set; }
+
+        [DataMember(Name = "SelectedProject")]
+        public string SelectedProject { get; set; }
+    }  
 }

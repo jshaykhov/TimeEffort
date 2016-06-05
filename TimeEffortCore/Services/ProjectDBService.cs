@@ -70,5 +70,10 @@ namespace TimeEffortCore.Services
             return db.Project.Where(p => p.ManagerID == projectManagerId).ToList();
         }
 
+        public Project GetProjectByCode(string code)
+        {
+            return db.Project.FirstOrDefault(p => p.Code.Equals(code));
+        }
+
     }
 }

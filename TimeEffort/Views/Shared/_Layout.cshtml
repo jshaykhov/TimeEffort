@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title | Time Effort</title>
-    @*<link rel="stylesheet" href="@Url.Content("~/Content/fullcalendar.css")" />
+    @*<link rel="stylesheet" href="@Url.Content("~/Content/fullcalendar.css")" />*@
     <script src="@Url.Content("~/Scripts/jquery.min.js")"></script>
     <script src="@Url.Content("~/Scripts/moment.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/fullcalendar.js")"></script>*@
+    <script src="@Url.Content("~/Scripts/fullcalendar.js")"></script>
 
     <!-- Bootstrap Core CSS -->
     <link href="@Url.Content("~/Content/AnotherTheme/bower_components/bootstrap/dist/css/bootstrap.min.css")" rel="stylesheet">
@@ -43,6 +43,8 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="@Url.Content("~/Content/AnotherTheme/dist/js/sb-admin-2.js")"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 </head>
 <body>
 
@@ -313,6 +315,7 @@
 
     </div>
     <!-- /#wrapper -->
-
+        @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
 </body>
 </html>
