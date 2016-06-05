@@ -61,16 +61,16 @@
                     }
                 </select>
             </div>
-            <div class="col-lg-2">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label for="FromDate">From:</label>
-                    <input type="date" name="FromDate" class="form-control" id="FromDate" value=@DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd")>
+                    <input type="date" name="FromDate" class="form-control" id="FromDate" onchange="getval(this);" value=@DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd")>
                 </div>
             </div>
-            <div class="col-lg-2">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label for="ToDate">To:</label>
-                    <input type="date" name="ToDate" class="form-control" id="ToDate" value=@DateTime.Now.ToString("yyyy-MM-dd")>
+                    <input type="date" name="ToDate" class="form-control" id="ToDate" onchange="getval(this);" value=@DateTime.Now.ToString("yyyy-MM-dd")>
                 </div>
             </div>
         </div>
@@ -114,6 +114,9 @@
 
 @section Scripts {
     <script>
+        $('document').ready(function () {
+            getval("null");
+        })
         function getval(sel) {
 
             var requestData = {
@@ -144,6 +147,11 @@
         function appendIntoTable(result)
         {
             $("#tbody").empty();
+            if (result.projects.length == 0) {
+                var row = $("<tr/>")
+                $("#myTable").append(row);
+                row.append($("<td colspan = \"5\" align=\"center\"> There is no data to display for employee <b>" + $("#SelectUsers option:selected").text() + "</b> at project <i> " + $("#SelectProjects option:selected").text() + "</i>, from <u>" + $("#FromDate").val() + "</u> to <u>" + $("#ToDate").val() + "</u></td>"));
+            }
             for (var i = 0; i < result.projects.length; i++)
             {
                 drawRow(result.projects[i]);
