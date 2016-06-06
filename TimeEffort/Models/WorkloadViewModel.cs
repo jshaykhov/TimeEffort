@@ -58,13 +58,13 @@ namespace TimeEffort.Models
         [Display(Name = "Date")]
         public DateTime Date { get; set; }
 
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Note")]
         public string Note{ get; set; }
 
         [DataType(DataType.Duration)]
         [Display(Name = "Duration")]
         public decimal Duration { get; set; }
-
 
     }
 

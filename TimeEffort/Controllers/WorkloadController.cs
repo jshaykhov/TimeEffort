@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TimeEffort.Helper;
 using TimeEffort.Mappers;
 using TimeEffort.Models;
 using TimeEffortCore.Services;
@@ -76,11 +77,17 @@ namespace TimeEffort.Controllers
         [HttpGet]
         public ActionResult Create(DateTime dateClicked)
         {
-            var model = new WorkloadViewModel();
-            //model.Date = DateTime.Parse(dateClicked);
+            var model = new WorkloadCreateModel();
+            model.Types = db.GetAllTypes();
+            model.Projects = db.GetAllProjects();
+            if (User.IsInRole("User")) { 
+                model.Projects = HelperUser.GetAllInvolvedProjects(User);
+            }
             model.Date = dateClicked;
-            CreateSelectListForDropDownWlTypes();
-            CreateSelectListForDropDownProjects();
+            //var model = new WorkloadViewModel();
+            //model.Date = dateClicked;
+            //CreateSelectListForDropDownWlTypes();
+            //CreateSelectListForDropDownProjects();
             return View(model);
         }
 
