@@ -63,5 +63,11 @@ namespace TimeEffort.Helper
             UserService db = new UserService();
             return db.GetAll();
         }
+
+        internal static List<WorkloadType> GetAllWorkloadTypes()
+        {
+            WorkloadDbService db = new WorkloadDbService();
+            return db.GetAllTypes();
+        }
     }
 }
