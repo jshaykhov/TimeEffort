@@ -1,0 +1,105 @@
+﻿@model IEnumerable<TimeEffort.Models.WorkloadViewModel>
+
+@{
+    ViewBag.Title = "Workloads";
+    Layout = "~/Views/Shared/_LayoutTest.cshtml";
+}
+
+<h2>Workloads</h2>
+@{decimal total = 0;}
+<p>
+@using (Html.BeginForm("Create", "Workload", FormMethod.Get))
+{
+    @Html.TextBox("DateClicked","", htmlAttributes: new { @id = "tbxDate", @class = "hidden" })
+    <input id="test" type="submit" value="Create New" onclick="SetDate()"  />
+}
+</p>
+<table class="table">
+    <tr>
+        @*<th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProjectId)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Project)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        
+        @*<th>
+            @Html.DisplayNameFor(model => model.Approved)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Note)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.WorkLoadTypeId)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.WorkLoadType)
+        <th>
+            @Html.DisplayNameFor(model => model.Duration)
+        </th>
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.UserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProjectId)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.Project)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Approved)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.Note)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.WorkLoadTypeId)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.WorkLoadType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Duration)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+    total += item.Duration;
+}
+    <tr><td colspan="3"></td><td style="font-weight:700; text-align:right">Total</td><td>@total</td></tr>
+</table>
+<script>
+    function SetDate()
+    {
+        var url = "/Workload/GetDate";
+        var request = $.ajax({
+            url: url,
+            type: "GET",
+            contentType: "application/json",
+            dataType: "json"
+        });
+        request.done(function (date) {
+            $('#tbxDate').val(date);
+        })
+    }
+    
+</script>

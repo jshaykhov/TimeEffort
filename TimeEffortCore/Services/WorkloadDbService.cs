@@ -30,6 +30,11 @@ namespace TimeEffortCore.Services
             return db.Workload.ToList();
         }
 
+        public List<Workload> GetAllbyUserAndDate(int userId, DateTime date)
+        {
+            return db.Workload.Where(w=>w.UserID==userId && w.Date==date).ToList();
+        }
+
         public Workload GetById(int id)
         {
             var item = db.Workload.FirstOrDefault(w => w.ID == id);
