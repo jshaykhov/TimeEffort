@@ -1779,6 +1779,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Monitor\Index.cshtml" />
+    <Content Include="Views\Workload\Workloads.cshtml" />
+    <Content Include="Views\Workload\Edit.cshtml" />
+    <Content Include="Views\Workload\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
