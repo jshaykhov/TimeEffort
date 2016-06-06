@@ -1,4 +1,5 @@
-﻿@model IEnumerable<TimeEffort.Models.UserViewModel>
+﻿@using PagedList.Mvc;
+@model TimeEffort.Models.SendingModel
 
 @{
     ViewBag.Title = "Index";
@@ -6,38 +7,32 @@
 
 <h2>List of registered users</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         
         <th>
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.DisplayNameFor(model => model.UserList[0].FirstName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LastName)
+            @Html.DisplayNameFor(model => model.UserList[0].LastName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.UserList[0].Email)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Phone)
+            @Html.DisplayNameFor(model => model.UserList[0].Phone)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PositionId)
+            @Html.DisplayNameFor(model => model.UserList[0].Position)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Position)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserName)
+            @Html.DisplayNameFor(model => model.UserList[0].UserName)
         </th>
        
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.UserList) {
     <tr>
        
         <td>
@@ -52,10 +47,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.Phone)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PositionId)
-        </td>
-        <td>
+          <td>
             @Html.DisplayFor(modelItem => item.Position)
         </td>
         <td>
@@ -64,10 +56,15 @@
         
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>
 }
 
 </table>
+<br />
+
+
+<span>Page</span>
+ @(Model.Pagination.PageCount < Model.Pagination.PageNumber ? 0 : Model.Pagination.PageNumber) <span>of</span>
+@Model.Pagination.PageCount

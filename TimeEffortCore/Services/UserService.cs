@@ -143,6 +143,38 @@ namespace TimeEffortCore.Services
         {
             return db.Position.ToList();
         }
-
+        //get by id
+        public UserInfo GetById(int Id)
+        {
+            var item = db.UserInfo.FirstOrDefault(p => p.ID == Id);
+            if (item == null)
+                throw new ArgumentNullException("User does not exist");
+            return item;
+        }
+        //Delete
+        public void Delete(int itemId)
+        {
+            var item = db.UserInfo.FirstOrDefault(p => p.ID == itemId);
+            if (item == null)
+                throw new ArgumentNullException("You cannot delete a user");
+            db.UserInfo.Remove(item);
+            db.SaveChanges();
+        }
+        //UPDATE
+        public void Update(UserInfo item)
+        {
+            var dbItem = db.UserInfo.FirstOrDefault(p => p.ID == item.ID);
+            if (dbItem == null)
+                throw new ArgumentNullException("User does not exist");
+            dbItem.FirstName = item.FirstName;
+            dbItem.LastName = item.LastName;
+            dbItem.Email = item.Email;
+            dbItem.Phone = item.Phone;
+            dbItem.Project = item.Project;
+            dbItem.Username = item.Username;
+            dbItem.PositionID = item.PositionID;
+        
+            db.SaveChanges();
+        }
     }
 }

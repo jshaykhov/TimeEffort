@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-
+using PagedList;
 namespace TimeEffort.Models
 {
-    public class UserViewModel
+    public class SendingModel
     {
+        public List<UserViewModel> UserList { get; set; }
+        public IPagedList<UserViewModel> Pagination { get; set; }
+    }
+
+        public class UserViewModel
+    {
+        public int TotalPages { get; set; }
         public int Id { get; set; }
         public string FullName { get; set; }
         [Required]
@@ -27,18 +34,16 @@ namespace TimeEffort.Models
         public string Email { get; set; }
         [Required]
         [DataType(DataType.PhoneNumber)]
-        [StringLength(maximumLength: 10, MinimumLength = 10)]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]
+        [RegularExpression(@"^[+]([0-9]{12})$", ErrorMessage = "Not a valid Phone number. Format: +XXXXXXXXXX")]
         [Display(Name = "Phone")]
         public string Phone { get; set; }
         public int PositionId { get; set; }
-        [Required]
-        [DataType(DataType.Text)]
-        [StringLength(maximumLength: 100, MinimumLength = 1)]
+      
         [Display(Name = "Position")]
+
+
         public string Position { get; set; }
-        
-        
+                
         [Required]
         [DataType(DataType.Text)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
@@ -47,7 +52,7 @@ namespace TimeEffort.Models
         
 
 
-        [Required]
+        
         [DataType(DataType.Password)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Password")]

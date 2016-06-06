@@ -24,3 +24,10 @@ div.well{
   background-image:url(../Images/lg.jpg);
 
 }
+
+.label {
+
+    font-style:normal;
+    font-size:small;
+    color:black;
+}

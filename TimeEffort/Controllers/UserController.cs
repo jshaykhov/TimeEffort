@@ -12,13 +12,17 @@ using System.Net;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
+using PagedList;
 
 namespace TimeEffort.Controllers
 {
     public class UserController : Controller
     {
         static UserService _userService = new UserService();
+
+
        
+
         // GET: User/Login
         public ActionResult Login()
         {
@@ -174,11 +178,79 @@ namespace TimeEffort.Controllers
             return RedirectToAction("Login", "User");
         }
         //List of Users
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
+            var sendingModel = new SendingModel();
+            var allUserLists = new UserViewModel();
             var allUsers = _userService.GetAll();
             var list = UserMapper.MapUsersToModels(allUsers);
-            return View(list);
+            //Add paging
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            sendingModel.Pagination = list.ToPagedList(pageNumber, pageSize);
+            sendingModel.UserList = list;
+            return View(sendingModel);
         }
+
+        //Delete user
+        public ActionResult Delete(int id)
+        {
+            var user = _userService.GetById(id);
+            var model = UserMapper.MapUserToModel(user);
+            return View(model);
+        }
+
+        // POST: Position/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
+        {
+            try
+            {
+                _userService.Delete(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                var user = _userService.GetById(id);
+                var model = UserMapper.MapUserToModel(user);
+                ModelState.AddModelError("", e.Message);
+                return View(model);
+            }
+        }
+        //EDIT
+        // GET: Position/Edit/5
+        public ActionResult Edit(int id)
+        {
+            CreateSelectListForDropDown();
+            var model = UserMapper.MapUserToModel(_userService.GetById(id));
+            return View(model);
+        }
+
+        // POST: Position/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, UserViewModel model)
+        {
+            model.Id = id;
+            UserViewModel user1 = UserMapper.MapUserToModel(_userService.GetById(model.Id));
+            model.Password = user1.Password;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var user = UserMapper.MapUserFromModel(model);
+                    _userService.Update(user);
+                    return RedirectToAction("Index");
+                }
+                CreateSelectListForDropDown();
+                return View(model);
+            }
+            catch
+            {
+                //CreateSelectListForDropDown();
+                //ModelState.AddModelError("", ex.Message);
+                return View();
+            }
+        }
+
     }
 }
