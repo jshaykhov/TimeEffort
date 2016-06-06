@@ -26,28 +26,34 @@ namespace TimeEffort.Controllers
         }
         //---------------Singleton------------------
 
-
-        // GET: /Workload/
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult GetWorkload()
         {
             var username = this.HttpContext.User.Identity.Name;
             int userId = db.GetUserByUsername(username);
             var list = WorkloadMapper.MapWorkloadsToModels(db.GetAll());
             list = list.Where(u => u.UserId == userId).ToList();
-            GetWorkloadDuration(list);
+            object[] arr = GetWorkloadDuration(list);
+            return Json(arr, JsonRequestBehavior.AllowGet);
+        }
+        // GET: /Workload/
+        public ActionResult Index()
+        {
+        
+           
             return View();
         }
-        private Dictionary<DateTime, Decimal> GetWorkloadDuration(List<WorkloadViewModel> list)
+        private object[] GetWorkloadDuration(List<WorkloadViewModel> list)
         {
             int length = list.Select(u => u.Date).Distinct().Count();
             List < DateTime >dates= list.Select(u => u.Date).Distinct().ToList();
-            Dictionary<DateTime, Decimal> result = new Dictionary<DateTime, Decimal>();
             List<WorkloadViewModel> listOf = (from l in list group l by l.Date into g select new WorkloadViewModel { Date=g.First().Date, Duration=g.Sum(d=>d.Duration)}).ToList();
-            foreach (var a in listOf)
+            object[] arr = new object[listOf.Count];
+            for (int i = 0; i < listOf.Count; i++)
             {
-                result.Add(a.Date, a.Duration);
+                arr[i] = new { start = listOf.ElementAt(i).Date.GetDateTimeFormats()[4], title = listOf.ElementAt(i).Duration };
             }
-            return result;
+            return arr;
         }
         [HttpGet]
         public ActionResult Create(string dateClicked)

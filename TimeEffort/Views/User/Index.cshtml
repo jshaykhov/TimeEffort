@@ -6,9 +6,6 @@
 
 <h2>List of registered users</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         
@@ -23,9 +20,6 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Phone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PositionId)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Position)
@@ -52,10 +46,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.Phone)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PositionId)
-        </td>
-        <td>
+          <td>
             @Html.DisplayFor(modelItem => item.Position)
         </td>
         <td>
@@ -64,7 +55,6 @@
         
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>
