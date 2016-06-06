@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 namespace TimeEffort.Models
 {
-    public class AllProjectModel
+    public class AllUserModel
     {
         public IPagedList<ProjectViewModel> UserProjects { get; set; }
         public List<ProjectViewModel> PMProjects { get; set; }

@@ -12,6 +12,7 @@ using System.Net;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
+using PagedList;
 
 namespace TimeEffort.Controllers
 {
@@ -30,7 +31,7 @@ namespace TimeEffort.Controllers
 
         // POST: User/Login
         [HttpPost]
-        public ActionResult Login(LoginViewModel loginVM, FormCollection collection, string returnUrl)
+        public ActionResult Login(LoginViewModel loginVM, string returnUrl)
         {
             if (!ModelState.IsValid)
                 return View(loginVM);
@@ -61,6 +62,41 @@ namespace TimeEffort.Controllers
             {
                 ModelState.AddModelError("", ex.Message);
                 return View(loginVM);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult LoginAjax()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult LoginAjax(LoginJson query)
+        {
+            var curUser = new UserInfo
+            {
+                Username = query.Username.Trim().ToLower(),
+                Password = query.Password
+            };
+
+            if (_userService.Authenticate(curUser).HasValue)
+            {
+                var cookie = CreateTicket(query.Username, query.RememberMe.Equals("true"));
+                System.Web.HttpContext.Current.Response.Cookies.Add(cookie);
+
+                if (query.ReturnUrl == null || query.ReturnUrl == "") { 
+                    var redirectUrl = new UrlHelper(Request.RequestContext).Action("Index","Home");
+                    return Json(new { Url = redirectUrl });
+                }
+
+                query.ReturnUrl = query.ReturnUrl.Replace("%2f", "/");
+                return Json(new { Url = query.ReturnUrl });
+            }
+
+            else
+            {
+                return Json(query, JsonRequestBehavior.DenyGet);
             }
         }
 
@@ -142,11 +178,18 @@ namespace TimeEffort.Controllers
             return RedirectToAction("Login", "User");
         }
         //List of Users
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
+            var sendingModel = new SendingModel();
+            var allUserLists = new UserViewModel();
             var allUsers = _userService.GetAll();
             var list = UserMapper.MapUsersToModels(allUsers);
-            return View(list);
+            //Add paging
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            sendingModel.Pagination = list.ToPagedList(pageNumber, pageSize);
+            sendingModel.UserList = list;
+            return View(sendingModel);
         }
 
         //Delete user

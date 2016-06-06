@@ -1084,9 +1084,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\bg.png" />
     <Content Include="Images\cnsHead.png" />
-    <Content Include="Images\footerlogo.bmp" />
-    <Content Include="Images\lg.jpg" />
+    <Content Include="Images\footerlogo.png" />
+    <Content Include="Images\lg.png" />
     <Content Include="Images\LGCNSEFFORT.png" />
     <Content Include="Images\ppicture.png" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1719,6 +1720,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
