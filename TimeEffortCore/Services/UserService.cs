@@ -160,5 +160,21 @@ namespace TimeEffortCore.Services
             db.UserInfo.Remove(item);
             db.SaveChanges();
         }
+        //UPDATE
+        public void Update(UserInfo item)
+        {
+            var dbItem = db.UserInfo.FirstOrDefault(p => p.ID == item.ID);
+            if (dbItem == null)
+                throw new ArgumentNullException("User does not exist");
+            dbItem.FirstName = item.FirstName;
+            dbItem.LastName = item.LastName;
+            dbItem.Email = item.Email;
+            dbItem.Phone = item.Phone;
+            dbItem.Project = item.Project;
+            dbItem.Username = item.Username;
+            dbItem.PositionID = item.PositionID;
+        
+            db.SaveChanges();
+        }
     }
 }

@@ -9,6 +9,36 @@ namespace TimeEffort.Mappers
 {
     public class UserMapper
     {
+        public static UserViewModel MapUserToModel(UserInfo userInfo)
+        {
+            return new UserViewModel
+            {
+                Id = userInfo.ID,
+                FirstName = userInfo.FirstName,
+                LastName = userInfo.LastName,
+                Phone = userInfo.Phone,
+                Email = userInfo.Email,
+                Position = userInfo.Position.Name,
+                PositionId=userInfo.PositionID,
+                UserName = userInfo.Username,
+                Password=userInfo.Password
+            };
+
+        }
+        public static UserInfo MapUserFromModel(UserViewModel model)
+        {
+            return new UserInfo
+            {
+                ID = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Phone = model.Phone,
+                Email = model.Email,
+                PositionID=model.PositionId,
+                //Position = model.Position,
+                Username=model.UserName
+            };
+        }
             public static List<UserViewModel> MapUsersToModels(List<UserInfo> list)
         {
             return list.Select(c => new UserViewModel
@@ -19,27 +49,15 @@ namespace TimeEffort.Mappers
                 Phone=c.Phone,
                 Email=c.Email,
                 Position=c.Position.Name,
+                PositionId=c.PositionID,
                 UserName=c.Username              
                
             }).ToList();
         }
 
-            public static UserViewModel MapUserToModel(UserInfo userInfo)
-            {
-                return new UserViewModel
-                {
-                    Id =userInfo.ID,
-                    FirstName = userInfo.FirstName,
-                    LastName = userInfo.LastName,
-                    Phone = userInfo.Phone,
-                    Email = userInfo.Email,
-                    Position = userInfo.Position.Name,
-                    UserName = userInfo.Username  
-                };
+           
 
-            }
-
-
+           
 
            }
 
