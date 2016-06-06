@@ -75,10 +75,12 @@
                                         <div class="form-group">
                                             <input type="submit" value="Login" class="btn btn-block" />
                                         </div>
-                                    <div class="checkbox" style="margin-left: 10px">
-                                        @Html.CheckBoxFor(m => m.RememberMe)
-                                        @Html.LabelFor(m => m.RememberMe)
-                                    </div>
+                                    <label class="label">
+                                            @Html.CheckBoxFor(m => m.RememberMe) Remember me
+                                            @*@Html.LabelFor(m => m.RememberMe)*@
+                                            
+                                    </label>
+                                    
                                     <div id="!logo-container">
                                         <img src="/Images/footerlogo.png" alt="logo" style="width:100%; height:100%; margin-left:10px">
                                     </div>
