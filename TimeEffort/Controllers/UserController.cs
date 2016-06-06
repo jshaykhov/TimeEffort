@@ -27,7 +27,7 @@ namespace TimeEffort.Controllers
 
         // POST: User/Login
         [HttpPost]
-        public ActionResult Login(LoginViewModel loginVM, FormCollection collection, string returnUrl)
+        public ActionResult Login(LoginViewModel loginVM, string returnUrl)
         {
             if (!ModelState.IsValid)
                 return View(loginVM);
@@ -58,6 +58,41 @@ namespace TimeEffort.Controllers
             {
                 ModelState.AddModelError("", ex.Message);
                 return View(loginVM);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult LoginAjax()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult LoginAjax(LoginJson query)
+        {
+            var curUser = new UserInfo
+            {
+                Username = query.Username.Trim().ToLower(),
+                Password = query.Password
+            };
+
+            if (_userService.Authenticate(curUser).HasValue)
+            {
+                var cookie = CreateTicket(query.Username, query.RememberMe.Equals("true"));
+                System.Web.HttpContext.Current.Response.Cookies.Add(cookie);
+
+                if (query.ReturnUrl == null || query.ReturnUrl == "") { 
+                    var redirectUrl = new UrlHelper(Request.RequestContext).Action("Index","Home");
+                    return Json(new { Url = redirectUrl });
+                }
+
+                query.ReturnUrl = query.ReturnUrl.Replace("%2f", "/");
+                return Json(new { Url = query.ReturnUrl });
+            }
+
+            else
+            {
+                return Json(query, JsonRequestBehavior.DenyGet);
             }
         }
 

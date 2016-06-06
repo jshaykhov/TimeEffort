@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 
 namespace TimeEffort.Models
@@ -18,4 +19,20 @@ namespace TimeEffort.Models
 
         public bool RememberMe { get; set; }
     }
+
+    [DataContract]
+    public class LoginJson
+    {
+        [DataMember(Name = "Username")]
+        public string Username { get; set; }
+
+        [DataMember(Name = "Password")]
+        public string Password { get; set; }
+        
+        [DataMember(Name = "RememberMe")]
+        public string RememberMe { get; set; }
+
+        [DataMember(Name = "ReturnUrl")]
+        public string ReturnUrl { get; set; }
+    }  
 }
