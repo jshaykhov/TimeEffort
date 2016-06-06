@@ -12,6 +12,7 @@ using System.Net;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
+using PagedList;
 
 namespace TimeEffort.Controllers
 {
@@ -142,11 +143,18 @@ namespace TimeEffort.Controllers
             return RedirectToAction("Login", "User");
         }
         //List of Users
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
+            var sendingModel = new SendingModel();
+            var allUserLists = new UserViewModel();
             var allUsers = _userService.GetAll();
             var list = UserMapper.MapUsersToModels(allUsers);
-            return View(list);
+            //Add paging
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            sendingModel.Pagination = list.ToPagedList(pageNumber, pageSize);
+            sendingModel.UserList = list;
+            return View(sendingModel);
         }
 
         //Delete user

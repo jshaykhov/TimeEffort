@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-
+using PagedList;
 namespace TimeEffort.Models
 {
-    public class UserViewModel
+    public class SendingModel
     {
+        public List<UserViewModel> UserList { get; set; }
+        public IPagedList<UserViewModel> Pagination { get; set; }
+    }
+
+        public class UserViewModel
+    {
+        public int TotalPages { get; set; }
         public int Id { get; set; }
         public string FullName { get; set; }
         [Required]
