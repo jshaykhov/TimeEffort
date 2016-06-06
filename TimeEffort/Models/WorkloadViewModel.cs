@@ -48,8 +48,10 @@ namespace TimeEffort.Models
     }
 
     public class WorkloadCreateModel {
-        List<WorkloadType> Types { get; set; }
-        List<Project> Projects { get; set; }
+        [Display(Name = "Type")]
+        public List<WorkloadType> Types { get; set; }
+        [Display(Name = "Project")]
+        public List<Project> Projects { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -62,6 +64,8 @@ namespace TimeEffort.Models
         [DataType(DataType.Duration)]
         [Display(Name = "Duration")]
         public decimal Duration { get; set; }
+
+
     }
 
 }

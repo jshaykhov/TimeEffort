@@ -1,4 +1,4 @@
-﻿@model TimeEffort.Models.WorkloadViewModel
+﻿@model TimeEffort.Models.WorkloadCreateModel
 
 @{
     ViewBag.Title = "Create";
@@ -69,7 +69,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Project)
+            @Html.DisplayNameFor(model => model.Projects)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Date)
@@ -78,7 +78,7 @@
             @Html.DisplayNameFor(model => model.Note)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.WorkLoadType)
+            @Html.DisplayNameFor(model => model.Types)
         <th>
             @Html.DisplayNameFor(model => model.Duration)
         </th>
@@ -90,41 +90,46 @@
             
         </tr>
 </table>
+<div class="row">
+    <div class="col-lg-2">
+        <label for="SelectUsers">Type:</label>
+        <select class="form-control" id="WorkLoadTypeId" onchange="typeChange();">
+            @foreach (var item in Model.Types)
+            {
+                <option value=@item.ID>@(item.Name)</option>
+            }
+        </select>
+    </div>
+    <div class="col-lg-2">
+        <label for="SelectUsers">Project:</label>
+        <select class="form-control" id="ProjectId" onchange="main();">
+            @foreach (var item in Model.Projects)
+            {
+                <option value=@item.ID>@(item.Code)</option>
+            }
+        </select>
+    </div>
 
-<div class="form-group">
-    <div class="form-group">
-        @Html.DropDownListFor(model => model.WorkLoadTypeId, (SelectList)ViewBag.Types, new { @onchange = "typeChange();" })
-        @Html.ValidationMessageFor(model => model.WorkLoadTypeId)
+    <div class="col-md-3">
+        <div class="form-group">
+            @Html.EditorFor(model => model.Date)
+            @Html.ValidationMessageFor(model => model.Date)
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            @Html.EditorFor(model => model.Duration)
+            @Html.ValidationMessageFor(model => model.Duration)
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-group">
+            @Html.EditorFor(model => model.Note)
+            @Html.ValidationMessageFor(model => model.Note)
+        </div>
     </div>
 </div>
-
-<div class="col-md-3">
-    <div class="form-group">
-        @Html.DropDownListFor(model => model.ProjectId, (SelectList)ViewBag.Projects)
-        @Html.ValidationMessageFor(model => model.ProjectId)
-    </div>
-</div>
-
-<div class="col-md-3">
-    <div class="form-group">
-        @Html.EditorFor(model => model.Date)
-        @Html.ValidationMessageFor(model => model.Date)
-    </div>
-</div>
-<div class="col-md-3">
-    <div class="form-group">
-        @Html.EditorFor(model => model.Duration)
-        @Html.ValidationMessageFor(model => model.Duration)
-    </div>
-</div>
-
-<div class="col-md-3">
-    <div class="form-group">
-        @Html.EditorFor(model => model.Note)
-        @Html.ValidationMessageFor(model => model.Note)
-    </div>
-</div>
-
 
 
 
