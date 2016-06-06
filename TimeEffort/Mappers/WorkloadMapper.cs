@@ -52,7 +52,7 @@ namespace TimeEffort.Mappers
                 Id = item.ID,
                 Date = item.Date,
                 //Project = item.Project,                     //pay attention
-                //User = item.UserInfo,                       //pay attention
+                UserId = item.UserInfo.ID,                       //pay attention
                 //Approved = item.Approved,
                 //Note = item.Note,
                 Duration = item.Duration

@@ -75,7 +75,7 @@
           <Property Name="ProjectID" Type="int" Nullable="false" />
           <Property Name="Duration" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Approved" Type="bit" Nullable="false" />
-          <Property Name="Note" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Note" Type="nvarchar" MaxLength="150" />
           <Property Name="WorkloadTypeID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="WorkloadType">
@@ -340,7 +340,7 @@
           <Property Name="ProjectID" Type="Int32" Nullable="false" />
           <Property Name="Duration" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Approved" Type="Boolean" Nullable="false" />
-          <Property Name="Note" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="WorkloadTypeID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Project" Relationship="Self.FK_Workload_Project" FromRole="Workload" ToRole="Project" />
           <NavigationProperty Name="UserInfo" Relationship="Self.FK_Workload_UserInfo" FromRole="Workload" ToRole="UserInfo" />

@@ -16,8 +16,9 @@ namespace TimeEffort.Models
         [Display(Name = "Project")]
         public int ProjectId { get; set; }
 
-        [Required]
-        [DataType(DataType.Date)]
+         [Required]
+         [DataType(DataType.Date)]
+         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Date")]
         public DateTime Date { get; set; }
 
