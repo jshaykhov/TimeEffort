@@ -9,7 +9,7 @@ namespace TimeEffort.Controllers
 {
     public class HomeController : Controller
     {
-        [Authorize(Roles="Admin, Master, Monitor, User")]
+        [Authorize(Roles="Admin, Master, Monitor, User, Test")]
         public ActionResult Index()
         {
             //

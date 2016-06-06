@@ -44,5 +44,24 @@ namespace TimeEffort.Helper
             AccessDBService db = new AccessDBService();
             return db.GetProjectsByUser(_user.Identity.Name);
         }
+
+        public static UserInfo GetUserByName(string username)
+        {
+            UserService db = new UserService();
+            return db.GetUserByUsername(username);
+        }
+
+
+        public static Project GetProjectByCode(string projectCode)
+        {
+            ProjectDBService db = new ProjectDBService();
+            return db.GetProjectByCode(projectCode);
+        }
+
+        public static List<UserInfo> GetAllUsers()
+        {
+            UserService db = new UserService();
+            return db.GetAll();
+        }
     }
 }

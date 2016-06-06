@@ -1,10 +1,18 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 namespace TimeEffort.Models
 {
+    public class AllProjectModel
+    {
+        public IPagedList<ProjectViewModel> UserProjects { get; set; }
+        public List<ProjectViewModel> PMProjects { get; set; }
+
+    }
+
     public class ProjectViewModel
     {
         public int Id { get; set; }
@@ -26,7 +34,7 @@ namespace TimeEffort.Models
 
         [Display(Name = "Project Manager")]
         public int PManagerId { get; set; }
-   
+
         [DataType(DataType.Text)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Project Manager")]
@@ -44,9 +52,8 @@ namespace TimeEffort.Models
         public DateTime FinishDate { get; set; }
         public string Status { get; set; }
 
-        public string FullProjectName { get; set; }
-
-        public PagedList.IPagedList<TimeEffort.Models.ProjectViewModel> PMProjects { get; set; }
-
+        public string FullProjectName { get; set; } 
     }
+
+    
 }

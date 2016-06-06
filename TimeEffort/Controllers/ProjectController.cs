@@ -32,15 +32,19 @@ namespace TimeEffort.Controllers
         [Authorize(Roles = "Admin,Master,CTO,Monitor,User")]
         public ActionResult Index(int? page, string currentFilter, string searchByPName)
         {
-            var allProjects = Service.GetAll();
+            var allProjects = new AllProjectModel();
 
-            if (User.IsInRole("User"))                                          //If user's role is USER
-                allProjects = HelperUser.GetProjectsByWorkingUser(User);        //show him only projects he is involved in
+            var userProjects = Service.GetAll();
 
-            var list = ProjectMapper.MapProjectsToModels(allProjects);
-
-            list.FirstOrDefault().PMProjects = ManagedProjects(page, currentFilter, searchByPName);
-
+            if (User.IsInRole("User"))
+            {                                                                     //If user's role is USER
+                userProjects = HelperUser.GetProjectsByWorkingUser(User);        //show him only projects he is involved in
+                
+            }
+            allProjects.PMProjects = ManagedProjects();
+            var list = ProjectMapper.MapProjectsToModels(userProjects);
+            
+            
             if (searchByPName != null)
                 page = 1;
             else
@@ -51,35 +55,21 @@ namespace TimeEffort.Controllers
             {
                 list = list.Where(p => p.ProjectName.ToLower().Contains(searchByPName.ToLower())).ToList();
             }
-            int pageSize = 3;
+            int pageSize = 5;
             int pageNumber = (page ?? 1);
 
-            return View(model: list.ToPagedList(pageNumber, pageSize), masterName: "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", viewName: "Index");
+            allProjects.UserProjects = list.ToPagedList(pageNumber, pageSize);
+
+            return View(model: allProjects, masterName: "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", viewName: "Index");
         }
 
 
-        public IPagedList<ProjectViewModel> ManagedProjects(int? page, string currentFilter, string searchByPName)
+        public List<ProjectViewModel> ManagedProjects()
         {
             var allProjects = HelperUser.GetProjectsByManager(User);
             var list = ProjectMapper.MapProjectsToModels(allProjects);
             
-            if (searchByPName != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchByPName = currentFilter;
-            }
-            ViewBag.CurrentFilter = searchByPName;
-            if (!String.IsNullOrEmpty(searchByPName))
-            {
-                list = list.Where(p => p.ProjectName.ToLower().Contains(searchByPName.ToLower())).ToList();
-            }
-            int pageSize = 3;
-            int pageNumber = (page ?? 1);
-
-            return list.ToPagedList(pageNumber, pageSize);
+            return list;
 
         }
 

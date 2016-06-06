@@ -18,7 +18,10 @@ namespace TimeEffort.Controllers
     public class UserController : Controller
     {
         static UserService _userService = new UserService();
+
+
        
+
         // GET: User/Login
         public ActionResult Login()
         {
@@ -145,5 +148,66 @@ namespace TimeEffort.Controllers
             var list = UserMapper.MapUsersToModels(allUsers);
             return View(list);
         }
+
+        //Delete user
+        public ActionResult Delete(int id)
+        {
+            var user = _userService.GetById(id);
+            var model = UserMapper.MapUserToModel(user);
+            return View(model);
+        }
+
+        // POST: Position/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
+        {
+            try
+            {
+                _userService.Delete(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                var user = _userService.GetById(id);
+                var model = UserMapper.MapUserToModel(user);
+                ModelState.AddModelError("", e.Message);
+                return View(model);
+            }
+        }
+        //EDIT
+        // GET: Position/Edit/5
+        public ActionResult Edit(int id)
+        {
+            CreateSelectListForDropDown();
+            var model = UserMapper.MapUserToModel(_userService.GetById(id));
+            return View(model);
+        }
+
+        // POST: Position/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, UserViewModel model)
+        {
+            model.Id = id;
+            UserViewModel user1 = UserMapper.MapUserToModel(_userService.GetById(model.Id));
+            model.Password = user1.Password;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var user = UserMapper.MapUserFromModel(model);
+                    _userService.Update(user);
+                    return RedirectToAction("Index");
+                }
+                CreateSelectListForDropDown();
+                return View(model);
+            }
+            catch
+            {
+                //CreateSelectListForDropDown();
+                //ModelState.AddModelError("", ex.Message);
+                return View();
+            }
+        }
+
     }
 }
