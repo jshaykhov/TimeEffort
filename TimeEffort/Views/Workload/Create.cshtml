@@ -8,7 +8,7 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@*@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
@@ -41,13 +41,6 @@
             </div>
         </div>
 
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.Approved, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Approved)
-                @Html.ValidationMessageFor(model => model.Approved)
-            </div>
-        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Note, new { @class = "control-label col-md-2" })
@@ -65,26 +58,102 @@
             </div>
         </div>
 
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.WorkLoadType, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.WorkLoadType)
-                @Html.ValidationMessageFor(model => model.WorkLoadType)
-            </div>
-        </div>*@
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
-}
+}*@
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Project)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Note)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WorkLoadType)
+        <th>
+            @Html.DisplayNameFor(model => model.Duration)
+        </th>
+        </th>
+        <th></th>
+    </tr>
+
+        <tr>
+            
+        </tr>
+</table>
+
+<div class="form-group">
+    <div class="form-group">
+        @Html.DropDownListFor(model => model.WorkLoadTypeId, (SelectList)ViewBag.Types, new { @onchange = "typeChange();" })
+        @Html.ValidationMessageFor(model => model.WorkLoadTypeId)
+    </div>
 </div>
+
+<div class="col-md-3">
+    <div class="form-group">
+        @Html.DropDownListFor(model => model.ProjectId, (SelectList)ViewBag.Projects)
+        @Html.ValidationMessageFor(model => model.ProjectId)
+    </div>
+</div>
+
+<div class="col-md-3">
+    <div class="form-group">
+        @Html.EditorFor(model => model.Date)
+        @Html.ValidationMessageFor(model => model.Date)
+    </div>
+</div>
+<div class="col-md-3">
+    <div class="form-group">
+        @Html.EditorFor(model => model.Duration)
+        @Html.ValidationMessageFor(model => model.Duration)
+    </div>
+</div>
+
+<div class="col-md-3">
+    <div class="form-group">
+        @Html.EditorFor(model => model.Note)
+        @Html.ValidationMessageFor(model => model.Note)
+    </div>
+</div>
+
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        function typeChange()
+        {
+            if ($("#WorkLoadTypeId").val() == 1) {
+                document.getElementById("ProjectId").disabled = false;
+                //$('#ProjectId').val("");
+            }
+            else {
+                document.getElementById("ProjectId").disabled = true;
+            }
+
+        }
+
+        function main()
+        {
+            var requestData = {
+                ProjectId: $("#ProjectId").val(),
+                Date: $('#Date').val(),
+                Duration: $('#Duration').val(),
+                Notes: $("#Note").val(),
+                TypeId: $("#WorkloadTypeId").val()
+            };
+        }
+    </script>
 }
