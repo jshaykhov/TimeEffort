@@ -1,4 +1,5 @@
-﻿@model IEnumerable<TimeEffort.Models.UserViewModel>
+﻿@using PagedList.Mvc;
+@model TimeEffort.Models.SendingModel
 
 @{
     ViewBag.Title = "Index";
@@ -10,28 +11,28 @@
     <tr>
         
         <th>
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.DisplayNameFor(model => model.UserList[0].FirstName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LastName)
+            @Html.DisplayNameFor(model => model.UserList[0].LastName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.UserList[0].Email)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Phone)
+            @Html.DisplayNameFor(model => model.UserList[0].Phone)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Position)
+            @Html.DisplayNameFor(model => model.UserList[0].Position)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserName)
+            @Html.DisplayNameFor(model => model.UserList[0].UserName)
         </th>
        
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.UserList) {
     <tr>
        
         <td>
@@ -61,3 +62,9 @@
 }
 
 </table>
+<br />
+
+
+<span>Page</span>
+ @(Model.Pagination.PageCount < Model.Pagination.PageNumber ? 0 : Model.Pagination.PageNumber) <span>of</span>
+@Model.Pagination.PageCount

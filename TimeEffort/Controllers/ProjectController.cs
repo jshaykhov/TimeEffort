@@ -32,7 +32,7 @@ namespace TimeEffort.Controllers
         [Authorize(Roles = "Admin,Master,CTO,Monitor,User")]
         public ActionResult Index(int? page, string currentFilter, string searchByPName)
         {
-            var allProjects = new AllProjectModel();
+            var allProjects = new AllUserModel();
 
             var userProjects = Service.GetAll();
 
