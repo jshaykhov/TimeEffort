@@ -29,6 +29,8 @@ namespace TimeEffortCore.Entities
         public int PositionID { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public string Address { get; set; }
+        public string Major { get; set; }
     
         public virtual ICollection<Access> Access { get; set; }
         public virtual Position Position { get; set; }

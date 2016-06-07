@@ -144,6 +144,8 @@ namespace TimeEffort.Controllers
                     Username = registrationVM.UserName.Trim().ToLower(),
                     Password = registrationVM.Password,
                     Phone = registrationVM.Phone,
+                    Address=registrationVM.Address,
+                    Major=registrationVM.Major,
                     PositionID = registrationVM.PositionId,
                     Email = registrationVM.Email
                 };
@@ -227,7 +229,7 @@ namespace TimeEffort.Controllers
         {
             CreateSelectListForDropDown();
             var model = UserMapper.MapUserToModel(_userService.GetById(id));
-            return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml",model);
+            return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml",model);
         }
 
         // POST: Position/Edit/5
@@ -246,13 +248,13 @@ namespace TimeEffort.Controllers
                     return RedirectToAction("Index");
                 }
                 CreateSelectListForDropDown();
-                return View(model);
+                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
             catch
             {
                 //CreateSelectListForDropDown();
                 //ModelState.AddModelError("", ex.Message);
-                return View();
+                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
 
