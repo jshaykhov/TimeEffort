@@ -306,33 +306,42 @@ namespace TimeEffort.Controllers
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
-        public ActionResult Manage()
+
+        public ActionResult UserProfile()
         {
             int id = _userService.GetUserByUsername(this.HttpContext.User.Identity.Name).ID;
             var model = UserMapper.MapUserToModel(_userService.GetById(id));
-            return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
+            return View("UserProfile", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
+        }
+
+        public ActionResult Manage(int id)
+        {
+            var model = UserMapper.MapUserToModel(_userService.GetById(id));
+            return View("Manage", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
         [HttpPost]
-        public ActionResult Manage(int id,UserViewModel model)
+        public ActionResult Manage(int id,ProfileViewModel model)
         {
-            UserViewModel user = UserMapper.MapUserToModel(_userService.GetById(model.Id));
-            
+            ProfileViewModel user = UserMapper.MapProfileToModel(_userService.GetById(model.Id));
+            model.UserName = user.UserName;
+            model.PositionId = user.PositionId;
+            model.Password = user.Password;
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var curUser = UserMapper.MapUserFromModel(model);
+                    var curUser = UserMapper.MapProfileFromModel(model);
                     _userService.Update(curUser);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("UserProfile");
                 }
                 CreateSelectListForDropDown();
-                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
+                return View("Manage", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
             catch
             {
                 //CreateSelectListForDropDown();
                 //ModelState.AddModelError("", ex.Message);
-                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
+                return View("Manage", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
 

@@ -12,7 +12,7 @@ namespace TimeEffort.Models
         
         [DataType(DataType.Text)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
-        [Display(Name = "Position")]
+        [Display(Name = "System role")]
         public string Position { get; set; }
     }
 }
