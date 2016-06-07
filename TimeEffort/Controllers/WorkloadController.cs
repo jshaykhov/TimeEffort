@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TimeEffort.Helper;
 using TimeEffort.Mappers;
 using TimeEffort.Models;
 using TimeEffortCore.Services;
@@ -14,7 +15,7 @@ namespace TimeEffort.Controllers
     {
         //---------------Singleton------------------
         public static WorkloadDbService _db;
-
+        private static DateTime date;
         public static WorkloadDbService db
         {
             get
@@ -36,18 +37,11 @@ namespace TimeEffort.Controllers
             object[] arr = GetWorkloadDuration(list);
             return Json(arr, JsonRequestBehavior.AllowGet);
         }
-        // GET: /Workload/
-        public ActionResult Index()
-        {
-        
-           
-            return View();
-        }
         private object[] GetWorkloadDuration(List<WorkloadViewModel> list)
         {
             int length = list.Select(u => u.Date).Distinct().Count();
-            List < DateTime >dates= list.Select(u => u.Date).Distinct().ToList();
-            List<WorkloadViewModel> listOf = (from l in list group l by l.Date into g select new WorkloadViewModel { Date=g.First().Date, Duration=g.Sum(d=>d.Duration)}).ToList();
+            List<DateTime> dates = list.Select(u => u.Date).Distinct().ToList();
+            List<WorkloadViewModel> listOf = (from l in list group l by l.Date into g select new WorkloadViewModel { Date = g.First().Date, Duration = g.Sum(d => d.Duration) }).ToList();
             object[] arr = new object[listOf.Count];
             for (int i = 0; i < listOf.Count; i++)
             {
@@ -55,13 +49,45 @@ namespace TimeEffort.Controllers
             }
             return arr;
         }
-        [HttpGet]
-        public ActionResult Create(string dateClicked)
+        // GET: /Workload/
+        public ActionResult Index()
+        {  
+            return View();
+        }
+        public ActionResult Workloads(string dateClicked)
         {
-            var model = new WorkloadViewModel();
-            model.Date = DateTime.Parse(dateClicked).Date;
-            CreateSelectListForDropDownWlTypes();
-            CreateSelectListForDropDownProjects();
+            var username = this.HttpContext.User.Identity.Name;
+            int userId = db.GetUserByUsername(username);
+            DateTime workloadDate;
+            if (!String.IsNullOrEmpty(dateClicked))
+            {
+                workloadDate = DateTime.Parse(dateClicked);
+                date = workloadDate;
+            }
+            else
+                workloadDate = date;
+            var list = WorkloadMapper.MapWorkloadsToModels(db.GetAllbyUserAndDate(userId,workloadDate));
+            return View(list);
+        }
+        [HttpGet]
+        public DateTime GetDate()
+        {
+            return date;
+        }
+        [HttpGet]
+        public ActionResult Create(DateTime dateClicked)
+        {
+            var model = new WorkloadCreateModel();
+            model.Types = db.GetAllTypes();
+            model.Projects = db.GetAllProjects();
+            if (User.IsInRole("User")) { 
+                model.Projects = HelperUser.GetAllInvolvedProjects(User);
+            }
+            model.Date = dateClicked;
+            //var model = new WorkloadViewModel();
+            //model.Date = dateClicked;
+            //CreateSelectListForDropDownWlTypes();
+            //CreateSelectListForDropDownProjects();
             return View(model);
         }
 
@@ -76,7 +102,7 @@ namespace TimeEffort.Controllers
             {
                 var workload = WorkloadMapper.MapWorkloadFromModel(model);
                 db.Insert(workload);
-                return RedirectToAction("Index");
+                return RedirectToAction("Workloads");
             }
             return View(model);
         }
@@ -84,6 +110,8 @@ namespace TimeEffort.Controllers
         // GET: Service/Edit/5
         public ActionResult Edit(int id)
         {
+            CreateSelectListForDropDownWlTypes();
+            CreateSelectListForDropDownProjects();
             var model = WorkloadMapper.MapWorkloadToModel(db.GetById(id));
             return View(model);
         }
@@ -93,14 +121,18 @@ namespace TimeEffort.Controllers
         public ActionResult Edit(int id, WorkloadViewModel model)
         {
             model.Id = id;
+            var username = this.HttpContext.User.Identity.Name;
+            model.UserId = db.GetUserByUsername(username);
             try
             {
                 if (ModelState.IsValid)
                 {
                     var service = WorkloadMapper.MapWorkloadFromModel(model);
                     db.Update(service);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Workloads");
                 }
+                CreateSelectListForDropDownWlTypes();
+                CreateSelectListForDropDownProjects();
                 return View(model);
 
             }
@@ -125,10 +157,12 @@ namespace TimeEffort.Controllers
             {
                 db.Delete(id);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Workloads");
             }
             catch
             {
+                CreateSelectListForDropDownWlTypes();
+                CreateSelectListForDropDownProjects();
                 return View();
             }
         }

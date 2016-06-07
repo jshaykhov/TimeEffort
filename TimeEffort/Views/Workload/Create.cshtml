@@ -1,97 +1,209 @@
-﻿@model TimeEffort.Models.WorkloadViewModel
+﻿@model TimeEffort.Models.WorkloadCreateModel
 
 @{
     ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutTest.cshtml";
 }
 
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>WorkloadViewModel</h4>
-        <hr />
-        @Html.ValidationSummary(true)
+@*@using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.UserId, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UserId)
-                @Html.ValidationMessageFor(model => model.UserId)
+        <div class="form-horizontal">
+            <h4>WorkloadViewModel</h4>
+            <hr />
+            @Html.ValidationSummary(true)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProjectId, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.ProjectId, (SelectList)ViewBag.Projects)
+                    @Html.ValidationMessageFor(model => model.ProjectId)
+                </div>
             </div>
-        </div>*@
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ProjectId, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ProjectId, (SelectList)ViewBag.Projects)
-                @Html.ValidationMessageFor(model => model.ProjectId)
+            <div class="form-group">
+                @Html.LabelFor(model => model.Date, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Date)
+                    @Html.ValidationMessageFor(model => model.Date)
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Date, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Date)
-                @Html.ValidationMessageFor(model => model.Date)
+            <div class="form-group">
+                @Html.LabelFor(model => model.Duration, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Duration)
+                    @Html.ValidationMessageFor(model => model.Duration)
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Duration, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Duration)
-                @Html.ValidationMessageFor(model => model.Duration)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Note, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Note)
+                    @Html.ValidationMessageFor(model => model.Note)
+                </div>
             </div>
-        </div>
 
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.Approved, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Approved)
-                @Html.ValidationMessageFor(model => model.Approved)
+            <div class="form-group">
+                @Html.LabelFor(model => model.WorkLoadTypeId, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.WorkLoadTypeId,(SelectList)ViewBag.Types)
+                    @Html.ValidationMessageFor(model => model.WorkLoadTypeId)
+                </div>
             </div>
-        </div>*@
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Note, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Note)
-                @Html.ValidationMessageFor(model => model.Note)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.WorkLoadTypeId, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.WorkLoadTypeId,(SelectList)ViewBag.Types)
-                @Html.ValidationMessageFor(model => model.WorkLoadTypeId)
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
             </div>
         </div>
+    }*@
 
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.WorkLoadType, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.WorkLoadType)
-                @Html.ValidationMessageFor(model => model.WorkLoadType)
-            </div>
-        </div>*@
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Projects)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Note)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Types)
+        <th>
+            @Html.DisplayNameFor(model => model.Duration)
+        </th>
+        </th>
+        <th></th>
+    </tr>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+    <tr></tr>
+</table>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="fa fa-clock-o fa-fw"></i> New workload
+        <div class="pull-right">
+            @*<i class="fa fa-plus-square-o fa-2x"></i>*@
+            <button type="button" class="fa fa-plus-square-o fa-lg btn btn-primary" data-toggle="collapse" data-target="#newWorkloadDiv"></button>
+
         </div>
     </div>
-}
+    <!-- /.panel-heading -->
+    <div class="panel-body collapse" id="newWorkloadDiv">
+        <div class="row">
+            <div class="col-lg-2">
+                <label for="SelectUsers">Type:</label>
+                <select class="form-control" id="WorkLoadTypeId" onchange="typeChange();">
+                    @foreach (var item in Model.Types)
+                    {
+                        <option value=@item.ID>@(item.Name)</option>
+                    }
+                </select>
+            </div>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+            <div class="col-lg-4">
+                <label for="SelectUsers">Project:</label>
+                <select class="form-control" id="ProjectId" onchange="main();">
+                    <option></option>
+                    @foreach (var item in Model.Projects)
+                    {
+                        <option value=@item.ID>@(item.Code) | @(item.Name)</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label for="Date">Date:</label>
+                    <input type="date" name="Date" class="form-control" id="Date" onchange="main();" value=@Model.Date.ToString("yyyy-MM-dd")>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                @*<label for="Duration" id="DurationOutput">Duration: 0.5*@
+                <b>
+                    <output name="DurationOutput" id="DurationOutput">
+                        Duration: 0.5
+                    </output>
+                </b>
+                @*</label>*@
+                <input type="range" name="Duration" class="form-control" id="Duration" step="0.5" min="0.5" max="8" value="0.5" @*onchange="updateTextInput(this.value);"*@ oninput="DurationOutput.value = 'Duration: '+Duration.value" onchange="main();">
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+            @*<div class="col-lg-4">
+                    <label for="SelectUsers">Project:</label>
+                    <select class="form-control" id="ProjectId" onchange="main();">
+                        <option></option>
+                        @foreach (var item in Model.Projects)
+                        {
+                            <option value=@item.ID>@(item.Code) | @(item.Name)</option>
+                        }
+                    </select>
+                </div>*@
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label for="Note">Note:</label>
+                    <textarea name="Note" class="form-control" id="Note" onchange="main();"></textarea>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="row"><div class="col-lg-12">&nbsp;</div></div>
+                <div class="row"><div class="col-lg-12">&nbsp;</div></div>
+                <div class="row"><div class="col-lg-12">&nbsp;</div></div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-primary"> Add new workload </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.panel-body -->
 </div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        function updateTextInput(val) {
+            document.getElementById('DurationOutput').value = val;
+        }
+
+        function typeChange() {
+            if ($("#WorkLoadTypeId").val() == 1) {
+                document.getElementById("ProjectId").disabled = false;
+                //$('#ProjectId').val("");
+            }
+            else {
+                document.getElementById("ProjectId").disabled = true;
+            }
+
+        }
+
+        function main() {
+            var requestData = {
+                ProjectId: $("#ProjectId").val(),
+                Date: $('#Date').val(),
+                Duration: $('#Duration').val(),
+                Notes: $("#Note").val(),
+                TypeId: $("#WorkloadTypeId").val()
+            };
+        }
+    </script>
 }

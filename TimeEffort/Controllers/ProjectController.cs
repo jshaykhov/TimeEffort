@@ -14,7 +14,7 @@ using System.IO;
 using System.Web.UI;
 namespace TimeEffort.Controllers
 {
-    [Authorize]
+  
     public class ProjectController : Controller
     {
         //static properties does not requiere instantiation on accessing different Actions
@@ -82,7 +82,7 @@ namespace TimeEffort.Controllers
         {
             return View();
         }
-
+          [Authorize(Roles = "Admin,Master,Monitor,CTO")]
         //
         // GET: /Project/Create
         public ActionResult Create()
@@ -90,7 +90,7 @@ namespace TimeEffort.Controllers
             CreateSelectListForDropDownStatus();
             CreateSelectListForDropDownUsers();
             var model = new ProjectViewModel();
-            return View(model);
+            return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
 
         }
 
@@ -110,16 +110,16 @@ namespace TimeEffort.Controllers
                 }
                 CreateSelectListForDropDownUsers();
                 CreateSelectListForDropDownStatus();
-                return View(model);
+                return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                return View(model);
+                return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
 
         }
-
+          [Authorize(Roles = "Admin,Master,Monitor,CTO")]
         //
         // GET: /Project/Edit/5
         public ActionResult Edit(int id)
@@ -127,7 +127,7 @@ namespace TimeEffort.Controllers
             CreateSelectListForDropDownUsers();
             CreateSelectListForDropDownStatus();
             var model = ProjectMapper.MapProjectToModel(Service.GetById(id));
-            return View(model);
+            return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
         //
@@ -146,22 +146,22 @@ namespace TimeEffort.Controllers
                 }
                 CreateSelectListForDropDownUsers();
                 CreateSelectListForDropDownStatus();
-                return View(model);
+                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
             catch
             {
-                return View();
+                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
 
         }
-
+          [Authorize(Roles = "Admin,Master,Monitor,CTO")]
         //
         // GET: /Project/Delete/5
         public ActionResult Delete(int id)
         {
             var project = Service.GetById(id);
             var model = ProjectMapper.MapProjectToModel(project);
-            return View(model);
+            return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
         //
@@ -179,7 +179,7 @@ namespace TimeEffort.Controllers
                 var project = Service.GetById(id);
                 var model = ProjectMapper.MapProjectToModel(project);
                 ModelState.AddModelError("", e.Message);
-                return View(model);
+                return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
 
         }
