@@ -16,7 +16,7 @@ namespace TimeEffort.Mappers
             {
                 Id = item.ID,
                 Date = item.Date,
-                ProjectId = item.ProjectID,                     //pay attention
+                ProjectId = item.ProjectID.GetValueOrDefault(),                     //pay attention
                 UserId = item.UserID,                       //pay attention
                 Approved = item.Approved,
                 Duration = item.Duration,
