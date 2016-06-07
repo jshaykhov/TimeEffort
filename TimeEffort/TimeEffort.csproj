@@ -1724,6 +1724,7 @@
     <Content Include="Content\AnotherTheme\less\mixins.less" />
     <Content Include="Content\AnotherTheme\less\sb-admin-2.less" />
     <Content Include="Content\AnotherTheme\less\variables.less" />
+    <Content Include="XML\ProjectToCSV.xslt" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -1797,6 +1798,9 @@
     <Content Include="Views\User\Manage.cshtml" />
     <Content Include="Views\User\UserProfile.cshtml" />
     <Content Include="Views\User\ChangePassword.cshtml" />
+    <None Include="XML\ProjectSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
