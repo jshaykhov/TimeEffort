@@ -119,7 +119,7 @@ namespace TimeEffort.Controllers
                 Date = c.Date.ToString(),
                 Duration = c.Duration.ToString(),
                 Employee = c.UserInfo.FirstName + " " + c.UserInfo.LastName,
-                Project = c.Project.Code,
+                Project = c.Project == null ? "Overhead" : c.Project.Code,
                 Type = c.WorkloadType.Name,
                 Id = 0
             }).ToList();
