@@ -13,7 +13,6 @@ using System.Web.UI.WebControls;
 using System.IO;
 using System.Web.UI;
 using System.Xml.Linq;
-using TimeEffort.Utilities;
 namespace TimeEffort.Controllers
 {
   
@@ -240,23 +239,6 @@ namespace TimeEffort.Controllers
             return View();
 
     }
-        public void GetCSV()
-        {
-            var userProjects = Service.GetAll();
-            //MemoryStream stream = CSVUtility.GetCSV(userProjects);
-            GridView gridview = new GridView();
-            gridview.DataSource = userProjects;
-            gridview.DataBind();
-
-            var filename = "ExampleCSV.csv";
-            var contenttype = "text/csv";
-            Response.Clear();
-            Response.ContentType = contenttype;
-            Response.AddHeader("content-disposition", "attachment;filename=" + filename);
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-            //Response.BinaryWrite(gridview.ToArray());
-            Response.End();
-        }
 }
 }
 
