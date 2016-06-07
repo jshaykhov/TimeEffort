@@ -66,8 +66,14 @@
         </div>
     }*@
 
-<table class="table">
+<table class="table table-bordered table-hover table-striped" id="myTable">
     <tr>
+        <th class="hidden">
+            #
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Types)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Projects)
         </th>
@@ -75,18 +81,18 @@
             @Html.DisplayNameFor(model => model.Date)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Note)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Types)
-        <th>
             @Html.DisplayNameFor(model => model.Duration)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Note)
         </th>
         <th></th>
     </tr>
-
-    <tr></tr>
+    <tbody id="tbody">
+        <tr>
+            <td colspan="6" align="center">Add workload(s) so that you have 8 hours in total.</td>
+        </tr>
+    </tbody>
 </table>
 
 <div class="panel panel-default">
@@ -102,19 +108,19 @@
     <div class="panel-body collapse" id="newWorkloadDiv">
         <div class="row">
             <div class="col-lg-2">
-                <label for="SelectUsers">Type:</label>
+                <label for="WorkLoadTypeId">Type:</label>
                 <select class="form-control" id="WorkLoadTypeId" onchange="typeChange();">
                     @foreach (var item in Model.Types)
                     {
-                        <option value=@item.ID>@(item.Name)</option>
+                        <option value=@(item.ID)>@(item.Name)</option>
                     }
                 </select>
             </div>
 
             <div class="col-lg-4">
-                <label for="SelectUsers">Project:</label>
+                <label for="ProjectId">Project:</label>
                 <select class="form-control" id="ProjectId" onchange="main();">
-                    <option></option>
+                    <option value="0"></option>
                     @foreach (var item in Model.Projects)
                     {
                         <option value=@item.ID>@(item.Code) | @(item.Name)</option>
@@ -165,7 +171,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="pull-right">
-                            <button type="button" class="btn btn-primary"> Add new workload </button>
+                            <button type="button" class="btn btn-primary" onclick="addWorkload();"> Add new workload </button>
                         </div>
                     </div>
                 </div>
@@ -176,11 +182,42 @@
     <!-- /.panel-body -->
 </div>
 
+<div class="row">
+    <div class="col-lg-12">
+        <div class="pull-right">
+            <button type="button" class="btn btn-success" onclick="addWorkload();"> Save </button>
+        </div>
+    </div>
+</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
+
+        $(document).ready(function () {
+            $("#myTable .deleteLink").on("click", function () {
+                var tr = $(this).closest('tr');
+                tr.css("background-color", "#FF3700");
+                tr.fadeOut(400, function () {
+                    tr.remove();
+                });
+                return false;
+            });
+        });
+        function deleteMe() {
+            var tr = $(this).closest('tr');
+            tr.css("background-color", "#FF3700");
+            tr.fadeOut(400, function () {
+                tr.remove();
+            });
+            return false;
+        }
+
+        var list = [];
+        var counter = 0;
+
         function updateTextInput(val) {
             document.getElementById('DurationOutput').value = val;
         }
@@ -196,14 +233,71 @@
 
         }
 
-        function main() {
+        function checkWorkloadProject(requestData) {
+            if (requestData.TypeId == 1) {
+                if (requestData.ProjectId == 0) {
+                    alert("Project cannot be empty if you choose Workload type of \n Work (Project)");
+                    return null;
+                }
+            }
+            else {
+                requestData.ProjectId = null
+                requestData.SelectedProject = "Overhead";
+            }
+            return requestData;
+        }
+
+        function main(request) {
             var requestData = {
+                Number: list.length,
                 ProjectId: $("#ProjectId").val(),
                 Date: $('#Date').val(),
                 Duration: $('#Duration').val(),
                 Notes: $("#Note").val(),
-                TypeId: $("#WorkloadTypeId").val()
+                TypeId: $("#WorkLoadTypeId").val(),
+                SelectedType: $('#WorkLoadTypeId option:selected').text(),
+                SelectedProject: $('#ProjectId option:selected').text()
             };
+
+            if (request != null)
+                return requestData;
         }
+
+        function addWorkload() {
+            var row = checkWorkloadProject(main("not empty"));
+            if (row != null) {
+                list[counter] = row;
+                counter++;
+                drawRow(row);
+            }
+        }
+
+        function drawRow(rowData) {
+            var row = $("<tr/>")
+            $("#myTable").append(row);
+            row.append($("<td class=\"hidden\">" + rowData.Number + "</td>"));
+            row.append($("<td>" + rowData.SelectedType + "</td>"));
+            row.append($("<td>" + rowData.SelectedProject + "</td>"));
+            row.append($("<td>" + rowData.Date + "</td>"));
+            row.append($("<td>" + rowData.Duration + " hours </td>"));
+            row.append($("<td>" + rowData.Notes + "</td>"));
+            row.append($('<td> <button type="button" class="btn btn-sm btn-danger .btn-sx" onclick="deleteRow(this,' + rowData.Number + ');"> Delete </button> </td>')); // this -> '+rowData.Number+'
+        }
+
+        function deleteRow(td, rowNumber) {
+            //$('#myTable tr').each(function (i, row) {
+            //    var $row = $(row);
+            //    var productLabelId = $row.find('td[name="number' + rowNumber + '"]');
+
+            //    var $productLabelIdValue = productLabelId.text();
+            //    if (parseInt(rowNumber) == parseInt($productLabelIdValue)) {
+            //        $row.remove();
+            //    }
+            //});
+            $(td).closest('tr').remove();
+            delete list[rowNumber];
+            return false;
+        }
+
     </script>
 }
