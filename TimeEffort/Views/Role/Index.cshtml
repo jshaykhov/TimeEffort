@@ -7,7 +7,7 @@
 <h2>List of Roles</h2>
 
 <p>
-    @Html.ActionLink("Create New Role", "Create")
+    @Html.ActionLink("Create New Role", "Create",null, new { @class = "btn btn-sm btn-success .btn-sx" })
 </p>
 <table class="table">
     <tr>
@@ -23,8 +23,8 @@
             @Html.DisplayFor(modelItem => item.Role)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-info .btn-sx" })
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-info .btn-sx" })
         </td>
     </tr>
 }

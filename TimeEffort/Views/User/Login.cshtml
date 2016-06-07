@@ -47,9 +47,9 @@
                 data: JSON.stringify(requestData),
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
-                //error: function (xhr) {
-                //    alert('Error: ' + xhr.statusText);
-                //},
+                error: function (xhr) {
+                    alert('Error: ' + xhr.statusText);
+                },
                 success: function (response) {
                     if (response.hasOwnProperty('Url')) {
                         //window.location.pathname = response.Url;
@@ -97,7 +97,7 @@
                     <div class="row">
 
                         <div class="Absolute-Center is-Responsive">
-                            <div id="!logo-container">
+                            <div>
                                 <img src="/Images/lg.png" alt="logo" style="width:100%; height:100%; margin-left:10px">
                             </div>
                             <div class="col-sm-12 col-md-8 col-md-offset-1">
@@ -125,7 +125,7 @@
                                     <label for="RememberMe"> &nbsp; Remember me</span></label>
                                 </div>
 
-                                <div id="!logo-container">
+                                <div>
                                     <img src="/Images/footerlogo.png" alt="logo" style="width:100%; height:100%; margin-left:10px">
                                 </div>
 

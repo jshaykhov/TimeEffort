@@ -11,28 +11,34 @@
     <tr>
 
         <th>
-            @Html.DisplayNameFor(model => model.UserList[0].FirstName)
+            @Html.DisplayNameFor(model => model.Pagination[0].FirstName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserList[0].LastName)
+            @Html.DisplayNameFor(model => model.Pagination[0].LastName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserList[0].Email)
+            @Html.DisplayNameFor(model => model.Pagination[0].Email)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserList[0].Phone)
+            @Html.DisplayNameFor(model => model.Pagination[0].Phone)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserList[0].Position)
+            @Html.DisplayNameFor(model => model.Pagination[0].Address)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserList[0].UserName)
+            @Html.DisplayNameFor(model => model.Pagination[0].Major)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pagination[0].Position)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pagination[0].UserName)
         </th>
 
         <th></th>
     </tr>
 
-    @foreach (var item in Model.UserList)
+    @foreach (var item in Model.Pagination)
     {
         <tr>
 
@@ -49,6 +55,12 @@
                 @Html.DisplayFor(modelItem => item.Phone)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Major)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Position)
             </td>
             <td>
@@ -56,10 +68,10 @@
             </td>
 
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-info .btn-sx" })
                 @if (User.IsInRole("Admin"))
                 {
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-info .btn-sx" })
                 }
             </td>
         </tr>
@@ -72,3 +84,5 @@
 <span>Page</span>
 @(Model.Pagination.PageCount < Model.Pagination.PageNumber ? 0 : Model.Pagination.PageNumber) <span>of</span>
 @Model.Pagination.PageCount
+@Html.PagedListPager(Model.Pagination, page => Url.Action("Index", new { page }))
+

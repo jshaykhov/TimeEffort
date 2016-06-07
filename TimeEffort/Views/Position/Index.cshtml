@@ -7,7 +7,7 @@
 <h2>List of Positions</h2>
 
 <p>
-    @Html.ActionLink("Create New Position", "Create")
+    @Html.ActionLink("Create New Position", "Create",null, new { @class = "btn btn-sm btn-success .btn-sx" })
 </p>
 <table class="table">
     <tr>
@@ -23,8 +23,8 @@
             @Html.DisplayFor(modelItem => item.Position)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-info .btn-sx" }) 
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-info .btn-sx" })
         </td>
     </tr>
 }

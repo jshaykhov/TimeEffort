@@ -9,8 +9,8 @@ using TimeEffortCore.Entities;
 using TimeEffortCore.Services;
 using System.Web.Security;
 using System.Net;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+
+
 using Microsoft.Owin.Security;
 using PagedList;
 using TimeEffort.Helper;
@@ -144,6 +144,8 @@ namespace TimeEffort.Controllers
                     Username = registrationVM.UserName.Trim().ToLower(),
                     Password = registrationVM.Password,
                     Phone = registrationVM.Phone,
+                    Address=registrationVM.Address,
+                    Major=registrationVM.Major,
                     PositionID = registrationVM.PositionId,
                     Email = registrationVM.Email
                 };
@@ -177,6 +179,55 @@ namespace TimeEffort.Controllers
         {
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "User");
+        }
+        //CHANGE PASSWORD
+        public ActionResult ChangePassword()
+        {
+            var model = new ChangePasswordViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordViewModel model)
+        {
+            var newPassword = model.NewPassword;
+            var repeatPassword = model.RepeatPassword; 
+                        if (!ModelState.IsValid)
+                return View(model);
+            try
+            {
+                var curUser = new UserInfo
+                {
+                    Username=User.Identity.Name,
+                    Password = model.CurPassword,
+                  };
+                        
+                if (_userService.Authenticate(curUser).HasValue && newPassword==repeatPassword )
+                {
+                   curUser.Password = model.NewPassword;
+                   bool successfullyChanged = _userService.ChangePassword(curUser);
+                   
+                    if(successfullyChanged)
+                        return RedirectToAction("Login");
+                    else
+                    { 
+                        ModelState.AddModelError("", "Could not change, please contact administrator");
+                        return View(model);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid credentials");
+                    return View(model);
+                };
+
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View(model);
+            };
+
         }
         //List of Users
          [Authorize(Roles = "Admin, Master")]
@@ -227,7 +278,7 @@ namespace TimeEffort.Controllers
         {
             CreateSelectListForDropDown();
             var model = UserMapper.MapUserToModel(_userService.GetById(id));
-            return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml",model);
+            return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml",model);
         }
 
         // POST: Position/Edit/5
@@ -246,13 +297,42 @@ namespace TimeEffort.Controllers
                     return RedirectToAction("Index");
                 }
                 CreateSelectListForDropDown();
-                return View(model);
+                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
             catch
             {
                 //CreateSelectListForDropDown();
                 //ModelState.AddModelError("", ex.Message);
-                return View();
+                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
+            }
+        }
+        public ActionResult Manage()
+        {
+            int id = _userService.GetUserByUsername(this.HttpContext.User.Identity.Name).ID;
+            var model = UserMapper.MapUserToModel(_userService.GetById(id));
+            return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
+        }
+        [HttpPost]
+        public ActionResult Manage(int id,UserViewModel model)
+        {
+            UserViewModel user = UserMapper.MapUserToModel(_userService.GetById(model.Id));
+            
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var curUser = UserMapper.MapUserFromModel(model);
+                    _userService.Update(curUser);
+                    return RedirectToAction("Index");
+                }
+                CreateSelectListForDropDown();
+                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
+            }
+            catch
+            {
+                //CreateSelectListForDropDown();
+                //ModelState.AddModelError("", ex.Message);
+                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
 

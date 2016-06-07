@@ -1,20 +1,37 @@
-﻿@model TimeEffort.Models.RegistrationViewModel
+﻿@model TimeEffort.Models.UserViewModel
 
 @{
-
-    ViewBag.Title = "Registration";    
+    ViewBag.Title = "Manage";
 }
 
-<h2>New User Registration</h2>
+<h2>Edit personal information</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
+        <h4>UserViewModel</h4>
         <hr />
         @Html.ValidationSummary(true)
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.UserName)
+                @Html.ValidationMessageFor(model => model.UserName)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Position, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Position)
+                @Html.ValidationMessageFor(model => model.Position)
+            </div>
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
@@ -47,6 +64,7 @@
                 @Html.ValidationMessageFor(model => model.Phone)
             </div>
         </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.Address, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -54,6 +72,7 @@
                 @Html.ValidationMessageFor(model => model.Address)
             </div>
         </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.Major, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -62,50 +81,19 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PositionId, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.PositionId, (SelectList)ViewBag.Positions)
-                @Html.ValidationMessageFor(model => model.PositionId)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserName, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UserName)
-                @Html.ValidationMessageFor(model => model.UserName)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Password, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Password)
-                @Html.ValidationMessageFor(model => model.Password)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.RepeatPassword, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RepeatPassword)
-                @Html.ValidationMessageFor(model => model.RepeatPassword)
-            </div>
-        </div>
-
+       
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Register" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-
 }
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
