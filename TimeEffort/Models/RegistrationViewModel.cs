@@ -33,7 +33,7 @@ namespace TimeEffort.Models
 
         [DataType(DataType.Text)]
         public string Major { get; set; }
-
+        [Required]
         [Display(Name = "System role")]
         public int PositionId { get; set; }
         [DataType(DataType.Text)]
