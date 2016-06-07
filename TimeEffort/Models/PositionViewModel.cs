@@ -9,7 +9,7 @@ namespace TimeEffort.Models
     public class PositionViewModel
     {
         public int Id { get; set; }
-        
+        [Required]
         [DataType(DataType.Text)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "System role")]

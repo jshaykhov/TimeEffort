@@ -41,6 +41,8 @@ namespace TimeEffort.Models
 
         [DataType(DataType.Text)]
         public string Major { get; set; }
+      
+        [Display(Name = "System role")]
         public int PositionId { get; set; }
 
         [Display(Name = "System role")]
@@ -49,7 +51,7 @@ namespace TimeEffort.Models
         public string Password { get; set; }
     }
 
-        public class UserViewModel
+    public class UserViewModel
     {
         public int TotalPages { get; set; }
         public int Id { get; set; }
@@ -80,22 +82,25 @@ namespace TimeEffort.Models
 
         [DataType(DataType.Text)]
         public string Major { get; set; }
+        [Required]
+
+        [Display(Name = "System role")]
         public int PositionId { get; set; }
-      
+
         [Display(Name = "System role")]
 
 
         public string Position { get; set; }
-                
+
         [Required]
         [DataType(DataType.Text)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Username")]
         public string UserName { get; set; }
-        
 
 
-        
+
+
         [DataType(DataType.Password)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Password")]
