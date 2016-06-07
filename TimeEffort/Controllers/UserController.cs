@@ -306,6 +306,35 @@ namespace TimeEffort.Controllers
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
+        public ActionResult Manage()
+        {
+            int id = _userService.GetUserByUsername(this.HttpContext.User.Identity.Name).ID;
+            var model = UserMapper.MapUserToModel(_userService.GetById(id));
+            return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
+        }
+        [HttpPost]
+        public ActionResult Manage(int id,UserViewModel model)
+        {
+            UserViewModel user = UserMapper.MapUserToModel(_userService.GetById(model.Id));
+            
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var curUser = UserMapper.MapUserFromModel(model);
+                    _userService.Update(curUser);
+                    return RedirectToAction("Index");
+                }
+                CreateSelectListForDropDown();
+                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
+            }
+            catch
+            {
+                //CreateSelectListForDropDown();
+                //ModelState.AddModelError("", ex.Message);
+                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
+            }
+        }
 
     }
 }
