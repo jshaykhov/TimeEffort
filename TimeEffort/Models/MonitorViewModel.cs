@@ -15,6 +15,8 @@ namespace TimeEffort.Models
 
         public List<Project> allProjects { get; set; }
         public List<UserInfo> allEmployees { get; set; }
+
+        public List<WorkloadType> workloads { get; set; }
         public QueryMonitor query { get; set; }
     }
 
@@ -78,6 +80,7 @@ namespace TimeEffort.Models
     {
         public string Employee { get; set; }
         public string Project { get; set; }
+        public string WorkloadType { get; set; }
 
         [DataType(DataType.Date)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
@@ -105,5 +108,8 @@ namespace TimeEffort.Models
 
         [DataMember(Name = "SelectedProject")]
         public string SelectedProject { get; set; }
+
+        [DataMember(Name = "SelectedType")]
+        public string SelectedType { get; set; }
     }  
 }

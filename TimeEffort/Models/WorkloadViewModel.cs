@@ -46,4 +46,26 @@ namespace TimeEffort.Models
         public string WorkLoadType { get; set; }
 
     }
+
+    public class WorkloadCreateModel {
+        [Display(Name = "Type")]
+        public List<WorkloadType> Types { get; set; }
+        [Display(Name = "Project")]
+        public List<Project> Projects { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Date")]
+        public DateTime Date { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Note")]
+        public string Note{ get; set; }
+
+        [DataType(DataType.Duration)]
+        [Display(Name = "Duration")]
+        public decimal Duration { get; set; }
+
+    }
+
 }

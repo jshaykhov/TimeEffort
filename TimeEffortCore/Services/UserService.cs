@@ -22,7 +22,16 @@ namespace TimeEffortCore.Services
         public int? Authenticate(UserInfo userInfo)
         {
             var curHashedPassword = BuildPassword(userInfo.Username, userInfo.Password);
-            var curUser = db.UserInfo.FirstOrDefault(u => u.Username == userInfo.Username && u.Password == curHashedPassword);
+            UserInfo curUser = null;
+            try
+            {
+                curUser = db.UserInfo.FirstOrDefault(u => u.Username == userInfo.Username && u.Password == curHashedPassword);
+            }
+            catch (Exception e)
+            {
+                return curUser == null ? (int?)null : curUser.ID;
+            }
+
             return curUser == null ? (int?)null : curUser.ID;
         }
 

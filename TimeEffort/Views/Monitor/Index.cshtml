@@ -61,6 +61,16 @@
                     }
                 </select>
             </div>
+            <div class="col-lg-2">
+                <label for="SelectUsers">Choose type:</label>
+                <select class="form-control" id="SelectTypes" onchange="getval(this);">
+                    <option>All</option>
+                    @foreach (var item in Model.workloads)
+                    {
+                        <option value=@item.Name>@(item.Name)</option>
+                    }
+                </select>
+            </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="FromDate">From:</label>
@@ -123,6 +133,7 @@
 
                 FromDate: $("#FromDate").val(),
                 ToDate: $('#ToDate').val(),
+                SelectedType: $('#SelectTypes option:selected').text(),
                 SelectedUser: $("#SelectUsers").val(),
                 SelectedProject: $("#SelectProjects").val()
             };
@@ -150,7 +161,7 @@
             if (result.projects.length == 0) {
                 var row = $("<tr/>")
                 $("#myTable").append(row);
-                row.append($("<td colspan = \"5\" align=\"center\"> There is no data to display for employee <b>" + $("#SelectUsers option:selected").text() + "</b> at project <i> " + $("#SelectProjects option:selected").text() + "</i>, from <u>" + $("#FromDate").val() + "</u> to <u>" + $("#ToDate").val() + "</u></td>"));
+                row.append($("<td colspan = \"5\" align=\"center\"> There is no data to display for employee <b>" + $("#SelectUsers option:selected").text() + "</b>"+ " with workload of type <i>"+ $('#SelectTypes option:selected').text() + "</i> at project <b> " + $("#SelectProjects option:selected").text() + "</b>, from <u>" + $("#FromDate").val() + "</u> to <u>" + $("#ToDate").val() + "</u></td>"));
             }
             for (var i = 0; i < result.projects.length; i++)
             {
