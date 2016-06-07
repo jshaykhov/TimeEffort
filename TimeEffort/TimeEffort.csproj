@@ -1798,6 +1798,7 @@
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Manage.cshtml" />
     <Content Include="Views\User\UserProfile.cshtml" />
+    <Content Include="Views\User\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
