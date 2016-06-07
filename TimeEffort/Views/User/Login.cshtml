@@ -47,9 +47,9 @@
                 data: JSON.stringify(requestData),
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
-                //error: function (xhr) {
-                //    alert('Error: ' + xhr.statusText);
-                //},
+                error: function (xhr) {
+                    alert('Error: ' + xhr.statusText);
+                },
                 success: function (response) {
                     if (response.hasOwnProperty('Url')) {
                         //window.location.pathname = response.Url;
