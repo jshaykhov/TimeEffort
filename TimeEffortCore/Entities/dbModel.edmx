@@ -72,7 +72,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
-          <Property Name="ProjectID" Type="int" Nullable="false" />
+          <Property Name="ProjectID" Type="int" />
           <Property Name="Duration" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Approved" Type="bit" Nullable="false" />
           <Property Name="Note" Type="nvarchar" MaxLength="150" />
@@ -150,7 +150,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Workload_Project">
-          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
           <End Role="Workload" Type="Self.Workload" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Project">
@@ -343,7 +343,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="ProjectID" Type="Int32" Nullable="false" />
+          <Property Name="ProjectID" Type="Int32" />
           <Property Name="Duration" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Approved" Type="Boolean" Nullable="false" />
           <Property Name="Note" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
@@ -409,7 +409,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Workload_Project">
-          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
           <End Role="Workload" Type="Self.Workload" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Project">

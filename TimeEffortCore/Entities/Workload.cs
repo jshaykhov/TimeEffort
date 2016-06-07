@@ -17,7 +17,7 @@ namespace TimeEffortCore.Entities
         public int ID { get; set; }
         public System.DateTime Date { get; set; }
         public int UserID { get; set; }
-        public int ProjectID { get; set; }
+        public Nullable<int> ProjectID { get; set; }
         public decimal Duration { get; set; }
         public bool Approved { get; set; }
         public string Note { get; set; }

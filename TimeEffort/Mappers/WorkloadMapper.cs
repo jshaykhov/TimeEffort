@@ -16,14 +16,12 @@ namespace TimeEffort.Mappers
             {
                 Id = item.ID,
                 Date = item.Date,
-                Project=item.Project.Name,
-                ProjectId = item.ProjectID,                     //pay attention
-                UserId = item.UserID,                       //pay attention
+                ProjectId = item.ProjectID.GetValueOrDefault(), //pay attention
+                UserId = item.UserID,                       
                 Approved = item.Approved,
                 Duration = item.Duration,
                 Note = item.Note,
-                WorkLoadType=item.WorkloadType.Name,
-                WorkLoadTypeId = item.WorkloadTypeID             //pay attention
+                WorkLoadTypeId = item.WorkloadTypeID   
             };
         }
 
@@ -53,12 +51,12 @@ namespace TimeEffort.Mappers
             {
                 Id = item.ID,
                 Date = item.Date,
-                Project = item.Project.Name,                     //pay attention
+                //Project = item.Project,                     //pay attention
                 UserId = item.UserInfo.ID,                       //pay attention
                 //Approved = item.Approved,
                 //Note = item.Note,
-                Duration = item.Duration,
-                WorkLoadType = item.WorkloadType.Name             //pay attention
+                Duration = item.Duration
+                //WorkLoadType = item.WorkloadType             //pay attention
             }).ToList();
         }
 
