@@ -2,35 +2,219 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <div>
-        <img src="/Images/ppicture.png" alt="ProfilePicture" style="height:100px; width:100px" />
-    
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Home</h1>
     </div>
-    
-    <h1>ASP.NET</h1>
-
-    <p><a href="http://asp.net" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+    <!-- /.col-lg-12 -->
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    <div class="col-lg-8">
+        <div class="col-lg-6 col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-file-powerpoint-o fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">Projects</div>
+                            <div align="justify">You can view the projects, you are participating in.</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action("Index","Project")">
+                    <div class="panel-footer">
+                        <span class="pull-left">Go to projects</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-8">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-calendar fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">Workloads</div>
+                            <div align="justify">You can add the efforts that you have put as workloads in the system.</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action("Index","Workload")">
+                    <div class="panel-footer">
+                        <span class="pull-left">Add new workload</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <div class="panel panel-yellow">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-hand-o-up fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">Appoint</div>
+                            <div align="justify">You can appoint employees to existing projects, with their according roles in the project.</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">
+                    <div class="panel-footer">
+                        <span class="pull-left">Appoint</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-pie-chart fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">Monitor</div>
+                            <div align="justify">Monitor employees workload's, project members' and administrative staff's works, as well as annual, unpaid and sick leaves.</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action("Index","Monitor")">
+                    <div class="panel-footer">
+                        <span class="pull-left">Monitor</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <div class="panel panel-yellow">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-suitcase fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">Users</div>
+                            <div align="justify">You can manage users currently registered in the system.</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action("Index","User")">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Users</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-eye fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">Roles</div>
+                            <div align="justify">Manage roles the employees can be assigned within the projects.</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action("Index","Role")">
+                    <div class="panel-footer">
+                        <span class="pull-left">View roles</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bell fa-fw"></i> Notifications Panel
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="list-group">
+                    <a href="#" class="list-group-item">
+                        <i class="fa fa-comment fa-fw"></i> New Comment
+                        <span class="pull-right text-muted small">
+                            <em>4 minutes ago</em>
+                        </span>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                        <span class="pull-right text-muted small">
+                            <em>12 minutes ago</em>
+                        </span>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <i class="fa fa-envelope fa-fw"></i> Message Sent
+                        <span class="pull-right text-muted small">
+                            <em>27 minutes ago</em>
+                        </span>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <i class="fa fa-tasks fa-fw"></i> New Task
+                        <span class="pull-right text-muted small">
+                            <em>43 minutes ago</em>
+                        </span>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                        <span class="pull-right text-muted small">
+                            <em>11:32 AM</em>
+                        </span>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <i class="fa fa-bolt fa-fw"></i> Server Crashed!
+                        <span class="pull-right text-muted small">
+                            <em>11:13 AM</em>
+                        </span>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <i class="fa fa-warning fa-fw"></i> Server Not Responding
+                        <span class="pull-right text-muted small">
+                            <em>10:57 AM</em>
+                        </span>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <i class="fa fa-shopping-cart fa-fw"></i> New Order Placed
+                        <span class="pull-right text-muted small">
+                            <em>9:49 AM</em>
+                        </span>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <i class="fa fa-money fa-fw"></i> Payment Received
+                        <span class="pull-right text-muted small">
+                            <em>Yesterday</em>
+                        </span>
+                    </a>
+                </div>
+                <!-- /.list-group -->
+                <a href="#" class="btn btn-default btn-block">View All Alerts</a>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+
+
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
+
 </div>
