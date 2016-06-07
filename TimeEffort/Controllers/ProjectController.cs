@@ -240,8 +240,8 @@ namespace TimeEffort.Controllers
             return View();
 
     }
-        //EXPORT TO CSV
-        public ActionResult exportToCSV()
+        //EXPORTING PROJECTS TO CSV
+        public ActionResult ExportToCSV()
         {
                 var xDoc = new XDocument();
                 xDoc.Add(new XProcessingInstruction("xml-stylesheet", "type='text/xsl' href='/xml/ProjectToCSV.xslt'"));
@@ -261,7 +261,7 @@ namespace TimeEffort.Controllers
                             new XElement("ManagerID", project.ManagerID),
                             new XElement("StartDate", project.StartDate),
                              new XElement("EndDate", project.EndDate)
-                            // project.Updated.HasValue ? new XElement("Updated", project) : null
+                           
                             ));
                     xDoc.Add(xElement);
                 }

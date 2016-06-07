@@ -240,6 +240,13 @@ using (Html.BeginForm("Index", "Project", FormMethod.Get))
 <br />
 
 
-<span>Page</span> @(Model.UserProjects.PageCount < Model.UserProjects.PageNumber ? 0 : Model.UserProjects.PageNumber) <span>of</span>@Model.UserProjects.PageCount
+<span>Page</span> @(Model.UserProjects.PageCount < Model.UserProjects.PageNumber ? 0 : Model.UserProjects.PageNumber) <span> of </span>@Model.UserProjects.PageCount
 @Html.PagedListPager(Model.UserProjects, page => Url.Action("Index",new { page, currentFilter = ViewBag.CurrentFilter, searchByPName = ViewBag.searchByPName }))
 }
+
+<p>
+    @Html.ActionLink("Export to CSV", "ExportToCSV", new { type = "csv" }, new { target = "_blank" })
+    <br />
+    @Html.ActionLink("Export to Excel", "ExportToExcel", new { type = "excel" }, new { target = "_blank" })
+
+</p>
