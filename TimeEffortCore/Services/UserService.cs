@@ -39,6 +39,26 @@ namespace TimeEffortCore.Services
             }
         }
 
+        public bool ChangePassword(UserInfo userInfo)
+        {
+            try
+            {
+                var dbItem = db.UserInfo.FirstOrDefault(p => p.Username == userInfo.Username);
+                if (dbItem == null)
+                    throw new ArgumentNullException("User does not exist");
+               
+                userInfo.Password = BuildPassword(userInfo.Username, userInfo.Password);
+                dbItem.Password = userInfo.Password;
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+
         private string GenerateAPIToken(int id, string username, string password)
         {
             var toEncrypt = username + id + password;
@@ -173,7 +193,7 @@ namespace TimeEffortCore.Services
             dbItem.Project = item.Project;
             dbItem.Username = item.Username;
             dbItem.PositionID = item.PositionID;
-        
+
             db.SaveChanges();
         }
     }

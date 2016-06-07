@@ -9,8 +9,8 @@ using TimeEffortCore.Entities;
 using TimeEffortCore.Services;
 using System.Web.Security;
 using System.Net;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+
+
 using Microsoft.Owin.Security;
 using PagedList;
 
@@ -176,6 +176,55 @@ namespace TimeEffort.Controllers
         {
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "User");
+        }
+        //CHANGE PASSWORD
+        public ActionResult ChangePassword()
+        {
+            var model = new ChangePasswordViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordViewModel model)
+        {
+            var newPassword = model.NewPassword;
+            var repeatPassword = model.RepeatPassword; 
+                        if (!ModelState.IsValid)
+                return View(model);
+            try
+            {
+                var curUser = new UserInfo
+                {
+                    Username=User.Identity.Name,
+                    Password = model.CurPassword,
+                  };
+                        
+                if (_userService.Authenticate(curUser).HasValue && newPassword==repeatPassword )
+                {
+                   curUser.Password = model.NewPassword;
+                   bool successfullyChanged = _userService.ChangePassword(curUser);
+                   
+                    if(successfullyChanged)
+                        return RedirectToAction("Login");
+                    else
+                    { 
+                        ModelState.AddModelError("", "Could not change, please contact administrator");
+                        return View(model);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid credentials");
+                    return View(model);
+                };
+
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View(model);
+            };
+
         }
         //List of Users
         public ActionResult Index(int? page)
