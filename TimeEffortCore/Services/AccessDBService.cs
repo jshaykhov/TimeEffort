@@ -19,6 +19,10 @@ namespace TimeEffortCore.Services
         {
             return db.Access.Any(x => x.UserID == userId && x.ProjectID == projectId);
         }
+        public bool IsInvolved(string username, int projectId)
+        {
+            return db.Access.Any(x => x.UserInfo.Username == username && x.ProjectID == projectId);
+        }
 
         public List<Project> GetProjectsByUser(string username)
         {

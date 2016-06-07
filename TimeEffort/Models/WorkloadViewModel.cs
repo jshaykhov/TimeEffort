@@ -12,13 +12,14 @@ namespace TimeEffort.Models
         public int Id { get; set; }
 
         public int UserId { get; set; }
-         [Required]
+        [Required]
         [Display(Name = "Project")]
         public int ProjectId { get; set; }
+        public string Project { get; set; }
 
-         [Required]
-         [DataType(DataType.Date)]
-         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Date")]
         public DateTime Date { get; set; }
 
@@ -38,9 +39,33 @@ namespace TimeEffort.Models
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name="Choose Type")]
+        [Display(Name = "Choose Type")]
         public int WorkLoadTypeId { get; set; }
-        public int WorkLoadType { get; set; }
+
+        [Display(Name = "Workload Type")]
+        public string WorkLoadType { get; set; }
 
     }
+
+    public class WorkloadCreateModel {
+        [Display(Name = "Type")]
+        public List<WorkloadType> Types { get; set; }
+        [Display(Name = "Project")]
+        public List<Project> Projects { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Date")]
+        public DateTime Date { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Note")]
+        public string Note{ get; set; }
+
+        [DataType(DataType.Duration)]
+        [Display(Name = "Duration")]
+        public decimal Duration { get; set; }
+
+    }
+
 }

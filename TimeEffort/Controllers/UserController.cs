@@ -13,6 +13,7 @@ using System.Net;
 
 using Microsoft.Owin.Security;
 using PagedList;
+using TimeEffort.Helper;
 
 namespace TimeEffort.Controllers
 {
@@ -116,12 +117,12 @@ namespace TimeEffort.Controllers
             return authCookie;
         }
 
-
+         [Authorize(Roles = "Admin, Master,CTO")]
         //REGISTER 
         public ActionResult Registration()
         {
             CreateSelectListForDropDown();
-            return View();
+            return View("Registration", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml");
         }
 
 // POST: User/Register
@@ -130,8 +131,8 @@ namespace TimeEffort.Controllers
         {
             if (!ModelState.IsValid)
             {
-               
-                return View(registrationVM);
+
+                return View("Registration", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", registrationVM);
             }
             try
             {
@@ -153,7 +154,7 @@ namespace TimeEffort.Controllers
             {
                 CreateSelectListForDropDown();
                 ModelState.AddModelError("", ex.Message);
-                return View(registrationVM);
+                return View("Registration", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", registrationVM);
             }
         }
 
@@ -227,6 +228,7 @@ namespace TimeEffort.Controllers
 
         }
         //List of Users
+         [Authorize(Roles = "Admin, Master")]
         public ActionResult Index(int? page)
         {
             var sendingModel = new SendingModel();
@@ -238,15 +240,16 @@ namespace TimeEffort.Controllers
             int pageNumber = (page ?? 1);
             sendingModel.Pagination = list.ToPagedList(pageNumber, pageSize);
             sendingModel.UserList = list;
-            return View(sendingModel);
+            return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", sendingModel);
         }
 
         //Delete user
+         [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             var user = _userService.GetById(id);
             var model = UserMapper.MapUserToModel(user);
-            return View(model);
+            return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
         // POST: Position/Delete/5
@@ -263,16 +266,17 @@ namespace TimeEffort.Controllers
                 var user = _userService.GetById(id);
                 var model = UserMapper.MapUserToModel(user);
                 ModelState.AddModelError("", e.Message);
-                return View(model);
+                return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
+         [Authorize(Roles = "Admin, Master,CTO")]
         //EDIT
         // GET: Position/Edit/5
         public ActionResult Edit(int id)
         {
             CreateSelectListForDropDown();
             var model = UserMapper.MapUserToModel(_userService.GetById(id));
-            return View(model);
+            return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml",model);
         }
 
         // POST: Position/Edit/5

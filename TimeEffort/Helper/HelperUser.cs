@@ -31,6 +31,22 @@ namespace TimeEffort.Helper
             return db.IsInvolved(user.ID, project.ID);
         }
 
+        public static List<Project> GetAllInvolvedProjects(System.Security.Principal.IPrincipal _user)
+        {
+            AccessDBService db = new AccessDBService();
+            ProjectDBService pDb = new ProjectDBService();
+
+            var allProjects = pDb.GetAll();
+            List<Project> returningProjects = new List<Project>();
+            foreach (Project p in allProjects)
+            {
+                if (db.IsInvolved(_user.Identity.Name, p.ID))
+                    returningProjects.Add(p);
+            }
+            return returningProjects;
+        }
+
+
         public static List<Project> GetProjectsByManager(System.Security.Principal.IPrincipal _user)
         {
             UserService db = new UserService();
@@ -62,6 +78,12 @@ namespace TimeEffort.Helper
         {
             UserService db = new UserService();
             return db.GetAll();
+        }
+
+        internal static List<WorkloadType> GetAllWorkloadTypes()
+        {
+            WorkloadDbService db = new WorkloadDbService();
+            return db.GetAllTypes();
         }
     }
 }

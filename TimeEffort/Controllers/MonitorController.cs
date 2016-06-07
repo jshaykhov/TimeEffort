@@ -1,15 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TimeEffort.Helper;
 using TimeEffort.Models;
 using TimeEffortCore.Services;
+using System.IO;
+using System.Data;
+using ClosedXML.Excel;
+using System.Configuration;
+using System.Data.SqlClient;
+using System.Web.UI.WebControls;
+using System.Web.UI;
 
 namespace TimeEffort.Controllers
 {
+    [Authorize(Roles = "Admin, Master, Monitor, User,CTO, Test")]
     public class MonitorController : Controller
     {
         //---------------Singleton------------------
@@ -33,7 +45,8 @@ namespace TimeEffort.Controllers
             var model = new MonitorViewModel();
             model.allEmployees = HelperUser.GetAllUsers();
             model.allProjects = db.GetAllProjects();
-            return View(model);
+            model.workloads = HelperUser.GetAllWorkloadTypes();
+            return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml",model);
         }
 
         [HttpGet]
@@ -58,6 +71,7 @@ namespace TimeEffort.Controllers
                 {
                     Employee = myQuery.SelectedUser,
                     Project = myQuery.SelectedProject,
+                    WorkloadType = myQuery.SelectedType,
                     FromDate = from,
                     ToDate = to
                 }
@@ -69,12 +83,12 @@ namespace TimeEffort.Controllers
         public MonitorViewModel GetResult(MonitorViewModel model)
         {
 
-            model.projects = GetProjects(DateTime.Now, model.query.FromDate, model.query.ToDate, model.query.Employee, model.query.Project);
+            model.projects = GetProjects(DateTime.Now, model.query.FromDate, model.query.ToDate, model.query.Employee, model.query.Project, model.query.WorkloadType);
             
             return model;
         }
 
-        private List<ProjectMontior> GetProjects(DateTime now, DateTime? from = null, DateTime? to = null, string user = "all", string project = "all")
+        private List<ProjectMontior> GetProjects(DateTime now, DateTime? from = null, DateTime? to = null, string user = "all", string project = "all", string type = "all")
         {
             if (from == null)
                 from = now.AddDays(-7);
@@ -94,7 +108,11 @@ namespace TimeEffort.Controllers
                 var tempProject = HelperUser.GetProjectByCode(project);
                 allWorkloads = allWorkloads.FindAll(x => x.ProjectID == tempProject.ID).ToList();
             }
-
+            if (!type.Equals("All"))
+            {
+                var tempWorkload = HelperUser.GetAllWorkloadTypes().FirstOrDefault(w=>w.Name == type);
+                allWorkloads = allWorkloads.FindAll(x => x.WorkloadTypeID == tempWorkload.ID).ToList();
+            }
 
             return allWorkloads.Select(c => new ProjectMontior
             {
@@ -106,5 +124,9 @@ namespace TimeEffort.Controllers
                 Id = 0
             }).ToList();
         }
+
+        
+
+       
 	}
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.ApplicationServices;
 using System.Web.Mvc;
+using TimeEffort.Helper;
 using TimeEffort.Mappers;
 using TimeEffort.Models;
 using TimeEffortCore.Entities;
@@ -11,7 +12,7 @@ using TimeEffortCore.Services;
 
 namespace TimeEffort.Controllers
 {
-    [Authorize]
+      [Authorize(Roles = "Admin, Master, CTO")]
     public class RoleController : Controller
     {
         //static properties does not requiere instantiation on accessing different Actions
@@ -28,18 +29,19 @@ namespace TimeEffort.Controllers
             }
         }
         // GET: /Role/
+    
         public ActionResult Index()
         {
             var allRoles = Service.GetAll();
             var list = RoleMapper.MapRolesToModels(allRoles);
-            return View(list);
+            return View("Index" , "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml",list);
         }
 
         // GET: Role/Create
         public ActionResult Create()
         {
             var model = new RoleViewModel();
-            return View();
+            return View("Create" , "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml");
         }
 
         // POST: Role/Create
@@ -56,19 +58,19 @@ namespace TimeEffort.Controllers
                     return RedirectToAction("Index");
                 }
 
-                return View(model);
+                return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                return View(model);
+                return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
         // GET: Role/Edit/5
         public ActionResult Edit(int id)
         {
             var model = RoleMapper.MapRoleToModel(Service.GetById(id));
-            return View(model);
+            return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
         // POST: Role/Edit/5
@@ -84,11 +86,11 @@ namespace TimeEffort.Controllers
                     Service.Update(role);
                     return RedirectToAction("Index");
                 }
-                return View(model);
+                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
             catch
             {
-                return View();
+                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
 
@@ -97,7 +99,7 @@ namespace TimeEffort.Controllers
         {
             var role = Service.GetById(id);
             var model = RoleMapper.MapRoleToModel(role);
-            return View(model);
+            return View("Delete" , "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
         // POST: Role/Delete/5
@@ -114,7 +116,7 @@ namespace TimeEffort.Controllers
                 var role = Service.GetById(id);
                 var model = RoleMapper.MapRoleToModel(role);
                 ModelState.AddModelError("", e.Message);
-                return View(model);
+                return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
     }

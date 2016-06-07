@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TimeEffort.Helper;
 using TimeEffort.Mappers;
 using TimeEffort.Models;
 using TimeEffortCore.Services;
 
 namespace TimeEffort.Controllers
 {
+      [Authorize(Roles = "Admin")]
     public class WorkloadTypeController : Controller
     {
         
@@ -30,14 +32,14 @@ namespace TimeEffort.Controllers
         {
             var allWloadTypes = Service.GetAll();
             var list = WloadTypeMapper.MapWorkloadTypesToModels(allWloadTypes);
-            return View(list);
+            return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", list);
         }
 
         // GET: WloadType/Create
         public ActionResult Create()
         {
             var model = new WloadTypeViewModel();
-            return View();
+            return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml");
         }
 
         // POST: WloadType/Create
@@ -54,19 +56,19 @@ namespace TimeEffort.Controllers
                     return RedirectToAction("Index");
                 }
 
-                return View(model);
+                return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml",model);
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                return View(model);
+                return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
         // GET: WloadType/Edit/5
         public ActionResult Edit(int id)
         {
             var model = WloadTypeMapper.MapWorkloadTypeToModel(Service.GetById(id));
-            return View(model);
+            return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
         // POST: WloadType/Edit/5
@@ -82,11 +84,11 @@ namespace TimeEffort.Controllers
                     Service.Update(wloadtype);
                     return RedirectToAction("Index");
                 }
-                return View(model);
+                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
             catch
             {
-                return View();
+                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
 
@@ -95,7 +97,7 @@ namespace TimeEffort.Controllers
         {
             var wloadtype = Service.GetById(id);
             var model = WloadTypeMapper.MapWorkloadTypeToModel(wloadtype);
-            return View(model);
+            return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
         // POST: WloadType/Delete/5
@@ -112,7 +114,7 @@ namespace TimeEffort.Controllers
                 var wloadtype = Service.GetById(id);
                 var model = WloadTypeMapper.MapWorkloadTypeToModel(wloadtype);
                 ModelState.AddModelError("", e.Message);
-                return View(model);
+                return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
     }

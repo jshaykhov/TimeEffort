@@ -254,6 +254,7 @@
             </li>
             <!-- /.dropdown -->
         </ul>
+        @Html.Partial("_LoginPartial")
         <!-- /.navbar-top-links -->
 
         <div class="navbar-default sidebar" role="navigation">
@@ -363,7 +364,7 @@
         </div>
         <!-- /.navbar-static-side -->
     </nav>
-    <div class="container body-content">
+    <div id="page-wrapper">
         @RenderBody()
         <hr />
         <footer>

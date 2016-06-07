@@ -9,9 +9,12 @@ using TimeEffortCore.Services;
 using PagedList;
 using TimeEffort.Helper;
 using TimeEffortCore.Entities;
+using System.Web.UI.WebControls;
+using System.IO;
+using System.Web.UI;
 namespace TimeEffort.Controllers
 {
-    [Authorize]
+  
     public class ProjectController : Controller
     {
         //static properties does not requiere instantiation on accessing different Actions
@@ -79,7 +82,7 @@ namespace TimeEffort.Controllers
         {
             return View();
         }
-
+          [Authorize(Roles = "Admin,Master,Monitor,CTO")]
         //
         // GET: /Project/Create
         public ActionResult Create()
@@ -87,7 +90,7 @@ namespace TimeEffort.Controllers
             CreateSelectListForDropDownStatus();
             CreateSelectListForDropDownUsers();
             var model = new ProjectViewModel();
-            return View(model);
+            return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
 
         }
 
@@ -107,16 +110,16 @@ namespace TimeEffort.Controllers
                 }
                 CreateSelectListForDropDownUsers();
                 CreateSelectListForDropDownStatus();
-                return View(model);
+                return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                return View(model);
+                return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
 
         }
-
+          [Authorize(Roles = "Admin,Master,Monitor,CTO")]
         //
         // GET: /Project/Edit/5
         public ActionResult Edit(int id)
@@ -124,7 +127,7 @@ namespace TimeEffort.Controllers
             CreateSelectListForDropDownUsers();
             CreateSelectListForDropDownStatus();
             var model = ProjectMapper.MapProjectToModel(Service.GetById(id));
-            return View(model);
+            return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
         //
@@ -143,22 +146,22 @@ namespace TimeEffort.Controllers
                 }
                 CreateSelectListForDropDownUsers();
                 CreateSelectListForDropDownStatus();
-                return View(model);
+                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
             catch
             {
-                return View();
+                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
 
         }
-
+          [Authorize(Roles = "Admin,Master,Monitor,CTO")]
         //
         // GET: /Project/Delete/5
         public ActionResult Delete(int id)
         {
             var project = Service.GetById(id);
             var model = ProjectMapper.MapProjectToModel(project);
-            return View(model);
+            return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
         //
@@ -176,7 +179,7 @@ namespace TimeEffort.Controllers
                 var project = Service.GetById(id);
                 var model = ProjectMapper.MapProjectToModel(project);
                 ModelState.AddModelError("", e.Message);
-                return View(model);
+                return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
 
         }
@@ -200,5 +203,41 @@ namespace TimeEffort.Controllers
             ViewBag.Items = items;
         }
 
+         // GET: ExportData
+        public ActionResult ExportToExcel()
+        {
+            // Step 1 - get the data from database
+            var data = Service.GetAll();
+
+            // instantiate the GridView control from System.Web.UI.WebControls namespace
+            // set the data source
+            GridView gridview = new GridView();
+            gridview.DataSource = data;
+            gridview.DataBind();
+
+            // Clear all the content from the current response
+            Response.ClearContent();
+            Response.Buffer = true;
+            // set the header
+            Response.AddHeader("content-disposition", "attachment;filename=itfunda.xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "";
+            // create HtmlTextWriter object with StringWriter
+            using (StringWriter sw = new StringWriter())
+            {
+                using (HtmlTextWriter htw = new HtmlTextWriter(sw))
+                {
+                    // render the GridView to the HtmlTextWriter
+                    gridview.RenderControl(htw);
+                    // Output the GridView content saved into StringWriter
+                    Response.Output.Write(sw.ToString());
+                    Response.Flush();
+                    Response.End();
+                }
+             }
+            return View();
+
     }
 }
+}
+
