@@ -193,7 +193,7 @@ namespace TimeEffort.Controllers
             var newPassword = model.NewPassword;
             var repeatPassword = model.RepeatPassword; 
                         if (!ModelState.IsValid)
-                return View(model);
+                            return View("ChangePassword", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             try
             {
                 var curUser = new UserInfo
