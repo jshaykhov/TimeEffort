@@ -184,7 +184,7 @@ namespace TimeEffort.Controllers
         public ActionResult ChangePassword()
         {
             var model = new ChangePasswordViewModel();
-            return View(model);
+            return View("ChangePassword", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
         [HttpPost]
@@ -210,15 +210,15 @@ namespace TimeEffort.Controllers
                     if(successfullyChanged)
                         return RedirectToAction("Login");
                     else
-                    { 
+                    {
                         ModelState.AddModelError("", "Could not change, please contact administrator");
-                        return View(model);
+                        return View("ChangePassword", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
                     }
                 }
                 else
                 {
                     ModelState.AddModelError("", "Invalid credentials");
-                    return View(model);
+                    return View("ChangePassword", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
                 };
 
             }

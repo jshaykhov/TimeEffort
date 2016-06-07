@@ -52,7 +52,7 @@ namespace TimeEffort.Controllers
         // GET: /Workload/
         public ActionResult Index()
         {  
-            return View();
+            return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml");
         }
         public ActionResult Workloads(string dateClicked)
         {
