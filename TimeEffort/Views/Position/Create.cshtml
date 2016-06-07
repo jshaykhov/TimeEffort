@@ -1,11 +1,11 @@
 ﻿@model TimeEffort.Models.PositionViewModel
-
+@using TimeEffort.Helper
 @{
-    ViewBag.Title = "Create new Position";
+    ViewBag.Title = "Create new system role";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Creating new position</h2>
+<h2>Creating new system role</h2>
 
 @using (Html.BeginForm()) 
 {
@@ -16,7 +16,7 @@
         @Html.ValidationSummary(true)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Position, new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.Position, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Position)
                 @Html.ValidationMessageFor(model => model.Position)

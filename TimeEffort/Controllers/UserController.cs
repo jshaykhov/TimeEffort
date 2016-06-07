@@ -184,7 +184,7 @@ namespace TimeEffort.Controllers
         public ActionResult ChangePassword()
         {
             var model = new ChangePasswordViewModel();
-            return View(model);
+            return View("ChangePassword", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
         [HttpPost]
@@ -210,15 +210,15 @@ namespace TimeEffort.Controllers
                     if(successfullyChanged)
                         return RedirectToAction("Login");
                     else
-                    { 
+                    {
                         ModelState.AddModelError("", "Could not change, please contact administrator");
-                        return View(model);
+                        return View("ChangePassword", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
                     }
                 }
                 else
                 {
                     ModelState.AddModelError("", "Invalid credentials");
-                    return View(model);
+                    return View("ChangePassword", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
                 };
 
             }
@@ -304,6 +304,44 @@ namespace TimeEffort.Controllers
                 //CreateSelectListForDropDown();
                 //ModelState.AddModelError("", ex.Message);
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
+            }
+        }
+
+        public ActionResult UserProfile()
+        {
+            int id = _userService.GetUserByUsername(this.HttpContext.User.Identity.Name).ID;
+            var model = UserMapper.MapUserToModel(_userService.GetById(id));
+            return View("UserProfile", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
+        }
+
+        public ActionResult Manage(int id)
+        {
+            var model = UserMapper.MapUserToModel(_userService.GetById(id));
+            return View("Manage", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
+        }
+        [HttpPost]
+        public ActionResult Manage(int id,ProfileViewModel model)
+        {
+            ProfileViewModel user = UserMapper.MapProfileToModel(_userService.GetById(model.Id));
+            model.UserName = user.UserName;
+            model.PositionId = user.PositionId;
+            model.Password = user.Password;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var curUser = UserMapper.MapProfileFromModel(model);
+                    _userService.Update(curUser);
+                    return RedirectToAction("UserProfile");
+                }
+                CreateSelectListForDropDown();
+                return View("Manage", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
+            }
+            catch
+            {
+                //CreateSelectListForDropDown();
+                //ModelState.AddModelError("", ex.Message);
+                return View("Manage", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
 
