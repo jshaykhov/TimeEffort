@@ -10,6 +10,7 @@ using TimeEffortCore.Services;
 
 namespace TimeEffort.Controllers
 {
+    [Authorize(Roles = "Master,CTO,Monitor")]
     public class MonitorController : Controller
     {
         //---------------Singleton------------------
@@ -33,7 +34,7 @@ namespace TimeEffort.Controllers
             var model = new MonitorViewModel();
             model.allEmployees = HelperUser.GetAllUsers();
             model.allProjects = db.GetAllProjects();
-            return View(model);
+            return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
         [HttpGet]
