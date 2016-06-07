@@ -28,6 +28,11 @@ namespace TimeEffort.Models
         [RegularExpression(@"^[+]([0-9]{12})$", ErrorMessage = "Not a valid Phone number. Format: +XXXXXXXXXX")]
         [Display(Name = "Phone")]
         public string Phone { get; set; }
+        [DataType(DataType.Text)]
+        public string Address { get; set; }
+
+        [DataType(DataType.Text)]
+        public string Major { get; set; }
 
         [Display(Name = "System role")]
         public int PositionId { get; set; }

@@ -171,6 +171,7 @@
     </Compile>
     <Compile Include="Helper\HelperProject.cs" />
     <Compile Include="Helper\HelperUser.cs" />
+    <Compile Include="Models\ChangePasswordViewModel.cs" />
     <Compile Include="Mappers\PositionMapper.cs" />
     <Compile Include="Mappers\RoleMapper.cs" />
     <Compile Include="Mappers\UserMapper.cs" />
@@ -1790,6 +1791,8 @@
     <Content Include="Views\Workload\Delete.cshtml" />
     <Content Include="Views\Shared\_LayoutCTO.cshtml" />
     <Content Include="Views\Home\IndexCTO.cshtml" />
+    <Content Include="Views\User\Delete.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

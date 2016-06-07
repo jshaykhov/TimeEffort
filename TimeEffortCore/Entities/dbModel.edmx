@@ -64,6 +64,8 @@
           <Property Name="PositionID" Type="int" Nullable="false" />
           <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="Major" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Workload">
           <Key>
@@ -335,6 +337,8 @@
           <NavigationProperty Name="Position" Relationship="Self.FK_UserInfo_Position" FromRole="UserInfo" ToRole="Position" />
           <NavigationProperty Name="Workload" Relationship="Self.FK_Workload_UserInfo" FromRole="UserInfo" ToRole="Workload" />
           <NavigationProperty Name="Project" Relationship="time_trackerModel.FK_Project_UserInfo" FromRole="UserInfo" ToRole="Project" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Major" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Workload">
           <Key>
@@ -600,6 +604,8 @@
           <EntitySetMapping Name="UserInfo">
             <EntityTypeMapping TypeName="time_trackerModel.UserInfo">
               <MappingFragment StoreEntitySet="UserInfo">
+                <ScalarProperty Name="Major" ColumnName="Major" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
