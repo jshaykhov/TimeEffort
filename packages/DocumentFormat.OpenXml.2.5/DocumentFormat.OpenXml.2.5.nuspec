@@ -3,12 +3,10 @@
   <metadata>
     <id>DocumentFormat.OpenXml</id>
     <version>2.5</version>
-    <title>DocumentFormat.OpenXml</title>
     <authors>Microsoft</authors>
     <owners>Microsoft</owners>
     <projectUrl>http://social.msdn.microsoft.com/Forums/en-US/oxmlsdk/threads</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Unofficial packaging of Microsoft's OpenXML SDK 2.5</description>
-    <summary />
   </metadata>
 </package>
