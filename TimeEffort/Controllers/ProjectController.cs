@@ -12,6 +12,8 @@ using TimeEffortCore.Entities;
 using System.Web.UI.WebControls;
 using System.IO;
 using System.Web.UI;
+using System.Xml.Linq;
+using System.Xml.Schema;
 namespace TimeEffort.Controllers
 {
   
@@ -238,6 +240,56 @@ namespace TimeEffort.Controllers
             return View();
 
     }
+        //EXPORT TO CSV
+        public ActionResult exportToCSV()
+        {
+                var xDoc = new XDocument();
+                xDoc.Add(new XProcessingInstruction("xml-stylesheet", "type='text/xsl' href='/xml/ProjectToCSV.xslt'"));
+
+                xDoc.Declaration = new XDeclaration("1.0", "utf-8", null);
+                var projects = Service.GetAll();
+                if (projects.Count > 0)
+                {
+                    var xElement = new XElement("Projects",
+                        from project in projects
+                        select new XElement("Project",
+                            new XElement("Id", project.ID),
+                            new XElement("Name", project.Name),
+                            new XElement("Code", project.Code),
+                            new XElement("ContactUSD", project.ContractUSD),
+                            new XElement("ContractUZS", project.ContractUZS),
+                            new XElement("ManagerID", project.ManagerID),
+                            new XElement("StartDate", project.StartDate),
+                             new XElement("EndDate", project.EndDate)
+                            // project.Updated.HasValue ? new XElement("Updated", project) : null
+                            ));
+                    xDoc.Add(xElement);
+                }
+                XmlSchemaSet schemas = new XmlSchemaSet();
+                schemas.Add("", "http://" + System.Web.HttpContext.Current.Request.Url.Authority + "/xml/ProjectSchema.xsd");
+                var errors = false;
+                var eMessage = "";
+                xDoc.Validate(schemas, (o, e) =>
+                {
+                    eMessage = e.Message;
+                    errors = true;
+                }, true);
+                if (errors)
+                    xDoc = new XDocument(new XDeclaration("1.0", "utf-8", null), new XElement("Error", eMessage));
+
+                StringWriter sw = new StringWriter();
+
+                xDoc.Save(sw);
+                var context = System.Web.HttpContext.Current;
+                context.Response.Clear();
+                context.Response.Write(sw.ToString());
+                context.Response.ContentType = "text/xml";
+                context.Response.End();
+                return View();
+            }
+            
+          
+        }
 }
-}
+
 

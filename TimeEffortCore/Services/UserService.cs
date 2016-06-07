@@ -202,6 +202,8 @@ namespace TimeEffortCore.Services
             dbItem.Project = item.Project;
             dbItem.Username = item.Username;
             dbItem.PositionID = item.PositionID;
+            dbItem.Address = item.Address;
+            dbItem.Major = item.Major;
 
             db.SaveChanges();
         }

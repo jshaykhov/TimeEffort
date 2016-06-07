@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ProjectSchema"
+    elementFormDefault="qualified"
+    xmlns="http://tempuri.org/ProjectSchema.xsd"
+    xmlns:mstns="http://tempuri.org/ProjectSchema.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+
+  <xs:element name="Projects">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Project" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Id" type="xs:positiveInteger" minOccurs="1" maxOccurs="1" />
+              <xs:element name="Name" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false" />
+              <xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false" />
+              <xs:element name="ContactUSD" type="xs:decimal" minOccurs="0" maxOccurs="1" />
+              <xs:element name="ContractUZS" type="xs:decimal" minOccurs="0" maxOccurs="1" />
+              <xs:element name="ManagerID" type="xs:positiveInteger" minOccurs="0" maxOccurs="1" />
+              <xs:element name="StartDate" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
+              <xs:element name="EndDate" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
+              <xs:element name="Status" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+
+</xs:schema>
