@@ -5,10 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 using TimeEffort.Helper;
 using TimeEffort.Mappers;
+using TimeEffort.Models;
 using TimeEffortCore.Services;
 
 namespace TimeEffort.Controllers
 {
+    [Authorize(Roles = "Admin, Master, Monitor, User,CTO, Test")]
     public class ApproveController : Controller
     {
         //---------------Singleton------------------
@@ -30,100 +32,42 @@ namespace TimeEffort.Controllers
         public ActionResult Index()
         {
            var managedProjects = HelperUser.GetProjectsByManager(User).Select(p=>p.ID).ToList();
-           var workloads = WorkloadMapper.MapWorkloadsToModels(db.GetAll().Where(w => w.ApprovedPM == false && managedProjects.Contains((int)w.ProjectID)).ToList());
+            List<WorkloadViewModel> workloads;
+            if (User.IsInRole("CTO"))
+            {
+                workloads = WorkloadMapper.MapWorkloadsToModels(db.GetAll().Where(w=> w.ApprovedPM == true).ToList());
+
+            }
+            else if (User.IsInRole("Master"))
+            {
+                workloads = WorkloadMapper.MapWorkloadsToModels(db.GetAll().Where(w => w.ApprovedCTO == true).ToList());
+            }
+            else 
+            {
+                workloads = WorkloadMapper.MapWorkloadsToModels(db.GetAll().Where(w => managedProjects.Contains((int)w.ProjectID)).ToList());
+            }
+
            return View("Index",  "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml",workloads);
         }
         [HttpGet]
-        public object UpdateStatus(int id)
+        public ActionResult UpdateStatus(int id)
         {
-            try
-            {
-                db.UpdateApproveStatus(id);
-                return true;
-            }
-            catch
-            {
-                return false; 
-            }
             
-        }
-        //
-        // GET: /Approve/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        //
-        // GET: /Approve/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        //
-        // POST: /Approve/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
             try
             {
-                // TODO: Add insert logic here
-
+                if (User.IsInRole("CTO"))
+                    db.UpdateApproveStatus(id, false, true, true);
+                else if (User.IsInRole("Master"))
+                    db.UpdateApproveStatus(id, true, true, true);
+                else
+                    db.UpdateApproveStatus(id, false, true, false);
                 return RedirectToAction("Index");
             }
             catch
             {
                 return View();
-            }
-        }
-
-        //
-        // GET: /Approve/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Approve/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /Approve/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Approve/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            }  
+            
         }
     }
 }
