@@ -76,7 +76,9 @@
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="ProjectID" Type="int" />
           <Property Name="Duration" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="Approved" Type="bit" Nullable="false" />
+          <Property Name="ApprovedPM" Type="bit" Nullable="false" />
+          <Property Name="ApprovedCTO" Type="bit" Nullable="false" />
+          <Property Name="ApprovedMaster" Type="bit" Nullable="false" />
           <Property Name="Note" Type="nvarchar" MaxLength="150" />
           <Property Name="WorkloadTypeID" Type="int" Nullable="false" />
         </EntityType>
@@ -151,44 +153,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Workload_Project">
-          <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
-          <End Role="Workload" Type="Self.Workload" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Project">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Workload">
-              <PropertyRef Name="ProjectID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Workload_UserInfo">
-          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Workload" Type="Self.Workload" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserInfo">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Workload">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Workload_WorkloadType">
-          <End Role="WorkloadType" Type="Self.WorkloadType" Multiplicity="1" />
-          <End Role="Workload" Type="Self.Workload" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WorkloadType">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Workload">
-              <PropertyRef Name="WorkloadTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
         <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
@@ -248,18 +212,6 @@
           <AssociationSet Name="FK_UserInfo_Position" Association="Self.FK_UserInfo_Position">
             <End Role="Position" EntitySet="Position" />
             <End Role="UserInfo" EntitySet="UserInfo" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Workload_Project" Association="Self.FK_Workload_Project">
-            <End Role="Project" EntitySet="Project" />
-            <End Role="Workload" EntitySet="Workload" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Workload_UserInfo" Association="Self.FK_Workload_UserInfo">
-            <End Role="UserInfo" EntitySet="UserInfo" />
-            <End Role="Workload" EntitySet="Workload" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Workload_WorkloadType" Association="Self.FK_Workload_WorkloadType">
-            <End Role="WorkloadType" EntitySet="WorkloadType" />
-            <End Role="Workload" EntitySet="Workload" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -349,12 +301,14 @@
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="ProjectID" Type="Int32" />
           <Property Name="Duration" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="Approved" Type="Boolean" Nullable="false" />
           <Property Name="Note" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="WorkloadTypeID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Project" Relationship="Self.FK_Workload_Project" FromRole="Workload" ToRole="Project" />
           <NavigationProperty Name="UserInfo" Relationship="Self.FK_Workload_UserInfo" FromRole="Workload" ToRole="UserInfo" />
           <NavigationProperty Name="WorkloadType" Relationship="Self.FK_Workload_WorkloadType" FromRole="Workload" ToRole="WorkloadType" />
+          <Property Name="ApprovedPM" Type="Boolean" Nullable="false" />
+          <Property Name="ApprovedCTO" Type="Boolean" Nullable="false" />
+          <Property Name="ApprovedMaster" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="WorkloadType">
           <Key>
@@ -620,12 +574,14 @@
           <EntitySetMapping Name="Workload">
             <EntityTypeMapping TypeName="time_trackerModel.Workload">
               <MappingFragment StoreEntitySet="Workload">
+                <ScalarProperty Name="ApprovedMaster" ColumnName="ApprovedMaster" />
+                <ScalarProperty Name="ApprovedCTO" ColumnName="ApprovedCTO" />
+                <ScalarProperty Name="ApprovedPM" ColumnName="ApprovedPM" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
                 <ScalarProperty Name="Duration" ColumnName="Duration" />
-                <ScalarProperty Name="Approved" ColumnName="Approved" />
                 <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="WorkloadTypeID" ColumnName="WorkloadTypeID" />
               </MappingFragment>

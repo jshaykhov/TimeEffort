@@ -1,0 +1,93 @@
+﻿@model IEnumerable<TimeEffort.Models.WorkloadViewModel>
+
+@{
+    ViewBag.Title = "Workload approval";
+}
+
+<h2>Workload approval</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WorkLoadType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Project)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Note)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Duration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApprovedPM)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmployeeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WorkLoadType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Project)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Note)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Duration)
+        </td>
+        <td id="Approval">
+            @if (User.IsInRole("CTO"))
+            {
+                if (item.ApprovedCTO)
+                {  
+                     @Html.Raw("Approved")
+                }
+                else
+                { 
+                 @Html.ActionLink("Approve", "UpdateStatus", new { id = item.Id }, new { @class = "btn btn-sm btn-info .btn-sx" })
+            }
+            }
+            @if(User.IsInRole("Master"))
+            {
+              if (item.ApprovedMaster)
+                {  
+                   @Html.Raw("Approved")
+                }
+                else
+                { 
+                @Html.ActionLink("Approve", "UpdateStatus", new { id=item.Id },new { @class = "btn btn-sm btn-info .btn-sx" })
+            }
+            }
+            @if (!User.IsInRole("Master") && !User.IsInRole("CTO"))
+            { 
+            if (item.ApprovedPM)
+                {  
+                   @Html.Raw("Approved")
+                }
+                else
+                { 
+                @Html.ActionLink("Approve", "UpdateStatus", new { id = item.Id }, new { @class = "btn btn-sm btn-info .btn-sx" })
+            }
+            }
+        </td>
+    </tr>
+}
+
+</table>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 using TimeEffortCore.Entities;
 
@@ -12,6 +13,9 @@ namespace TimeEffort.Models
         public int Id { get; set; }
 
         public int UserId { get; set; }
+
+         [Display(Name = "Employee")]
+        public string EmployeeName { get; set; }
         [Required]
         [Display(Name = "Project")]
         public int ProjectId { get; set; }
@@ -31,7 +35,9 @@ namespace TimeEffort.Models
 
         [Required]
         [Display(Name = "Approved Status")]
-        public bool Approved { get; set; }
+        public bool ApprovedMaster { get; set; }
+        public bool ApprovedCTO { get; set; }
+        public bool ApprovedPM { get; set; }
 
         [DataType(DataType.MultilineText)]
         [Display(Name = "Task / Note")]
@@ -65,7 +71,43 @@ namespace TimeEffort.Models
         [DataType(DataType.Duration)]
         [Display(Name = "Duration")]
         public decimal Duration { get; set; }
-
     }
+
+    [DataContract]
+    public class RequestDataJson
+    {
+        [DataMember(Name = "Number")]
+        public string Number { get; set; }
+
+        [DataMember(Name = "ProjectId")]
+        public int? ProjectId { get; set; }
+
+        [DataMember(Name = "Date")]
+        public DateTime Date { get; set; }
+
+        [DataMember(Name = "Duration")]
+        public string Duration { get; set; }
+
+        [DataMember(Name = "Notes")]
+        public string Notes { get; set; }
+
+        [DataMember(Name = "TypeId")]
+        public int TypeId { get; set; }
+
+        [DataMember(Name = "SelectedType")]
+        public string SelectedType { get; set; }
+
+        [DataMember(Name = "SelectedProject")]
+        public string SelectedProject { get; set; }
+    }
+
+    [DataContract]
+    public class WorkloadCreateJson
+    {
+
+        [DataMember(Name = "list")]
+        public List<RequestDataJson> Workloads { get; set; }
+    }
+
 
 }

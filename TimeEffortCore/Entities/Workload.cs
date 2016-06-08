@@ -19,9 +19,11 @@ namespace TimeEffortCore.Entities
         public int UserID { get; set; }
         public Nullable<int> ProjectID { get; set; }
         public decimal Duration { get; set; }
-        public bool Approved { get; set; }
         public string Note { get; set; }
         public int WorkloadTypeID { get; set; }
+        public bool ApprovedPM { get; set; }
+        public bool ApprovedCTO { get; set; }
+        public bool ApprovedMaster { get; set; }
     
         public virtual Project Project { get; set; }
         public virtual UserInfo UserInfo { get; set; }
