@@ -345,8 +345,8 @@
                         alert('Error: ' + xhr.statusText);
                     },
                     success: function (response) {
-                        //history.pushState("", document.title, response.Url);
-                        window.location.pathname = "Workloads";
+                        history.pushState("", document.title, "/Workload/Workloads" + window.location.search);
+                        window.location.pathname = "/Workload/Workloads";
                     },
                     async: true,
                     processData: false
