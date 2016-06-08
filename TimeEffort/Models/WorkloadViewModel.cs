@@ -12,6 +12,7 @@ namespace TimeEffort.Models
         public int Id { get; set; }
 
         public int UserId { get; set; }
+        public string EmployeeName { get; set; }
         [Required]
         [Display(Name = "Project")]
         public int ProjectId { get; set; }
@@ -31,7 +32,9 @@ namespace TimeEffort.Models
 
         [Required]
         [Display(Name = "Approved Status")]
-        public bool Approved { get; set; }
+        public bool ApprovedMaster { get; set; }
+        public bool ApprovedCTO { get; set; }
+        public bool ApprovedPM { get; set; }
 
         [DataType(DataType.MultilineText)]
         [Display(Name = "Task / Note")]

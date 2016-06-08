@@ -96,7 +96,7 @@ namespace TimeEffort.Controllers
         {
             var username = this.HttpContext.User.Identity.Name;
             model.UserId = db.GetUserByUsername(username);
-            model.Approved = false;
+            
             
             if (ModelState.IsValid)
             {
