@@ -93,6 +93,15 @@
             <td colspan="6" align="center">Add workload(s) so that you have 8 hours in total.</td>
         </tr>
     </tbody>
+    <tr>
+        <td colspan="6">
+            <div class="pull-right">
+                <span id="TotalHours">
+                    Total: 0
+                </span>
+            </div>
+        </td>
+    </tr>
 </table>
 
 <div class="panel panel-default">
@@ -185,7 +194,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="pull-right">
-            <button type="button" class="btn btn-success" onclick="addWorkload();"> Save </button>
+            <button type="button" class="btn btn-success" onclick="onSave();"> Save </button>
         </div>
     </div>
 </div>
@@ -244,6 +253,29 @@
                 requestData.ProjectId = null
                 requestData.SelectedProject = "Overhead";
             }
+
+            var successfully = true;
+
+            list.forEach(function (item)
+            {
+                if (successfully)
+                if (requestData.SelectedType == "Work (Project)") {
+                    if (requestData.ProjectId == item.ProjectId) {
+                        alert("You have already added workload for this project for this date");
+                        successfully = false;
+                    }
+                }
+                else {
+                    if (requestData.TypeId == item.TypeId)
+                    {
+                        alert("You have already added workload type of " + requestData.SelectedType);
+                        successfully = false;
+                    }
+                }
+            })
+
+            if (!successfully)
+                return;
             return requestData;
         }
 
@@ -269,6 +301,7 @@
                 list[counter] = row;
                 counter++;
                 drawRow(row);
+                countTotalHours();
             }
         }
 
@@ -284,6 +317,43 @@
             row.append($('<td> <button type="button" class="btn btn-sm btn-danger .btn-sx" onclick="deleteRow(this,' + rowData.Number + ');"> Delete </button> </td>')); // this -> '+rowData.Number+'
         }
 
+
+
+
+
+        var totalHours = 0;
+        function countTotalHours() {
+            totalHours = 0;
+            list.forEach(function (item) {
+                totalHours += parseFloat(item.Duration);
+            });
+            $("#TotalHours").text("Total: " + totalHours);
+        }
+
+        function onSave() {
+            if (totalHours != 8) {
+                alert("Total Hours should be 8. \n If you have worked less than 8 hours, you should choose the 'Leave' type (either Sick or Unpaid leave)");
+            }
+            else {
+                $.ajax({
+                    url: '/Workload/ReceiveList',
+                    type: 'POST',
+                    data: JSON.stringify(list),
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    error: function (xhr) {
+                        alert('Error: ' + xhr.statusText);
+                    },
+                    success: function (response) {
+                        //history.pushState("", document.title, response.Url);
+                        window.location.pathname = "Workloads";
+                    },
+                    async: true,
+                    processData: false
+                });
+            }
+        }
+
         function deleteRow(td, rowNumber) {
             //$('#myTable tr').each(function (i, row) {
             //    var $row = $(row);
@@ -296,8 +366,10 @@
             //});
             $(td).closest('tr').remove();
             delete list[rowNumber];
+            countTotalHours();
             return false;
         }
+
 
     </script>
 }
