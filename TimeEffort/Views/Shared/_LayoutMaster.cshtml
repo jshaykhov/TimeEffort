@@ -43,7 +43,6 @@
             <a class="navbar-brand" href="@Url.Action("Index", "Home")"><img src="@Url.Content("~/Images/cnsHead.png")" style="height:30px" /></a>
         </div>
         <!-- /.navbar-header -->
-
         @Html.Partial("_LoginPartial")
         <!-- /.navbar-top-links -->
 
@@ -68,13 +67,19 @@
                         <a href="@Url.Action("Index", "Project")" "><i class=" fa fa-table fa-fw"></i> Projects</a>
                     </li>
                     <li>
-                        <a href="@Url.Action("Index","Monitor")" "><i class=" fa fa-archive fa-fw"></i> Monitor</a>
+                        <a href="@Url.Action("Index","Monitor")" "><i class=" fa fa-pie-chart fa-fw"></i> Monitor</a>
                     </li>
                     <li>
-                        <a href="@Url.Action("Index", "User")" "><i class=" fa fa-dashboard fa-fw"></i> Users</a>
+                        <a href="@Url.Action("Index", "User")"><i class=" fa fa-users fa-fw"></i> Users</a>
                     </li>
                     <li>
-                        <a href="@Url.Action("Index", "Role")"><i class="fa fa-eye fa-fw"></i> Roles</a>
+                        <a href="@Url.Action("Index", "Role")"><i class="fa fa-male fa-fw"></i> Roles</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Approve")"><i class=" fa fa-check-circle fa-fw"></i> Approve</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Appoint")"><i class=" fa fa-hand-o-up fa-fw"></i> Appoint</a>
                     </li>
                 </ul>
             </div>
@@ -90,8 +95,6 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     <!-- jQuery -->
     <script src="@Url.Content("~/Content/AnotherTheme/bower_components/jquery/dist/jquery.min.js")"></script>
@@ -106,5 +109,6 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="@Url.Content("~/Content/AnotherTheme/dist/js/sb-admin-2.js")"></script>
+
 </body>
 </html>
