@@ -11,7 +11,7 @@ using TimeEffortCore.Services;
 
 namespace TimeEffort.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Master, Monitor, User,CTO, Test")]
     public class WorkloadController : Controller
     {
         //---------------Singleton------------------
@@ -68,7 +68,7 @@ namespace TimeEffort.Controllers
             else
                 workloadDate = date;
             var list = WorkloadMapper.MapWorkloadsToModels(db.GetAllbyUserAndDate(userId,workloadDate));
-            return View(list);
+            return View("Workloads", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", list);
         }
         [HttpGet]
         public DateTime GetDate()
@@ -89,7 +89,7 @@ namespace TimeEffort.Controllers
             //model.Date = dateClicked;
             //CreateSelectListForDropDownWlTypes();
             //CreateSelectListForDropDownProjects();
-            return View(model);
+            return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
         [HttpPost]
@@ -105,7 +105,7 @@ namespace TimeEffort.Controllers
                 db.Insert(workload);
                 return RedirectToAction("Workloads");
             }
-            return View(model);
+            return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
         // GET: Service/Edit/5
@@ -114,7 +114,7 @@ namespace TimeEffort.Controllers
             CreateSelectListForDropDownWlTypes();
             CreateSelectListForDropDownProjects();
             var model = WorkloadMapper.MapWorkloadToModel(db.GetById(id));
-            return View(model);
+            return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
         // POST: Service/Edit/5
@@ -134,12 +134,12 @@ namespace TimeEffort.Controllers
                 }
                 CreateSelectListForDropDownWlTypes();
                 CreateSelectListForDropDownProjects();
-                return View(model);
+                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
 
             }
             catch
             {
-                return View();
+                return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml");
             }
         }
 
@@ -147,7 +147,7 @@ namespace TimeEffort.Controllers
         public ActionResult Delete(int id)
         {
             var model = WorkloadMapper.MapWorkloadToModel(db.GetById(id));
-            return View(model);
+            return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
         // POST: Service/Delete/5
@@ -164,7 +164,7 @@ namespace TimeEffort.Controllers
             {
                 CreateSelectListForDropDownWlTypes();
                 CreateSelectListForDropDownProjects();
-                return View();
+                return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml");
             }
         }
 

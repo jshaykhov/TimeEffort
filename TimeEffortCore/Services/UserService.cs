@@ -199,9 +199,13 @@ namespace TimeEffortCore.Services
             dbItem.LastName = item.LastName;
             dbItem.Email = item.Email;
             dbItem.Phone = item.Phone;
+            dbItem.Address = item.Address;
+            dbItem.Major = item.Major;
             dbItem.Project = item.Project;
             dbItem.Username = item.Username;
             dbItem.PositionID = item.PositionID;
+            dbItem.Address = item.Address;
+            dbItem.Major = item.Major;
 
             db.SaveChanges();
         }

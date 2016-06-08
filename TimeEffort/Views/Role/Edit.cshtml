@@ -1,5 +1,5 @@
 ﻿@model TimeEffort.Models.RoleViewModel
-
+@using TimeEffort.Helper
 @{
     ViewBag.Title = "Edit Role";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -17,7 +17,7 @@
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Role, new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.Role, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Role)
                 @Html.ValidationMessageFor(model => model.Role)
