@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using TimeEffort.Helper;
 using TimeEffort.Mappers;
 using TimeEffort.Models;
+using TimeEffortCore.Entities;
 using TimeEffortCore.Services;
 
 namespace TimeEffort.Controllers
@@ -166,6 +167,40 @@ namespace TimeEffort.Controllers
                 return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml");
             }
         }
+
+        [HttpGet]
+        public ActionResult ReceiveList()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ReceiveList(List<RequestDataJson> query)
+        {
+            var userId = db.GetUserByUsername(User.Identity.Name);
+            foreach (RequestDataJson item in query)
+            {
+                if (item != null) { 
+                    var tempWorkload = new Workload
+                    {
+                        ApprovedCTO = false,
+                        ApprovedMaster = false,
+                        ApprovedPM = false,
+                        Date = item.Date,
+                        Duration = 4,
+                        ProjectID = item.ProjectId.GetValueOrDefault(),
+                        UserID = userId,
+                        WorkloadTypeID = item.TypeId,
+                        Note = item.Notes
+                    };
+                    db.Insert(tempWorkload);
+                }
+            }
+
+            return Json(new { response = "Successfully completed" }, JsonRequestBehavior.DenyGet);
+        }
+
+
         private void CreateSelectListForDropDownWlTypes()
         {
             
