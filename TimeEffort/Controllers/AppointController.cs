@@ -7,7 +7,7 @@ using TimeEffort.Helper;
 using TimeEffort.Mappers;
 using TimeEffort.Models;
 using TimeEffortCore.Services;
-
+using PagedList;
 namespace TimeEffort.Controllers
 {
     public class AppointController : Controller
@@ -31,11 +31,17 @@ namespace TimeEffort.Controllers
 
         //
         // GET: /Appoint/
-        public ActionResult Index()
+        public ActionResult Index (int? page)
         {
+            var model= new PagingModel();
             var allAppoints = Service.GetAll();
             var list = AppointMapper.MapAppointsToModels(allAppoints);
-            return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", list);
+            //Add paging
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            model.Paging = list.ToPagedList(pageNumber, pageSize);
+            model.AppointList = list;
+            return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
            
         }
 

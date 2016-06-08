@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,8 +8,17 @@ using TimeEffortCore.Entities;
 
 namespace TimeEffort.Models
 {
+    public class PagingModel
+    {
+        public IPagedList<AppointViewModel> Paging { get; set; }
+
+        public List<AppointViewModel> AppointList { get; set; }
+
+    }
     public class AppointViewModel
     {
+
+        public int TotalPages { get; set; }
         public int Id { get; set; }
 
         [Display(Name = "User ID")]     
@@ -36,6 +46,7 @@ namespace TimeEffort.Models
         [Display(Name = "Role")]
         public string Role { get; set; }
 
+        
     }
 
     public class AppointCreateModel
@@ -54,6 +65,6 @@ namespace TimeEffort.Models
 
     }
 
-  
+   
        
 }

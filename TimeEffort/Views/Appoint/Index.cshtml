@@ -1,4 +1,5 @@
-﻿@model IEnumerable<TimeEffort.Models.AppointViewModel>
+﻿@using PagedList.Mvc;
+@model TimeEffort.Models.PagingModel
 
 @{
     ViewBag.Title = "Index";
@@ -11,18 +12,18 @@
     <tr>
         
         <th>
-            @Html.DisplayNameFor(model => model.User)
+            @Html.DisplayNameFor(model => model.Paging[0].User)
         </th>
                 <th>
-            @Html.DisplayNameFor(model => model.Project)
+            @Html.DisplayNameFor(model => model.Paging[0].Project)
         </th>
          <th>
-            @Html.DisplayNameFor(model => model.Role)
+            @Html.DisplayNameFor(model => model.Paging[0].Role)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Paging) {
     <tr>
         
         <td>
@@ -44,3 +45,9 @@
 }
 
 </table>
+<br />
+<span>Page</span>
+@(Model.Paging.PageCount < Model.Paging.PageNumber ? 0 : Model.Paging.PageNumber) <span>of</span>
+@Model.Paging.PageCount
+@Html.PagedListPager(Model.Paging, page => Url.Action("Index", new { page }))
+
