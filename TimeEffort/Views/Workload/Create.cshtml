@@ -1,5 +1,4 @@
 ﻿@model TimeEffort.Models.WorkloadCreateModel
-
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_LayoutTest.cshtml";
@@ -89,15 +88,33 @@
         <th></th>
     </tr>
     <tbody id="tbody">
-        <tr>
-            <td colspan="6" align="center">Add workload(s) so that you have 8 hours in total.</td>
-        </tr>
+        @if (Model.Workloads.Count != 0)
+        {
+            foreach (var item in Model.Workloads)
+            {
+                <tr>
+                    <td>@item.WorkLoadType</td>
+                    <td>@item.Project</td>
+                    <td>@item.Date</td>
+                    <td>@item.Duration</td>
+                    <td>@item.Note</td>
+                    <td></td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" align="center">Add workload(s) so that you have 8 hours in total.</td>
+            </tr>
+        }
     </tbody>
     <tr>
         <td colspan="6">
             <div class="pull-right">
+                Total:
                 <span id="TotalHours">
-                    Total: 0
+                    @Model.Total
                 </span>
             </div>
         </td>
@@ -204,7 +221,7 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
-
+        var totalHoursPlus = 0;
         $(document).ready(function () {
             $("#myTable .deleteLink").on("click", function () {
                 var tr = $(this).closest('tr');
@@ -214,6 +231,8 @@
                 });
                 return false;
             });
+
+            totalHoursPlus = parseFloat($("#TotalHours").text());
         });
         function deleteMe() {
             var tr = $(this).closest('tr');
@@ -256,22 +275,20 @@
 
             var successfully = true;
 
-            list.forEach(function (item)
-            {
+            list.forEach(function (item) {
                 if (successfully)
-                if (requestData.SelectedType == "Work (Project)") {
-                    if (requestData.ProjectId == item.ProjectId) {
-                        alert("You have already added workload for this project for this date");
-                        successfully = false;
+                    if (requestData.SelectedType == "Work (Project)") {
+                        if (requestData.ProjectId == item.ProjectId) {
+                            alert("You have already added workload for this project for this date");
+                            successfully = false;
+                        }
                     }
-                }
-                else {
-                    if (requestData.TypeId == item.TypeId)
-                    {
-                        alert("You have already added workload type of " + requestData.SelectedType);
-                        successfully = false;
+                    else {
+                        if (requestData.TypeId == item.TypeId) {
+                            alert("You have already added workload type of " + requestData.SelectedType);
+                            successfully = false;
+                        }
                     }
-                }
             })
 
             if (!successfully)
@@ -323,11 +340,11 @@
 
         var totalHours = 0;
         function countTotalHours() {
-            totalHours = 0;
+            totalHours = totalHoursPlus;
             list.forEach(function (item) {
                 totalHours += parseFloat(item.Duration);
             });
-            $("#TotalHours").text("Total: " + totalHours);
+            $("#TotalHours").text(totalHours);
         }
 
         function onSave() {

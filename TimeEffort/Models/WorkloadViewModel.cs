@@ -69,6 +69,9 @@ namespace TimeEffort.Models
         [DataType(DataType.Duration)]
         [Display(Name = "Duration")]
         public decimal Duration { get; set; }
+
+        public List<WorkloadViewModel> Workloads { get; set; }
+        public decimal Total { get; set; }
     }
 
     [DataContract]
