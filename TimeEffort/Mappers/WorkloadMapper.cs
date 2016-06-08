@@ -55,7 +55,7 @@ namespace TimeEffort.Mappers
             {
                 Id = item.ID,
                 Date = item.Date,
-                Project = item.Project.Name,                     //pay attention
+                Project = item.Project == null ? "Overhead" : item.Project.Name,                     //pay attention
                 UserId = item.UserInfo.ID,
                 EmployeeName=item.UserInfo.FirstName+" "+item.UserInfo.LastName,
                 ApprovedPM=item.ApprovedPM,
