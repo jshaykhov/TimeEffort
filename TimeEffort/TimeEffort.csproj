@@ -172,6 +172,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AppointController.cs" />
+    <Compile Include="Controllers\ApproveController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MonitorController.cs" />
     <Compile Include="Controllers\PositionController.cs" />
@@ -1818,6 +1819,7 @@
     <Content Include="Views\Project\Create.cshtml" />
     <Content Include="Views\Appoint\Edit.cshtml" />
     <Content Include="Views\Appoint\Delete.cshtml" />
+    <Content Include="Views\Approve\Index.cshtml" />
     <None Include="XML\ProjectSchema.xsd">
       <SubType>Designer</SubType>
     </None>
