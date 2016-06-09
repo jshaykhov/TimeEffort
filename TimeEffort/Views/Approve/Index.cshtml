@@ -1,14 +1,11 @@
 ﻿@model IEnumerable<TimeEffort.Models.WorkloadViewModel>
 
 @{
-    ViewBag.Title = "Approve";
+    ViewBag.Title = "Workload approval";
 }
 
-<h2>List of approvals</h2>
+<h2>Workload approval</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -29,15 +26,14 @@
         <th>
             @Html.DisplayNameFor(model => model.Duration)
         </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.Approved)
-        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.ApprovedPM)
+        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        @Html.HiddenFor(modelItem => item.Id, htmlAttributes: new { @id="wlId"})
         <td>
             @Html.DisplayFor(modelItem => item.EmployeeName)
         </td>
@@ -56,33 +52,42 @@
         <td>
             @Html.DisplayFor(modelItem => item.Duration)
         </td>
-        <td>
-            @*@Html.DisplayFor(modelItem => item.Approved)*@
-            <button id="btnApprove" onclick="Approve()">Approve</button>
-        </td>
-
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        <td id="Approval">
+            @if (User.IsInRole("CTO"))
+            {
+                if (item.ApprovedCTO)
+                {  
+                     @Html.Raw("Approved")
+                }
+                else
+                { 
+                 @Html.ActionLink("Approve", "UpdateStatus", new { id = item.Id }, new { @class = "btn btn-sm btn-info .btn-sx" })
+            }
+            }
+            @if(User.IsInRole("Master"))
+            {
+              if (item.ApprovedMaster)
+                {  
+                   @Html.Raw("Approved")
+                }
+                else
+                { 
+                @Html.ActionLink("Approve", "UpdateStatus", new { id=item.Id },new { @class = "btn btn-sm btn-info .btn-sx" })
+            }
+            }
+            @if (!User.IsInRole("Master") && !User.IsInRole("CTO"))
+            { 
+            if (item.ApprovedPM)
+                {  
+                   @Html.Raw("Approved")
+                }
+                else
+                { 
+                @Html.ActionLink("Approve", "UpdateStatus", new { id = item.Id }, new { @class = "btn btn-sm btn-info .btn-sx" })
+            }
+            }
         </td>
     </tr>
 }
 
 </table>
-
-<script>
-    function Approve()
-    {
-        var url = "/Approve/UpdateStatus";
-        var id = $('#wlId').val();
-        var request = $.ajax({
-            url: url + "?id=" + id,
-            type: "GET",
-            contentType: "application/json",
-            dataType: "json"
-        });
-        request.done(function (approved) {
-            $("#btnApprove").disabled = approved;
-        });
-    }
-</script>

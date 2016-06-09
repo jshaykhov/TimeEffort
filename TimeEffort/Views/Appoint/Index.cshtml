@@ -1,0 +1,53 @@
+﻿@using PagedList.Mvc;
+@model TimeEffort.Models.PagingModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<p>
+    @Html.ActionLink("Appoint New", "Create")
+</p>
+<table class="table">
+    <tr>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.Paging[0].User)
+        </th>
+                <th>
+            @Html.DisplayNameFor(model => model.Paging[0].Project)
+        </th>
+         <th>
+            @Html.DisplayNameFor(model => model.Paging[0].Role)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Paging) {
+    <tr>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.User)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Project)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Role)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+<br />
+<span>Page</span>
+@(Model.Paging.PageCount < Model.Paging.PageNumber ? 0 : Model.Paging.PageNumber) <span>of</span>
+@Model.Paging.PageCount
+@Html.PagedListPager(Model.Paging, page => Url.Action("Index", new { page }))
+

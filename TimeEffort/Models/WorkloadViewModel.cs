@@ -13,6 +13,8 @@ namespace TimeEffort.Models
         public int Id { get; set; }
 
         public int UserId { get; set; }
+
+         [Display(Name = "Employee")]
         public string EmployeeName { get; set; }
         [Required]
         [Display(Name = "Project")]
