@@ -1820,6 +1820,7 @@
     <Content Include="Views\Appoint\Edit.cshtml" />
     <Content Include="Views\Appoint\Delete.cshtml" />
     <Content Include="Views\Approve\Index.cshtml" />
+    <Content Include="Views\Workload\Test.cshtml" />
     <None Include="XML\ProjectSchema.xsd">
       <SubType>Designer</SubType>
     </None>
