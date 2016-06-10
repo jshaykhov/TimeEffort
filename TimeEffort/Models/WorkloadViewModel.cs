@@ -104,13 +104,21 @@ namespace TimeEffort.Models
         public string SelectedProject { get; set; }
     }
 
-    [DataContract]
-    public class WorkloadCreateJson
-    {
 
-        [DataMember(Name = "list")]
-        public List<RequestDataJson> Workloads { get; set; }
+    public class CalendarReturningModel
+    {
+        public DateTime Monday { get; set; }
+        public List<Workload> Workloads { get; set; }
     }
+
+    public class CalendarDetails
+    {
+        public DateTime Date { get; set; }
+        public WorkloadType Type { get; set; }
+        public decimal Duration { get; set; }
+    }
+
+
 
 
 }
