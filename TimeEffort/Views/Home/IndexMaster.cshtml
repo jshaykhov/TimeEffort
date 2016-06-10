@@ -68,9 +68,31 @@
                         </div>
                     </div>
                 </div>
-                <a href="#">
+                <a href="@Url.Action("Index","Appoint")">
                     <div class="panel-footer">
                         <span class="pull-left">Appoint</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-check-circle fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">Approve</div>
+                            <div align="justify">Here you can approve submitted workloads by employees, view approved workloads.</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action("Index","Approve")">
+                    <div class="panel-footer">
+                        <span class="pull-left">View approvals</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                         <div class="clearfix"></div>
                     </div>
@@ -82,29 +104,30 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-pie-chart fa-5x"></i>
+                            <i class="fa fa-male fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">Monitor</div>
-                            <div align="justify">Monitor employees workload's, project members' and administrative staff's works, as well as annual, unpaid and sick leaves.</div>
+                            <div class="huge">Roles</div>
+                            <div align="justify">Manage roles the employees can be assigned within the projects.</div>
                         </div>
                     </div>
                 </div>
-                <a href="@Url.Action("Index","Monitor")">
+                <a href="@Url.Action("Index","Role")">
                     <div class="panel-footer">
-                        <span class="pull-left">Monitor</span>
+                        <span class="pull-left">View roles</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                         <div class="clearfix"></div>
                     </div>
                 </a>
             </div>
         </div>
+      
         <div class="col-lg-6 col-md-6">
-            <div class="panel panel-red">
+            <div class="panel panel-yellow">
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-suitcase fa-5x"></i>
+                            <i class="fa fa-users fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge">Users</div>
@@ -121,22 +144,23 @@
                 </a>
             </div>
         </div>
+
         <div class="col-lg-6 col-md-6">
-            <div class="panel panel-green">
+            <div class="panel panel-info">
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-eye fa-5x"></i>
+                            <i class="fa fa-pie-chart fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">Roles</div>
-                            <div align="justify">Manage roles the employees can be assigned within the projects.</div>
+                            <div class="huge">Monitor</div>
+                            <div align="justify">Monitor employees workload's, project members' and administrative staff's works, as well as annual, unpaid and sick leaves.</div>
                         </div>
                     </div>
                 </div>
-                <a href="@Url.Action("Index","Role")">
+                <a href="@Url.Action("Index","Monitor")">
                     <div class="panel-footer">
-                        <span class="pull-left">View roles</span>
+                        <span class="pull-left">Monitor</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                         <div class="clearfix"></div>
                     </div>

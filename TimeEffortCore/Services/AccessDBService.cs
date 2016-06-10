@@ -42,5 +42,73 @@ namespace TimeEffortCore.Services
 
         }
 
+        //Getting all
+        public List<Access> GetAll()
+        {
+            return db.Access.ToList();
+        }
+        public List<UserInfo> GetAllUsers()
+        {
+            return db.UserInfo.ToList();
+        }
+
+
+        //nargiza
+        //Project
+        public List<Project> GetAllProjects()
+        {
+            return db.Project.ToList();
+        }
+
+        
+        //User
+        public int GetUserByUsername(string username)
+        {
+            var user = db.UserInfo.FirstOrDefault(u => u.Username == username);
+            if (user == null)
+                throw new ArgumentNullException("User not found");
+            return user.ID;
+
+        }
+        public List<Role> GetAllRoles()
+        {
+            return db.Role.ToList();
+        }
+        public void Insert(Access item)
+        {
+            db.Access.Add(item);
+            db.SaveChanges();
+        }
+        public Access GetById(int Id)
+        {
+            var item = db.Access.FirstOrDefault(p => p.ID == Id);
+            if (item == null)
+                throw new ArgumentNullException("Appointment does not exist");
+            return item;
+        }
+        //EDITING
+        public void Update(Access item)
+        {
+            var dbItem = db.Access.FirstOrDefault(p => p.ID == item.ID);
+            if (dbItem == null)
+                throw new ArgumentNullException("Appointment does not exist");
+            dbItem.UserID = item.UserID;
+
+            dbItem.ProjectID = item.ProjectID;
+
+            dbItem.RoleID = item.RoleID;
+
+            db.SaveChanges();
+        }
+
+        //DELETING THE APPOINTMENT
+        public void Delete(int itemId)
+        {
+            var item = db.Access.FirstOrDefault(p => p.ID == itemId);
+            if (item == null)
+                throw new ArgumentNullException("You cannot delete an appointment");
+            db.Access.Remove(item);
+            db.SaveChanges();
+        }
     }
 }

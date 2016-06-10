@@ -50,12 +50,14 @@ namespace TimeEffortCore.Services
             return item;
         }
 
-        public void UpdateApproveStatus(int id)
+        public void UpdateApproveStatus(int id, bool master, bool pm, bool cto)
         {
             var dbItem = db.Workload.FirstOrDefault(w => w.ID == id);
             if (dbItem == null)
                 throw new ArgumentNullException("Workload does not exist");
-            dbItem.ApprovedPM = true;
+            dbItem.ApprovedPM = pm;
+            dbItem.ApprovedMaster = master;
+            dbItem.ApprovedCTO = cto;
             db.SaveChanges();
         }
         public void Update(Workload item)
