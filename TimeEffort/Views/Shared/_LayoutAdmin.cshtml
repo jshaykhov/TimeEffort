@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title | Time Effort</title>
     <link rel="stylesheet" href="@Url.Content("~/Content/fullcalendar.css")" />
+
     <script src="@Url.Content("~/Scripts/jquery.min.js")"></script>
     <script src="@Url.Content("~/Scripts/moment.min.js")"></script>
     <script src="@Url.Content("~/Scripts/fullcalendar.js")"></script>
@@ -31,6 +32,20 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="@Url.Content("~/Content/AnotherTheme/dist/js/sb-admin-2.js")"></script>
+
+    <style type="text/css">
+
+        .editable input[type=submit] {
+            color: #F00;
+            font-weight: bold;
+        }
+
+        .editable input[type=button] {
+            color: #0F0;
+            font-weight: bold;
+        }
+    </style>
+
 </head>
 <body>
     <!-- Navigation -->
@@ -71,7 +86,7 @@
                         <a href="@Url.Action("Index", "Project")"><i class=" fa fa-file-powerpoint-o fa-fw"></i> Projects</a>
                     </li>
                     <li>
-                        <a href="@Url.Action("Index","Monitor")" "><i class=" fa fa-pie-chart fa-fw"></i> Monitor</a>
+                        <a href="@Url.Action("Index","Monitor")"><i class=" fa fa-pie-chart fa-fw"></i> Monitor</a>
                     </li>
                     <li>
                         <a href="@Url.Action("Index", "User")"><i class=" fa fa-users fa-fw"></i> Users</a>
@@ -118,5 +133,12 @@
     <script src="@Url.Content("~/Content/AnotherTheme/bower_components/morrisjs/morris.min.js")"></script>
     <script src="@Url.Content("~/Content/AnotherTheme/js/morris-data.js")"></script>
 
+
+    <script src="http://www.appelsiini.net/projects/jeditable/jquery.jeditable.js"></script>
+    <script src="@Url.Content("~/Scripts/jquery.jeditable.js")" type="text/javascript" charset="utf-8"></script>
+
+    <link rel="stylesheet" type="text/css" href="http://www.prepbootstrap.com/Content/shieldui-lite/dist/css/light/all.min.css" />
+    <script type="text/javascript" src="http://www.prepbootstrap.com/Content/shieldui-lite/dist/js/shieldui-lite-all.min.js"></script>
+    <script type="text/javascript" src="http://www.prepbootstrap.com/Content/data/shortGridData.js"></script>
 </body>
 </html>

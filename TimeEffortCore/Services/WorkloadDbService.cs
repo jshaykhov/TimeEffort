@@ -53,7 +53,7 @@ namespace TimeEffortCore.Services
         public List<Workload> GetWorkloadsByUser(string name)
         {
             var user = GetByName(name);
-            return db.Workload.Where(w => w.UserID == user.ID).ToList();
+            return db.Workload.Include("WorkloadType").Include("Project").Where(w => w.UserID == user.ID).ToList();
         }
 
         public void UpdateApproveStatus(int id, bool master, bool pm, bool cto)

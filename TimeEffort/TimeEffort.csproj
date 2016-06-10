@@ -1741,6 +1741,7 @@
     <Content Include="Content\AnotherTheme\less\mixins.less" />
     <Content Include="Content\AnotherTheme\less\sb-admin-2.less" />
     <Content Include="Content\AnotherTheme\less\variables.less" />
+    <Content Include="Scripts\jquery.jeditable.js" />
     <Content Include="XML\ProjectToCSV.xslt" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
