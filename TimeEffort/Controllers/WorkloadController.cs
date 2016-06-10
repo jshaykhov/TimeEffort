@@ -193,7 +193,7 @@ namespace TimeEffort.Controllers
                         ApprovedMaster = false,
                         ApprovedPM = false,
                         Date = item.Date,
-                        Duration = 4,
+                        Duration = decimal.Parse(item.Duration),
                         ProjectID = item.ProjectId.GetValueOrDefault(),
                         UserID = userId,
                         WorkloadTypeID = item.TypeId,
