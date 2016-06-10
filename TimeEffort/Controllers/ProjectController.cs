@@ -259,10 +259,10 @@ namespace TimeEffort.Controllers
                             new XElement("Code", project.Code),
                             new XElement("ContactUSD", project.ContractUSD),
                             new XElement("ContractUZS", project.ContractUZS),
-                            new XElement("ManagerID", project.ManagerID),
+                            new XElement("Manager", project.UserInfo.FirstName),
                             new XElement("StartDate", project.StartDate),
                              new XElement("EndDate", project.EndDate)
-                            // project.Updated.HasValue ? new XElement("Updated", project) : null
+                           
                             ));
                     xDoc.Add(xElement);
                 }
