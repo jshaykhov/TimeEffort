@@ -18,6 +18,8 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.UI.WebControls;
 using System.Web.UI;
+using System.Xml.Linq;
+using System.Xml.Schema;
 
 namespace TimeEffort.Controllers
 {
@@ -124,7 +126,90 @@ namespace TimeEffort.Controllers
                 Id = 0
             }).ToList();
         }
+        //EXPORT TO CSV
+        public ActionResult ExportCSV()
+        {
+            var xDoc = new XDocument();
+            xDoc.Add(new XProcessingInstruction("xml-stylesheet", "type='text/xsl' href='/xml/ProjectToCSV.xslt'"));
 
+            xDoc.Declaration = new XDeclaration("1.0", "utf-8", null);
+            var workloads = db.GetAll();
+            if (workloads.Count > 0)
+            {
+                var xElement = new XElement("Workloads",
+                    from workload in workloads
+                    select new XElement("Workload",
+                        new XElement("Id", workload.ID),
+                        new XElement("Date", workload.Date),
+                        new XElement("UserInfo", workload.UserInfo.LastName+workload.UserInfo.FirstName),
+                        new XElement("Project", workload.Project ==null ? "": workload.Project.Name),
+                        new XElement("Duration", workload.Duration),
+                        new XElement("ApprovedCTO", workload.ApprovedCTO),
+                        new XElement("ApprovedMaster", workload.ApprovedMaster),
+                        new XElement("ApprovedPM", workload.ApprovedPM),
+                        new XElement("Note", workload.Note),
+                        new XElement("WorkloadType", workload.WorkloadType.Name)
+                        
+                        ));
+                xDoc.Add(xElement);
+            }
+            XmlSchemaSet schemas = new XmlSchemaSet();
+            schemas.Add("", "http://" + System.Web.HttpContext.Current.Request.Url.Authority + "/xml/ProjectSchema.xsd");
+            var errors = false;
+            var eMessage = "";
+            xDoc.Validate(schemas, (o, e) =>
+            {
+                eMessage = e.Message;
+                errors = true;
+            }, true);
+            if (errors)
+                xDoc = new XDocument(new XDeclaration("1.0", "utf-8", null), new XElement("Error", eMessage));
+
+            StringWriter sw = new StringWriter();
+
+            xDoc.Save(sw);
+            var context = System.Web.HttpContext.Current;
+            context.Response.Clear();
+            context.Response.Write(sw.ToString());
+            context.Response.ContentType = "text/xml";
+            context.Response.End();
+            return View();
+        }
+        // GET: ExportData
+        public ActionResult ExportToExcel()
+        {
+            // Step 1 - get the data from database
+            var data = db.GetAll();
+            
+            // instantiate the GridView control from System.Web.UI.WebControls namespace
+            // set the data source
+            GridView gridview = new GridView();
+            gridview.DataSource = data;
+            gridview.DataBind();
+
+            // Clear all the content from the current response
+            Response.ClearContent();
+            Response.Buffer = true;
+            // set the header
+            Response.AddHeader("content-disposition", "attachment;filename=itfunda.xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "";
+            // create HtmlTextWriter object with StringWriter
+            using (StringWriter sw = new StringWriter())
+            {
+                using (HtmlTextWriter htw = new HtmlTextWriter(sw))
+                {
+                    // render the GridView to the HtmlTextWriter
+                    gridview.RenderControl(htw);
+                    // Output the GridView content saved into StringWriter
+                    Response.Output.Write(sw.ToString());
+                    Response.Flush();
+                    Response.End();
+                }
+            }
+            return View();
+
+        }
         
 
        

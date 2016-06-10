@@ -21,7 +21,7 @@ namespace TimeEffort.Models
         public int TotalPages { get; set; }
         public int Id { get; set; }
 
-        [Display(Name = "User ID")]     
+        [Display(Name = "User")]     
         public int UserID { get; set; }
 
        
@@ -30,7 +30,7 @@ namespace TimeEffort.Models
         public string User { get; set; }
 
 
-        [Display(Name = "Project ID")]
+        [Display(Name = "Project")]
         public int ProjectID { get; set; }
 
        
@@ -38,7 +38,7 @@ namespace TimeEffort.Models
          [Display(Name = "Project name")]
         public string Project { get; set; }
 
-         [Display(Name = "Role ID")]       
+         [Display(Name = "Role ")]       
         public int RoleID { get; set; }
 
        
