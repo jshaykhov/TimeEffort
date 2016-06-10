@@ -85,10 +85,16 @@ namespace TimeEffort.Controllers
                 model.Projects = HelperUser.GetAllInvolvedProjects(User);
             }
             model.Date = dateClicked;
-            //var model = new WorkloadViewModel();
-            //model.Date = dateClicked;
-            //CreateSelectListForDropDownWlTypes();
-            //CreateSelectListForDropDownProjects();
+
+            int userId = db.GetUserByUsername(User.Identity.Name);
+
+            model.Workloads = WorkloadMapper.MapWorkloadsToModels(db.GetAllbyUserAndDate(userId, dateClicked));
+
+            model.Total = 0;
+
+            foreach (var item in model.Workloads)
+                model.Total += item.Duration;
+
             return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
@@ -187,7 +193,7 @@ namespace TimeEffort.Controllers
                         ApprovedMaster = false,
                         ApprovedPM = false,
                         Date = item.Date,
-                        Duration = 4,
+                        Duration = decimal.Parse(item.Duration),
                         ProjectID = item.ProjectId.GetValueOrDefault(),
                         UserID = userId,
                         WorkloadTypeID = item.TypeId,
