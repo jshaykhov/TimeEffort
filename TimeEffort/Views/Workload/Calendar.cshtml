@@ -189,9 +189,29 @@
         <thead>
             <tr>
                 <th colspan="2"><div style="text-align:center"><h3>Week</h3></div></th>
-                <th id="previous"><div style="text-align:center"> <i class="fa fa-caret-left fa-3x"></i></div></th>
+                <th id="previous">
+                    @{var tempDatePrev = Model.Monday.AddDays(-7);
+                    var tempDateNext = Model.Monday.AddDays(7);}
+                    <div style="text-align:center">
+                        @using (Html.BeginForm("DiffCalendar", "Workload", FormMethod.Get))
+                        {
+
+                            <input type="hidden" name="today" id="today" value="@Model.Monday.AddDays(-7).ToString("dd.MM.yyyy")" />
+                            <button type="submit"><i class="fa fa-caret-left fa-3x"></i></button>
+                        }
+                    </div>
+                </th>
                 <th colspan="5"><div style="text-align:center"><h3>@Model.Monday.ToString("dd MMM yyyy") - @Model.Monday.AddDays(6).ToString("dd MMM yyyy")</h3></div></th>
-                <th id="next"><div style="text-align:center"> <i class="fa fa-caret-right fa-3x"></i></div></th>
+                <th id="next">
+                    <div style="text-align:center">
+                        @using (Html.BeginForm("DiffCalendar", "Workload", FormMethod.Get))
+                        {
+
+                            <input type="hidden" name="today" id="today" value="@Model.Monday.AddDays(7).ToString("dd.MM.yyyy")" />
+                            <button type="submit"><i class="fa fa-caret-right fa-3x"></i></button>
+                        }
+                    </div>
+                </th>
             </tr>
             <tr id="weekDays">
                 <td colspan="2" align="center">Days</td>
@@ -591,7 +611,6 @@
 
 <script>
     $('document').ready(function () {
-        var monday = getMonday(new Date());
 
     })
 
@@ -609,13 +628,10 @@
 
     }
 
-
-
-
-
-
-
-
+    function Previous(date)
+    {
+        window.location.href = "/Workload/Calendar?date=" + date
+    }
 
     function getMonday(date) {
         var day = date.getDay() || 7;

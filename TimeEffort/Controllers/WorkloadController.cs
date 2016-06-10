@@ -317,10 +317,19 @@ namespace TimeEffort.Controllers
 
         }
 
-        [HttpPost]
-        public ActionResult Calendar(DateTime? today)
+        public ActionResult DiffCalendar(string today)
         {
-            return View(GetCalendarResults(today));
+            try {
+                    var temp = DateTime.Parse(today);
+                    var model = new CalendarReturningModel();
+                    model.Monday = GetMonday(temp);
+                    model.Workloads = db.GetWorkloadsByUser(User.Identity.Name).FindAll(x => x.Date >= model.Monday && x.Date <= model.Monday.AddDays(7));
+                    return View("Calendar", model);
+                }
+            catch (Exception e) { 
+                return View("Index");
+            }
+            
         }
     }
 }
