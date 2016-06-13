@@ -14,6 +14,16 @@
           <Property Name="ProjectID" Type="int" Nullable="false" />
           <Property Name="RoleID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TIN" Type="nchar" MaxLength="9" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="Phone" Type="nchar" MaxLength="13" />
+        </EntityType>
         <EntityType Name="Position">
           <Key>
             <PropertyRef Name="ID" />
@@ -34,6 +44,8 @@
           <Property Name="StartDate" Type="datetime" Nullable="false" />
           <Property Name="EndDate" Type="datetime" Nullable="false" />
           <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="CType" Type="text" />
+          <Property Name="CustomerId" Type="int" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -127,6 +139,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Project_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Project_UserInfo">
           <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -186,6 +210,7 @@
         <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="time_trackerModelStoreContainer">
           <EntitySet Name="Access" EntityType="Self.Access" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
@@ -204,6 +229,10 @@
           <AssociationSet Name="FK_Access_UserInfo" Association="Self.FK_Access_UserInfo">
             <End Role="UserInfo" EntitySet="UserInfo" />
             <End Role="Access" EntitySet="Access" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_Customer" Association="Self.FK_Project_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Project" EntitySet="Project" />
           </AssociationSet>
           <AssociationSet Name="FK_Project_UserInfo" Association="Self.FK_Project_UserInfo">
             <End Role="UserInfo" EntitySet="UserInfo" />
@@ -254,6 +283,9 @@
           <NavigationProperty Name="Access" Relationship="Self.FK_Access_Project" FromRole="Project" ToRole="Access" />
           <NavigationProperty Name="Workload" Relationship="Self.FK_Workload_Project" FromRole="Project" ToRole="Workload" />
           <NavigationProperty Name="UserInfo" Relationship="time_trackerModel.FK_Project_UserInfo" FromRole="Project" ToRole="UserInfo" />
+          <Property Name="CType" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerId" Type="Int32" />
+          <NavigationProperty Name="Customer" Relationship="time_trackerModel.FK_Project_Customer" FromRole="Project" ToRole="Customer" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -473,6 +505,11 @@
             <End Role="UserInfo" EntitySet="UserInfo" />
             <End Role="Project" EntitySet="Project" />
           </AssociationSet>
+          <EntitySet Name="Customer" EntityType="time_trackerModel.Customer" />
+          <AssociationSet Name="FK_Project_Customer" Association="time_trackerModel.FK_Project_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -494,6 +531,29 @@
             </Principal>
             <Dependent Role="Project">
               <PropertyRef Name="ManagerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TIN" Type="String" Nullable="false" MaxLength="9" FixedLength="true" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="13" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Project" Relationship="time_trackerModel.FK_Project_Customer" FromRole="Customer" ToRole="Project" />
+        </EntityType>
+        <Association Name="FK_Project_Customer">
+          <End Type="time_trackerModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="time_trackerModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="CustomerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -524,6 +584,8 @@
           <EntitySetMapping Name="Project">
             <EntityTypeMapping TypeName="time_trackerModel.Project">
               <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="CType" ColumnName="CType" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
@@ -619,6 +681,17 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="time_trackerModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="time_trackerModel.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="Customer">
+            <EntityTypeMapping TypeName="time_trackerModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="TIN" ColumnName="TIN" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
