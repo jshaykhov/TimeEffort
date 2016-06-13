@@ -607,13 +607,6 @@
         </tbody>
     </table>
 
-    <h2>Different events</h2>
-    <p>
-        <b class="click" style="display: inline">Click me if you dare!</b></> or maybe you should
-        <b class="dblclick" style="display: inline">doubleclick</b> instead? Really lazy people can just
-        <b class="mouseover" style="display: inline">mouseover me</b>...
-    </p>
-
 </div>
 
 
@@ -630,172 +623,20 @@
     </div>
 </div>*@
 
-<script type="text/javascript" charset="utf-8">
 
-    $(function () {
-
-        $(".editable_select").editable("http://www.appelsiini.net/projects/jeditable/php/save.php", {
-            indicator: '<img src="img/indicator.gif">',
-            data: "{'Lorem ipsum':'Lorem ipsum','Ipsum dolor':'Ipsum dolor','Dolor sit':'Dolor sit'}",
-            type: "select",
-            submit: "OK",
-            style: "inherit",
-            submitdata: function () {
-                return { id: 2 };
-            }
-        });
-        $(".editable_select_json").editable("http://www.appelsiini.net/projects/jeditable/php/save.php", {
-            indicator: '<img src="img/indicator.gif">',
-            loadurl: "http://www.appelsiini.net/projects/jeditable/php/json.php",
-            type: "select",
-            submit: "OK",
-            style: "inherit"
-        });
-        $(".editable_textarea").editable("http://www.appelsiini.net/projects/jeditable/php/save.php", {
-            indicator: "<img src='img/indicator.gif'>",
-            type: 'textarea',
-            submitdata: { _method: "put" },
-            select: true,
-            submit: 'OK',
-            cancel: 'cancel',
-            cssclass: "editable"
-        });
-        $(".editable_textile").editable("http://www.appelsiini.net/projects/jeditable/php/save.php?renderer=textile", {
-            indicator: "<img src='img/indicator.gif'>",
-            loadurl: "http://www.appelsiini.net/projects/jeditable/php/load.php",
-            type: "textarea",
-            submit: "OK",
-            cancel: "Cancel",
-            tooltip: "Click to edit..."
-        });
-
-        $(".click").editable("http://www.appelsiini.net/projects/jeditable/php/echo.php", {
-            indicator: "<img src='img/indicator.gif'>",
-            style: "inherit"
-        });
-        $(".dblclick").editable("http://www.appelsiini.net/projects/jeditable/php/echo.php", {
-            indicator: "<img src='img/indicator.gif'>",
-            tooltip: "Doubleclick to edit...",
-            event: "dblclick",
-            style: "inherit"
-        });
-
-        $(".duartion").editable("http://www.appelsiini.net/projects/jeditable/php/echo.php", {
-            indicator: "<img src='img/indicator.gif'>",
-            tooltip: "Click to edit...",
-            style: "inherit"
-        });
-        $(".mouseover").editable("http://www.appelsiini.net/projects/jeditable/php/echo.php", {
-            indicator: "<img src='img/indicator.gif'>",
-            tooltip: "Move mouseover to edit...",
-            event: "mouseover",
-            style: "inherit"
-        });
-
-        /* Should not cause error. */
-        $("#nosuch").editable("http://www.appelsiini.net/projects/jeditable/php/echo.php", {
-            indicator: "<img src='img/indicator.gif'>",
-            type: 'textarea',
-            submit: 'OK'
-        });
-
-    });
-</script>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#grid").shieldGrid({
-            dataSource: {
-                data: gridData,
-                schema: {
-                    fields: {
-                        id: { path: "id", type: Number },
-                        age: { path: "age", type: Number },
-                        name: { path: "name", type: String },
-                        company: { path: "company", type: String },
-                        month: { path: "month", type: Date },
-                        isActive: { path: "isActive", type: Boolean },
-                        email: { path: "email", type: String },
-                        transport: { path: "transport", type: String }
-                    }
-                }
-            },
-            sorting: {
-                multiple: true
-            },
-            rowHover: false,
-            columns: [
-                { field: "name", title: "Person Name", width: "120px" },
-                { field: "age", title: "Age", width: "80px" },
-                { field: "company", title: "Company Name" },
-                { field: "month", title: "Date of Birth", format: "{0:MM/dd/yyyy}", width: "120px" },
-                { field: "isActive", title: "Active" },
-                { field: "email", title: "Email Address", width: "250px" },
-                { field: "transport", title: "Custom Editor", width: "120px", editor: myCustomEditor },
-                {
-                    width: "104px",
-                    title: "Delete Column",
-                    buttons: [
-                        { cls: "deleteButton", commandName: "delete", caption: "<img src='http://www.prepbootstrap.com/Content/images/template/BootstrapEditableGrid/delete.png' /><span>Delete</span>" }
-                    ]
-                }
-            ],
-            editing: {
-                enabled: true,
-                event: "click",
-                type: "cell",
-                confirmation: {
-                    "delete": {
-                        enabled: true,
-                        template: function (item) {
-                            return "Delete row with ID = " + item.id
-                        }
-                    }
-                }
-            },
-            events:
-            {
-                getCustomEditorValue: function (e) {
-                    e.value = $("#dropdown").swidget().value();
-                    $("#dropdown").swidget().destroy();
-                }
-            }
-        });
-
-        function myCustomEditor(cell, item) {
-            $('<div id="dropdown"/>')
-                .appendTo(cell)
-                .shieldDropDown({
-                    dataSource: {
-                        data: ["motorbike", "car", "truck"]
-                    },
-                    value: !item["transport"] ? null : item["transport"].toString()
-                }).swidget().focus();
-        }
-    });
-</script>
-
-<style type="text/css">
-    .sui-button-cell {
-        text-align: center;
-    }
-
-    .sui-checkbox {
-        font-size: 17px !important;
-        padding-bottom: 4px !important;
-    }
-
-    .deleteButton img {
-        margin-right: 3px;
-        vertical-align: bottom;
-    }
-
-    .bigicon {
-        color: #5CB85C;
-        font-size: 20px;
-    }
-</style>
-
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Input failed</h4>
+            </div>
+            <div class="modal-body">
+                Your input cannot be more than 24 or less than 0.5 hours. Please try again.
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -804,6 +645,44 @@
     $('document').ready(function () {
 
     })
+
+    $(window).keydown(function (event) {
+        //ловим событие нажатия клавиши
+        if (event.keyCode == 13) {	//если это Enter
+            $('#edit').blur();	//снимаем фокус с поля ввода
+        }
+    });
+
+    $(function () {
+        $('td').click(function (e) {
+            //ловим элемент, по которому кликнули
+            var t = e.target || e.srcElement;
+            //получаем название тега
+            var elm_name = t.tagName.toLowerCase();
+            //если это инпут - ничего не делаем
+            if (elm_name == 'input') { return false; }
+            var valu = $(this).html();
+            var code = '<input type="number" id="edit" value=' + valu + ' min="0.5" max="24" step="0.5" />';
+            $(this).empty().append(code);
+            $('#edit').focus();
+            $('#edit').blur(function () {
+                var val = $(this).val();
+                if(checkInput(val)){
+                    $(this).parent().empty().html(val);
+                }
+                $(this).parent().empty().html(valu);
+            });
+        });
+    });
+
+    function checkInput(hours)
+    {
+        if (hours > 24 || hours < 0.5) {
+            $('#myModal').modal('show');
+            return false
+        }
+        return true;        
+    }
 
     function setAllDates(monday) {
         $('#Mon').text("Mon " + monday); monday.addDays(1);
@@ -836,5 +715,4 @@
         dat.setDate(dat.getDate() + days);
         return dat;
     }
-
 </script>
