@@ -114,6 +114,9 @@
     <Compile Include="Entities\Access.cs">
       <DependentUpon>dbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Customer.cs">
+      <DependentUpon>dbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\dbModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -159,6 +162,7 @@
     <Compile Include="Exceptions\UserExceptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AccessDBService.cs" />
+    <Compile Include="Services\CustomerDBService.cs" />
     <Compile Include="Services\WloadTypeDBService.cs" />
     <Compile Include="Services\ProjectDBService.cs" />
     <Compile Include="Services\PositionDBService.cs" />
