@@ -17,9 +17,9 @@
 
         <div class="form-group">
             @Html.LabelForRequired(model => model.Role, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Role)
-                @Html.ValidationMessageFor(model => model.Role)
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
             </div>
         </div>
 

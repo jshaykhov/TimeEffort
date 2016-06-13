@@ -53,6 +53,7 @@ namespace TimeEffort.Models
         [Required]
         [DataType(DataType.Password)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
+        [CompareAttribute("Password", ErrorMessage = "Repeat password mismatch")]
         [Display(Name = "Repeat password")]
         public string RepeatPassword { get; set; }
      
