@@ -8,12 +8,17 @@ using TimeEffortCore.Entities;
 
 namespace TimeEffort.Models
 {
-    public class PagingModel
+    public class AppointCreateModel
     {
-        public IPagedList<AppointViewModel> Paging { get; set; }
+        public List<UserViewModel> Emps { get; set; }
+        public List<RoleViewModel> Roles { get; set; }
+        public string Message { get; set; }
+        //public List<ProjectViewModel> ProjectList { get; set; }
+    }
 
-        public List<AppointViewModel> AppointList { get; set; }
-
+    public class AppointListModel {
+        public List<ProjectViewModel> Projects { get; set; }
+        public int selectedProject { get; set; }
     }
     public class AppointViewModel
     {
@@ -26,7 +31,7 @@ namespace TimeEffort.Models
 
        
         [DataType(DataType.Text)]
-        [Display(Name = "User")]
+        [Display(Name = "Employee")]
         public string User { get; set; }
 
 
@@ -49,21 +54,7 @@ namespace TimeEffort.Models
         
     }
 
-    public class AppointCreateModel
-    {
-        [Display(Name = "User")]
-
-        public List<UserInfo> Users { get; set; }
-
-
-        [Display(Name = "Project")]
-        public List<Project> Projects { get; set; }
-
-        [Display(Name = "Role")]
-        public List<Role> Roles { get; set; }
-
-
-    }
+   
 
    
        

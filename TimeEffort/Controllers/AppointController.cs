@@ -10,6 +10,7 @@ using TimeEffortCore.Services;
 using PagedList;
 namespace TimeEffort.Controllers
 {
+    [Authorize(Roles = "Admin, Master, Monitor, User,CTO, Test")]
     public class AppointController : Controller
     {
         //static properties does not requiere instantiation on accessing different Actions
@@ -31,20 +32,37 @@ namespace TimeEffort.Controllers
 
         //
         // GET: /Appoint/
-        public ActionResult Index (int? page)
+        public ActionResult Index (int? projectId)
         {
-            var model= new PagingModel();
-            var allAppoints = Service.GetAll();
-            var list = AppointMapper.MapAppointsToModels(allAppoints);
-            //Add paging
-            int pageSize = 5;
-            int pageNumber = (page ?? 1);
-            model.Paging = list.ToPagedList(pageNumber, pageSize);
-            model.AppointList = list;
+            int managerId=Service.GetUserIdByUsername(User.Identity.Name);
+            var projects = ProjectMapper.MapProjectsToModels(Service.GetAllProjects().Where(p => p.ManagerID == managerId).ToList());
+            AppointListModel model = new AppointListModel();
+            model.Projects = projects;
+            if (projects.Count > 0)
+                model.selectedProject = projectId == null ? projects.ElementAt(0).Id : (int)projectId;
             return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
            
         }
-
+        [HttpPost]
+        public ActionResult GetMembers(int projectId)
+        { 
+            int userId= Service.GetUserIdByUsername(User.Identity.Name);
+            List<AppointViewModel> members= AppointMapper.MapAppointsToModels(Service.GetAll().Where(m=>m.ProjectID==projectId && m.UserID!=userId).ToList());
+            return Json(members, JsonRequestBehavior.DenyGet);
+        }
+        [HttpPost]
+        public ActionResult FillDropDowns(int projectId)
+        {
+            AppointCreateModel model = new AppointCreateModel();
+            var involvedUsers = Service.GetAll().Where(p => p.ProjectID == projectId).Select(u=>u.UserID).ToList();
+            involvedUsers.Add(Service.GetUserIdByUsername(User.Identity.Name));
+            List<UserViewModel> unassignedEmps = UserMapper.MapUsersToModels(Service.GetAllUsers().Where(u => !involvedUsers.Contains(u.ID)).ToList());
+            if (unassignedEmps.Count == 0)
+                model.Message = "No employees to assign for the project";
+            model.Emps = unassignedEmps;
+            model.Roles = RoleMapper.MapRolesToModels(Service.GetAllRoles());
+            return Json(model, JsonRequestBehavior.DenyGet);
+        }
         
         //
         // GET: /Appoint/Create
@@ -60,19 +78,21 @@ namespace TimeEffort.Controllers
         //
         // POST: /Appoint/Create
         [HttpPost]
-        public ActionResult Create(AppointViewModel model)
+        public ActionResult Create(int projectId, int empId, int roleId)
         {
+            AppointViewModel model = new AppointViewModel();
+            model.ProjectID = projectId;
+            model.UserID = empId;
+            model.RoleID = roleId;
+            
             try
             {
                 if (ModelState.IsValid)
                 {
-                      var appoint = AppointMapper.MapAppointFromModel(model);
-                     _Service.Insert(appoint);
-                    return RedirectToAction("Index");
+                    var appoint = AppointMapper.MapAppointFromModel(model);
+                    _Service.Insert(appoint);
+                    return RedirectToAction("Index", new { projectId = projectId });
                 }
-                CreateSelectListForUsers();
-                CreateSelectListForDropDownProjects();
-                CreateSelectListForDropDownRoles();
                 return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml");
 
 
@@ -92,8 +112,6 @@ namespace TimeEffort.Controllers
         // GET: /Appoint/Edit/5
         public ActionResult Edit(int id)
         {
-            CreateSelectListForUsers();
-            CreateSelectListForDropDownProjects();
             CreateSelectListForDropDownRoles();
             var model = AppointMapper.MapAppointToModel(Service.GetById(id));
             return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
@@ -110,12 +128,11 @@ namespace TimeEffort.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    int projectId = Service.GetById(id).ProjectID;
                     var appoint = AppointMapper.MapAppointFromModel(model);
                     Service.Update(appoint);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", new { projectId = projectId });
                 }
-                CreateSelectListForUsers();
-                CreateSelectListForDropDownProjects();
                 CreateSelectListForDropDownRoles();
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
@@ -141,8 +158,9 @@ namespace TimeEffort.Controllers
         {
             try
             {
+                int projectId = Service.GetById(id).ProjectID;
                 Service.Delete(id);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { projectId = projectId});
             }
             catch (Exception e)
             {

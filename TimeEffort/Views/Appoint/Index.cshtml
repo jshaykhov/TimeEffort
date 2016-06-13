@@ -1,53 +1,198 @@
-﻿@using PagedList.Mvc;
-@model TimeEffort.Models.PagingModel
+﻿@model TimeEffort.Models.AppointListModel
 
 @{
     ViewBag.Title = "Index";
 }
 
-<p>
-    @Html.ActionLink("Appoint New", "Create")
-</p>
-<table class="table">
+<h2>Projects</h2>
+@using (Html.BeginForm("Create", "Appoint", FormMethod.Post))
+{
+    @Html.TextBox("ProjectId", "", htmlAttributes: new { @id = "tbxProject", @class = "hidden" })
+    @Html.TextBox("EmpId", "", htmlAttributes: new { @id = "tbxEmp", @class = "hidden" })
+     @Html.TextBox("RoleId", "", htmlAttributes: new { @id = "tbxRole", @class = "hidden" })
+    <input style="display:none" id="btnAddEmp" type="submit" />
+}
+<table class="table" id="Projects">
+    
     <tr>
         
         <th>
-            @Html.DisplayNameFor(model => model.Paging[0].User)
+            @Html.DisplayNameFor(model => model.Projects[0].ProjectName)
         </th>
-                <th>
-            @Html.DisplayNameFor(model => model.Paging[0].Project)
+
+        <th>
+            @Html.DisplayNameFor(model => model.Projects[0].StartDate)
         </th>
-         <th>
-            @Html.DisplayNameFor(model => model.Paging[0].Role)
+
+        <th>
+            @Html.DisplayNameFor(model => model.Projects[0].FinishDate)
         </th>
-        <th></th>
     </tr>
 
-@foreach (var item in Model.Paging) {
-    <tr>
-        
+@foreach (var item in Model.Projects)
+{
+
+    <tr data-prop=@item.Id onclick="ViewMembers(@item.Id)">
+
         <td>
-            @Html.DisplayFor(modelItem => item.User)
-        </td>
-        
-        <td>
-            @Html.DisplayFor(modelItem => item.Project)
-        </td>
-        
-        <td>
-            @Html.DisplayFor(modelItem => item.Role)
+            @Html.DisplayFor(modelItem => item.FullProjectName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FinishDate)
         </td>
     </tr>
 }
+</table>
+
+<br/>
+<div id="membersTable">
+<h2>Project members</h2>
+<p>
+    <button id="addMember" onclick="DisplayAddForm()" class="btn btn-sm btn-success .btn-sx">Add new member</button>
+</p>
+<table class="table" id="myTable">
+    <tr>
+
+        <th>
+            Name
+        </th>
+        <th>
+            Role
+        </th>
+
+        <th></th>
+    </tr>
+    <tbody id="tbody"></tbody>
 
 </table>
-<br />
-<span>Page</span>
-@(Model.Paging.PageCount < Model.Paging.PageNumber ? 0 : Model.Paging.PageNumber) <span>of</span>
-@Model.Paging.PageCount
-@Html.PagedListPager(Model.Paging, page => Url.Action("Index", new { page }))
+    </div>
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Time Effort</h4>
+            </div>
+            <div class="modal-body" id="msg">
+            </div>
+            <div class="modal-footer">
+                Time Effort
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .highlight {
+    background-color:lightsteelblue
+    }
+</style>
+<script>
+    
+    $(document).ready(function () {
+        if(@Model.Projects.Count==0)
+        {
+            $('#membersTable').remove();
+        }
+        $('#Projects').find("[data-prop='" + @Model.selectedProject + "']").trigger('click');
+
+    });
+    $('#Projects').on('click','tr',function(e){
+        $('table').find('tr.highlight').removeClass('highlight');
+        $(this).addClass('highlight');
+    })
+    function ViewMembers(projectId) {
+        var url = "/Appoint/GetMembers";
+        var request = $.ajax({
+            url: url + "?projectId=" + projectId,
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json"
+        });
+        request.done(function (members) {
+            $("#tbody").empty();
+            if (members.length == 0) {
+                var row = $("<tr/>")
+                $("#tbody").append(row);
+                row.append($("<td id = \"msgNoMembers\"colspan = \"5\" align=\"center\">Click Add Member button to assign employee to the project</td>"));
+            }
+            for (var i = 0; i < members.length; i++) {
+                drawRow(members[i]);
+            }
+        });
+    }
+    function drawRow(rowData) {
+        var row = $("<tr/>")
+        $("#tbody").append(row);
+        row.append($("<td>" + rowData.User + "</td>"));
+        row.append($("<td>" + rowData.Role + "</td>"));
+        row.append($("<td> <a class=\"btn btn-sm btn-info .btn-sx\" href=\"/Appoint/Edit/" + rowData.Id + "\">Edit</a> <a class=\"btn btn-sm btn-info .btn-sx\" href=\"/Appoint/Delete/" + rowData.Id + "\">Delete</a></td>"))
+       
+    };
+    function DisplayAddForm()
+    {
+        if ($('#addEmpRow').length > 0)
+        {
+            return;
+        }
+        var projectId = $('table').find('tr.highlight').data('prop');
+        var url = "/Appoint/FillDropDowns";
+        var request = $.ajax({
+            url: url + "?projectId=" + projectId,
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json"
+        });
+        request.done(function (result) {
+            if ($('#msgNoMembers').length>0)
+            {
+                $('#tbody').empty();
+            }
+            if (result.Message!=null)
+            {
+                $('#msg').append(result.Message);
+                $('#myModal').modal('show');
+                return;
+            }
+            var row = $('<tr/>');
+            row.attr("id", "addEmpRow");
+            $('#tbody').append(row);
+            var employees = result.Emps;
+            var roles = result.Roles;
+            var selectEmp = '<select class="form-control" id="Employee">'
+            for (var i = 0; i < employees.length; i++) {
+                selectEmp += '<option value="' + employees[i].Id + '">' + employees[i].FullName + '</option>';
+            }
+            selectEmp += '</select>';
+            row.append($('<td>' + selectEmp + '</td>'));
+            var selectRoles = '<select class="form-control" id="Role">'
+            for (var i = 0; i < roles.length; i++) {
+                selectRoles += '<option value="' + roles[i].Id + '">' + roles[i].Role + '</option>';
+            }
+            selectRoles += '</select>';
+            row.append($('<td>' + selectRoles + '</td>'));
+
+            row.append($('<td><button onclick="Add()" class=\"btn btn-sm btn-info .btn-sx\" >Add</button> <button onclick="Cancel()" class=\"btn btn-sm btn-info .btn-sx\">Cancel</button></td>'));
+
+        });
+    }
+    function Cancel()
+    {
+        var projectId = $('table').find('tr.highlight').data('prop');
+        ViewMembers(projectId);
+    }
+    function Add()
+    {
+        var projectId=$('table').find('tr.highlight').data('prop');
+        $('#tbxProject').val(projectId);
+        var empId=$('#Employee').val();
+        $('#tbxEmp').val(empId);
+        var roleId = $('#Role').val();
+        $('#tbxRole').val(roleId);
+        $('#btnAddEmp').trigger("click");
+    }
+</script>
