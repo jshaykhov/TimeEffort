@@ -48,6 +48,8 @@
 </table>
 
 <br/>
+@if(Model.Projects.Count>0)
+{ 
 <div id="membersTable">
 <h2>Project members</h2>
 <p>
@@ -69,6 +71,7 @@
 
 </table>
     </div>
+}
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -94,10 +97,7 @@
 <script>
     
     $(document).ready(function () {
-        if(@Model.Projects.Count==0)
-        {
-            $('#membersTable').remove();
-        }
+
         $('#Projects').find("[data-prop='" + @Model.selectedProject + "']").trigger('click');
 
     });
