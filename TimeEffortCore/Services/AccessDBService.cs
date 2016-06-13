@@ -14,7 +14,6 @@ namespace TimeEffortCore.Services
         {
             db = new time_trackerEntities1();
         }
-
         public bool IsInvolved(int userId, int projectId)
         {
             return db.Access.Any(x => x.UserID == userId && x.ProjectID == projectId);
@@ -62,7 +61,7 @@ namespace TimeEffortCore.Services
 
         
         //User
-        public int GetUserByUsername(string username)
+        public int GetUserIdByUsername(string username)
         {
             var user = db.UserInfo.FirstOrDefault(u => u.Username == username);
             if (user == null)
@@ -92,9 +91,9 @@ namespace TimeEffortCore.Services
             var dbItem = db.Access.FirstOrDefault(p => p.ID == item.ID);
             if (dbItem == null)
                 throw new ArgumentNullException("Appointment does not exist");
-            dbItem.UserID = item.UserID;
+            //dbItem.UserID = item.UserID;
 
-            dbItem.ProjectID = item.ProjectID;
+            //dbItem.ProjectID = item.ProjectID;
 
             dbItem.RoleID = item.RoleID;
 
