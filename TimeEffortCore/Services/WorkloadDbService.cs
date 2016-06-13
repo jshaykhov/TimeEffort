@@ -115,5 +115,21 @@ namespace TimeEffortCore.Services
                 return user.ID;
            
         }
+
+        public List<Project> GetAllInvolvedUserPMProjects(string username)
+        {
+            var user = db.UserInfo.FirstOrDefault(u => u.Username == username);
+            List<Project> list = new List<Project>();
+            foreach (Access item in db.Access.Where(x => x.UserID == user.ID).ToList())
+            {
+                list.Add(item.Project);
+            }
+            foreach (Project item in db.Project.Where(x => x.ManagerID == user.ID).ToList())
+            {
+                list.Add(item);
+            }
+
+            return list;
+        }
     }
 }
