@@ -52,7 +52,7 @@ namespace TimeEffort.Controllers
         }
         // GET: /Workload/
         public ActionResult Index()
-        {  
+        {
             return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml");
         }
         public ActionResult Workloads(string dateClicked)
@@ -67,7 +67,7 @@ namespace TimeEffort.Controllers
             }
             else
                 workloadDate = date;
-            var list = WorkloadMapper.MapWorkloadsToModels(db.GetAllbyUserAndDate(userId,workloadDate));
+            var list = WorkloadMapper.MapWorkloadsToModels(db.GetAllbyUserAndDate(userId, workloadDate));
             return View("Workloads", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", list);
         }
         [HttpGet]
@@ -81,7 +81,8 @@ namespace TimeEffort.Controllers
             var model = new WorkloadCreateModel();
             model.Types = db.GetAllTypes();
             model.Projects = db.GetAllProjects();
-            if (User.IsInRole("User")) { 
+            if (User.IsInRole("User"))
+            {
                 model.Projects = HelperUser.GetAllInvolvedProjects(User);
             }
             model.Date = dateClicked;
@@ -103,8 +104,8 @@ namespace TimeEffort.Controllers
         {
             var username = this.HttpContext.User.Identity.Name;
             model.UserId = db.GetUserByUsername(username);
-            
-            
+
+
             if (ModelState.IsValid)
             {
                 var workload = WorkloadMapper.MapWorkloadFromModel(model);
@@ -186,7 +187,8 @@ namespace TimeEffort.Controllers
             var userId = db.GetUserByUsername(User.Identity.Name);
             foreach (RequestDataJson item in query)
             {
-                if (item != null) { 
+                if (item != null)
+                {
                     var tempWorkload = new Workload
                     {
                         ApprovedCTO = false,
@@ -209,7 +211,7 @@ namespace TimeEffort.Controllers
 
         private void CreateSelectListForDropDownWlTypes()
         {
-            
+
             var list = db.GetAllTypes();
             SelectList types = new SelectList(WloadTypeMapper.MapWorkloadTypesToModels(list),
                                                    "Id ", "WloadType");
@@ -227,5 +229,107 @@ namespace TimeEffort.Controllers
             //for further use in view's dropdown list
             ViewBag.Projects = projects;
         }
-	}
+
+        private DateTime GetMonday(DateTime today)
+        {
+            var startDate = today;
+            var endDate = startDate.AddDays(7);
+            //the number of days in our range of dates
+            var numDays = (int)((endDate - startDate).TotalDays);
+            List<DateTime> myDates = Enumerable
+                //creates an IEnumerable of ints from 0 to numDays
+                       .Range(0, numDays)
+                //now for each of those numbers (0..numDays), 
+                //select startDate plus x number of days
+                       .Select(x => startDate.AddDays(x))
+                //and make a list
+                       .ToList();
+            List<string> myDaysOfWeek = myDates.Select(d => d.DayOfWeek.ToString()).ToList();
+            startDate = startDate.AddDays(-(((startDate.DayOfWeek - DayOfWeek.Monday) + 7) % 7));
+
+            return startDate;
+        }
+
+        private Dictionary<Project, List<CalendarDetails>> GetCalendarResults(DateTime? today)
+        {
+            var list = HelperUser.GetProjectsByWorkingUser(User);
+            list.AddRange(HelperUser.GetProjectsByManager(User));
+            DateTime Monday;
+            if (today.HasValue)
+            {
+                DateTime StartDate = today.GetValueOrDefault();
+                Monday = GetMonday(StartDate);
+            }
+            else
+                Monday = GetMonday(DateTime.Today);
+
+            var Sunday = Monday.AddDays(7);
+
+            var workloads = db.GetWorkloadsByUser(User.Identity.Name).FindAll(x => x.Date >= Monday && x.Date <= Sunday);
+
+            Dictionary<Project, List<CalendarDetails>> viewModel = new Dictionary<Project, List<CalendarDetails>>();
+            Project overhead = new Project(); overhead.Name = "Overhead";
+            var overHeadList = new List<CalendarDetails>();
+
+            foreach (var project in list)
+            {
+                var tempList = new List<CalendarDetails>();
+                foreach (var workload in workloads)
+                {
+                    if (workload.ProjectID.HasValue)
+                    {
+                        if (project.ID == workload.ProjectID)
+                            tempList.Add(new CalendarDetails
+                            {
+                                Date = workload.Date,
+                                Duration = workload.Duration,
+                                Type = workload.WorkloadType
+                            });
+                    }
+                    else
+                    {
+                        overHeadList.Add(new CalendarDetails
+                            {
+                                Date = workload.Date,
+                                Duration = workload.Duration,
+                                Type = workload.WorkloadType
+                            });
+                    }
+                }
+
+                viewModel.Add(project, tempList);
+            }
+
+            viewModel.Add(overhead, overHeadList);
+
+            return viewModel;
+
+        }
+
+        public ActionResult Calendar()
+        {
+            //return View(GetCalendarResults(today));
+
+            var model = new CalendarReturningModel();
+            model.Monday = GetMonday(DateTime.Today);
+            model.Workloads = db.GetWorkloadsByUser(User.Identity.Name).FindAll(x => x.Date >= model.Monday && x.Date <= model.Monday.AddDays(7));
+            return View(model);
+
+        }
+
+        public ActionResult DiffCalendar(string today)
+        {
+            try {
+                    var temp = DateTime.Parse(today);
+                    var model = new CalendarReturningModel();
+                    model.Monday = GetMonday(temp);
+                    model.Workloads = db.GetWorkloadsByUser(User.Identity.Name).FindAll(x => x.Date >= model.Monday && x.Date <= model.Monday.AddDays(7));
+                    return View("Calendar", model);
+                }
+            catch (Exception e) { 
+                return View("Index");
+            }
+            
+        }
+    }
 }

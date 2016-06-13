@@ -50,6 +50,12 @@ namespace TimeEffortCore.Services
             return item;
         }
 
+        public List<Workload> GetWorkloadsByUser(string name)
+        {
+            var user = GetByName(name);
+            return db.Workload.Include("WorkloadType").Include("Project").Where(w => w.UserID == user.ID).ToList();
+        }
+
         public void UpdateApproveStatus(int id, bool master, bool pm, bool cto)
         {
             var dbItem = db.Workload.FirstOrDefault(w => w.ID == id);

@@ -17,10 +17,33 @@
               <xs:element name="Code" type="xs:string" minOccurs="1" maxOccurs="1" nillable="false" />
               <xs:element name="ContactUSD" type="xs:decimal" minOccurs="0" maxOccurs="1" />
               <xs:element name="ContractUZS" type="xs:decimal" minOccurs="0" maxOccurs="1" />
-              <xs:element name="ManagerID" type="xs:positiveInteger" minOccurs="0" maxOccurs="1" />
+              <xs:element name="Manager" type="xs:string" minOccurs="0" maxOccurs="1" nillable="true"/>
               <xs:element name="StartDate" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
               <xs:element name="EndDate" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
               <xs:element name="Status" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+    </xs:element>
+        
+   <xs:element name="Workloads">
+     <xs:complexType>
+       <xs:sequence>
+        <xs:element name="Workload" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Id" type="xs:positiveInteger" minOccurs="1" maxOccurs="1" />
+              <xs:element name="Date" type="xs:dateTime" minOccurs="1" maxOccurs="1" />
+              <xs:element name="UserInfo" type="xs:string" minOccurs="1" maxOccurs="1" />
+              <xs:element name="Project" type="xs:string" nillable="true"/>
+              <xs:element name="Duration" type="xs:decimal" minOccurs="0" maxOccurs="1" />
+              <xs:element name="ApprovedCTO" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+              <xs:element name="ApprovedMaster" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+              <xs:element name="ApprovedPM" type="xs:boolean" minOccurs="0" maxOccurs="1" />
+              <xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="1" />
+              <xs:element name="WorkloadType" type="xs:string" minOccurs="0" maxOccurs="1" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

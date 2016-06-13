@@ -7,8 +7,29 @@
   <xsl:strip-space elements="*" />
   <xsl:template match="/">
     <xsl:for-each select="/Projects/Project">
-      <xsl:value-of select="Id" />, "<xsl:value-of select="Name" />","<xsl:value-of select="Code" />", "<xsl:value-of select="ContractUSD" />", "<xsl:value-of select="ContractUZS" />" ,"<xsl:value-of select="ManagerID" />, "<xsl:value-of select="StartDate" />",
-      "<xsl:value-of select="EndDate" />", "<xsl:value-of select="Status" />"
+      <xsl:value-of select="Id" />,
+      "<xsl:value-of select="Name" />",
+      "<xsl:value-of select="Code" />", 
+      "<xsl:value-of select="ContractUSD" />", 
+      "<xsl:value-of select="ContractUZS" />" ,
+      "<xsl:value-of select="Manager" />, 
+      "<xsl:value-of select="StartDate" />",
+      "<xsl:value-of select="EndDate" />", 
+      "<xsl:value-of select="Status" />"
+      <xsl:text>&#xD;</xsl:text>
+    </xsl:for-each>
+
+    <xsl:for-each select="/Workloads/Workload">
+      <xsl:value-of select="Id" />,
+      "<xsl:value-of select="Date" />",
+      "<xsl:value-of select="UserInfo" />",
+      "<xsl:value-of select="Project" />",
+      "<xsl:value-of select="Duration" />",
+      "<xsl:value-of select="ApprovedCTO" />,
+      "<xsl:value-of select="ApprovedMaster" />,
+      "<xsl:value-of select="ApprovedPM" />,
+      "<xsl:value-of select="Note" />",
+      "<xsl:value-of select="WorkloadType" />"
       <xsl:text>&#xD;</xsl:text>
     </xsl:for-each>
                   
