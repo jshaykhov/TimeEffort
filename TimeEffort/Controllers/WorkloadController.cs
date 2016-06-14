@@ -309,9 +309,10 @@ namespace TimeEffort.Controllers
         public ActionResult Calendar()
         {
             //return View(GetCalendarResults(today));
-
+            var inProjects = db.GetAllInvolvedUserPMProjects(User.Identity.Name);
             var model = new CalendarReturningModel();
             model.Monday = GetMonday(DateTime.Today);
+            model.Projects = inProjects;
             model.Workloads = db.GetWorkloadsByUser(User.Identity.Name).FindAll(x => x.Date >= model.Monday && x.Date <= model.Monday.AddDays(7));
             return View(model);
 
@@ -319,17 +320,108 @@ namespace TimeEffort.Controllers
 
         public ActionResult DiffCalendar(string today)
         {
-            try {
-                    var temp = DateTime.Parse(today);
-                    var model = new CalendarReturningModel();
-                    model.Monday = GetMonday(temp);
-                    model.Workloads = db.GetWorkloadsByUser(User.Identity.Name).FindAll(x => x.Date >= model.Monday && x.Date <= model.Monday.AddDays(7));
-                    return View("Calendar", model);
-                }
-            catch (Exception e) { 
+            try
+            {
+                var temp = DateTime.Parse(today);
+                var model = new CalendarReturningModel();
+                model.Monday = GetMonday(temp);
+                model.Projects = db.GetAllInvolvedUserPMProjects(User.Identity.Name);
+                model.Workloads = db.GetWorkloadsByUser(User.Identity.Name).FindAll(x => x.Date >= model.Monday && x.Date <= model.Monday.AddDays(7));
+                return View("Calendar", model);
+            }
+            catch (Exception e)
+            {
                 return View("Index");
             }
-            
+
+        }
+
+        [HttpPost]
+        public ActionResult ReceiveDataAjax(CalendarRequestDataJson json)
+        {
+            decimal duration = -1; int pId = 0;
+            bool projectIdDone = int.TryParse(json.workloadName, out pId);
+            //bool duratioDone = false, projectIdDone=false; 
+            if (json.enteredValue != null)
+            {
+                bool duratioDone = decimal.TryParse(json.enteredValue.Replace(".", ","), out duration);
+                if (!duratioDone)
+                    return Json(new { success = false, reason = "Duration_invalid" });
+            }
+
+            if (duration >= 0 && duration <= 24)
+            {
+                var date = json.monday.AddDays(json.weekDate - 1); //DateTime.Parse(json.monday)
+                var userId = db.GetUserByUsername(User.Identity.Name);
+                var wType = db.GetAllTypes().FirstOrDefault(x => x.Name.Contains(json.workloadName));
+                Workload workload = new Workload();
+                switch (json.workloadName)
+                {
+                    case "Training":
+                    case "Work (Administrative)":
+                    case "Sick leave":
+                    case "Annual":
+                    case "Unpaid":
+
+                        workload = new Workload
+                        {
+                            UserID = userId,
+                            Date = date,
+                            ProjectID = 0,                      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STATIC
+                            Duration = duration,
+                            WorkloadTypeID = wType.ID,
+                            ApprovedCTO = false,
+                            ApprovedMaster = false,
+                            ApprovedPM = false
+                        };
+                        break;
+
+                    default:
+                        workload = new Workload
+                        {
+                            UserID = userId,
+                            Date = date,
+                            ProjectID = projectIdDone ? pId : 0,
+                            Duration = duration,
+                            WorkloadTypeID = 6,                 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STATIC
+                            ApprovedCTO = false,
+                            ApprovedMaster = false,
+                            ApprovedPM = false
+                        };
+                        break;
+
+                }
+
+                var trying = db.GetAll().FirstOrDefault(x => x.UserID == workload.UserID && x.ProjectID == workload.ProjectID && x.Date == workload.Date && x.WorkloadTypeID == workload.WorkloadTypeID);
+                if (trying != null)
+                {
+                    trying.Duration = workload.Duration;
+                    try
+                    {
+                        db.Update(trying);
+                        return Json(new { success = true });
+                    }
+                    catch (Exception e)
+                    {
+                        return Json(new { success = false, reason = e.Message });
+                    }
+                }
+                else
+                    try
+                    {
+                        if (duration == 0)
+                            return Json(new { success = true });
+                        db.Insert(workload);
+                        return Json(new { success = true });
+                    }
+                    catch (Exception e)
+                    {
+                        return Json(new { success = false, reason = e.Message });
+                    }
+
+            }
+            else
+                return Json(new { success = false, reason = "Duration_wrong" });
         }
     }
 }
