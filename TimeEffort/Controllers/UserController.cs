@@ -230,7 +230,7 @@ namespace TimeEffort.Controllers
 
         }
         //List of Users
-         [Authorize(Roles = "Admin, Master")]
+         [Authorize(Roles = "Admin, Master, CTO")]
         public ActionResult Index(int? page)
         {
             var sendingModel = new SendingModel();
@@ -306,14 +306,14 @@ namespace TimeEffort.Controllers
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
-
+          [Authorize(Roles = "Admin, Master, Monitor, User,CTO, Test")]
         public ActionResult UserProfile()
         {
             int id = _userService.GetUserByUsername(this.HttpContext.User.Identity.Name).ID;
             var model = UserMapper.MapUserToModel(_userService.GetById(id));
             return View("UserProfile", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
-
+          [Authorize(Roles = "Admin, Master, Monitor, User,CTO, Test")]
         public ActionResult Manage(int id)
         {
             var model = UserMapper.MapUserToModel(_userService.GetById(id));
