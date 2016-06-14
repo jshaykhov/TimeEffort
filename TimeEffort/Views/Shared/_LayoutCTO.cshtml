@@ -27,7 +27,8 @@
     <!-- Custom Fonts -->
     <link href="@Url.Content("~/Content/AnotherTheme/bower_components/font-awesome/css/font-awesome.min.css")" rel="stylesheet">
 
-
+    <!-- Custom Theme JavaScript -->
+    <script src="@Url.Content("~/Content/AnotherTheme/dist/js/sb-admin-2.js")"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -62,13 +63,13 @@
                         <!-- /input-group -->
                     </li>
                     <li>
-                        <a href="@Url.Action("Index", "Workload")"><i class="fa fa-edit fa-fw"></i> Workload</a>
+                        <a href="@Url.Action("Calendar","Workload")"><i class="fa fa-edit fa-fw"></i> Workload</a>
                     </li>
                     <li>
-                        <a href="@Url.Action("Index", "Project")" "><i class=" fa fa-table fa-fw"></i> Projects</a>
+                        <a href="@Url.Action("Index", "Project")"><i class=" fa fa-table fa-fw"></i> Projects</a>
                     </li>
                     <li>
-                        <a href="@Url.Action("Index","Monitor")" "><i class=" fa fa-pie-chart fa-fw"></i> Monitor</a>
+                        <a href="@Url.Action("Index","Monitor")"><i class=" fa fa-pie-chart fa-fw"></i> Monitor</a>
                     </li>
                     <li>
                         <a href="@Url.Action("Index", "User")"><i class=" fa fa-users fa-fw"></i> Users</a>
@@ -81,6 +82,9 @@
                     </li>
                     <li>
                         <a href="@Url.Action("Index", "Appoint")"><i class=" fa fa-hand-o-up fa-fw"></i> Appoint</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Customer")"><i class=" fa fa-briefcase fa-fw"></i> Customers</a>
                     </li>
                 </ul>
             </div>
@@ -107,9 +111,6 @@
     <script src="@Url.Content("~/Content/AnotherTheme/bower_components/raphael/raphael-min.js")"></script>
     <script src="@Url.Content("~/Content/AnotherTheme/bower_components/morrisjs/morris.min.js")"></script>
     <script src="@Url.Content("~/Content/AnotherTheme/js/morris-data.js")"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="@Url.Content("~/Content/AnotherTheme/dist/js/sb-admin-2.js")"></script>
 
 </body>
 </html>

@@ -108,6 +108,7 @@ namespace TimeEffort.Models
     public class CalendarReturningModel
     {
         public DateTime Monday { get; set; }
+        public List<Project> Projects { get; set; }
         public List<Workload> Workloads { get; set; }
     }
 
@@ -119,6 +120,22 @@ namespace TimeEffort.Models
     }
 
 
+    [DataContract]
+    public class CalendarRequestDataJson
+    {
+        [DataMember(Name = "EnteredValue")]
+        public string enteredValue { get; set; }
+
+        [DataMember(Name = "Monday")]
+        public DateTime monday { get; set; }
+
+        [DataMember(Name = "WeekDate")]
+        public int weekDate{ get; set; }
+
+        [DataMember(Name = "WorkloadName")]
+        public string workloadName{ get; set; }
+
+    }
 
 
 }

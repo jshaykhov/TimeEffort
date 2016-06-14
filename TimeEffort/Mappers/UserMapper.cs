@@ -83,6 +83,7 @@ namespace TimeEffort.Mappers
                 Id = c.ID,
                 FirstName = c.FirstName,
                 LastName = c.LastName,
+                FullName = c.FirstName+" "+c.LastName,
                 Phone = c.Phone,
                 Email = c.Email,
                 Address = c.Address,
