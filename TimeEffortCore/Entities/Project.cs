@@ -29,9 +29,12 @@ namespace TimeEffortCore.Entities
         public System.DateTime StartDate { get; set; }
         public System.DateTime EndDate { get; set; }
         public bool Status { get; set; }
+        public string CType { get; set; }
+        public Nullable<int> CustomerId { get; set; }
     
         public virtual ICollection<Access> Access { get; set; }
         public virtual ICollection<Workload> Workload { get; set; }
         public virtual UserInfo UserInfo { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }

@@ -21,6 +21,8 @@
         <AssociationConnector Association="time_trackerModel.FK_Workload_UserInfo" ManuallyRouted="false" />
         <AssociationConnector Association="time_trackerModel.FK_Workload_WorkloadType" ManuallyRouted="false" />
         <AssociationConnector Association="time_trackerModel.FK_Project_UserInfo" />
+        <EntityTypeShape EntityType="time_trackerModel.Customer" Width="1.5" PointX="8.375" PointY="0.875" />
+        <AssociationConnector Association="time_trackerModel.FK_Project_Customer" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

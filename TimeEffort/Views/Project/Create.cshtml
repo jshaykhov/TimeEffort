@@ -16,12 +16,12 @@
         @Html.ValidationSummary(true)
 
         <div class="form-group">
-            @Html.LabelForRequired(model => model.Code, new { @class = "control-label col-md-2" })
+            @Html.LabelForRequired(model => model.CType, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Code)
-                @Html.ValidationMessageFor(model => model.Code)
+                @Html.DropDownListFor(model => model.CType, (SelectList)ViewBag.Types)
+                @Html.ValidationMessageFor(model => model.CType)
             </div>
-        </div>
+        </div>   
 
         <div class="form-group">
             @Html.LabelForRequired(model => model.ProjectName, new { @class = "control-label col-md-2" })

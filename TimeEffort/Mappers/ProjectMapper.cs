@@ -16,6 +16,7 @@ namespace TimeEffort.Mappers
             {
                 Id = project.ID,
                 Code = project.Code,
+                CType=project.CType,
                 ProjectName=project.Name,
                 CMoneyUsd=project.ContractUSD,
                 CMoneyUzs=project.ContractUZS,
@@ -32,7 +33,8 @@ namespace TimeEffort.Mappers
             return new Project
             {
                 ID = model.Id,
-                Code = model.Code,
+                CType=model.CType,
+                //Code = model.Code,
                 Name = model.ProjectName,
                 ContractUSD = model.CMoneyUsd,
                 ContractUZS = model.CMoneyUzs,
@@ -48,6 +50,7 @@ namespace TimeEffort.Mappers
                 {
                     Id = c.ID,
                     Code = c.Code,
+                    CType= c.CType,
                     ProjectName = c.Name,
                     CMoneyUsd = c.ContractUSD,
                     CMoneyUzs = c.ContractUZS,
@@ -69,5 +72,7 @@ namespace TimeEffort.Mappers
                 FullName=u.FirstName + " "+u.LastName
             }).ToList();
         }
+        
+        
     }
 }

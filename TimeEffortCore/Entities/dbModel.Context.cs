@@ -35,6 +35,7 @@ namespace TimeEffortCore.Entities
         public virtual DbSet<UserInfo> UserInfo { get; set; }
         public virtual DbSet<Workload> Workload { get; set; }
         public virtual DbSet<WorkloadType> WorkloadType { get; set; }
+        public virtual DbSet<Customer> Customer { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

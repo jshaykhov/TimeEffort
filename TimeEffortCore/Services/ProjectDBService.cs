@@ -9,7 +9,8 @@ namespace TimeEffortCore.Services
 {
     public class ProjectDBService
     {
-        private time_trackerEntities1 db;
+        private static time_trackerEntities1 db;
+
         public ProjectDBService()
         {
             db = new time_trackerEntities1();
@@ -38,8 +39,15 @@ namespace TimeEffortCore.Services
 
         public void Insert(Project item)
         {
-            db.Project.Add(item);
-            db.SaveChanges();
+            try
+            {
+                db.Project.Add(item);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+
+            }
         }
 
         public void Update(Project item)
@@ -75,5 +83,39 @@ namespace TimeEffortCore.Services
             return db.Project.FirstOrDefault(p => p.Code.Equals(code));
         }
 
+
+        //CODE GENERATION
+
+        public string GetNextCode(String ctype)
+        {
+            var p = db.Project.LastOrDefault();
+            string i = "";
+            if (p != null)
+                i = p.Code.Substring(8, 10);
+            int incrementor = 0;
+            bool successful = int.TryParse(i, out incrementor);
+            if (successful)
+            {
+                incrementor +=1;
+                i = incrementor.ToString();
+                string code = "PJ" + " " + DateTime.Now.Year + "-" + i.ToString().PadLeft(3, '0') + "-" + ctype;
+                if (i.Length == 1)
+                    return "00" + incrementor;
+                else if (i.Length == 2)
+                    return "0" + incrementor;
+                else if (i.Length == 3)
+                    return incrementor.ToString();
+                else
+                    return "";
+            }
+            else
+                return "";
+
+        }
+
     }
+
 }
+
+
+
