@@ -231,297 +231,296 @@
                 <td id="Work (Administrative)" rowspan="5">Default project<br>PJ-2016001</td>
                 <td>Work</td>
                 @{TimeEffortCore.Entities.Workload item;}
-                <td class="duration">
+                <td class="duration" id="monForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Work (Administrative)").FirstOrDefault(x => x.Date == Model.Monday);}
                     @if (item != null)
                     {
                         monTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="tueForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Work (Administrative)").FirstOrDefault(x => x.Date == Model.Monday.AddDays(1));}
                     @if (item != null)
                     {
                         tueTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="wedForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Work (Administrative)").FirstOrDefault(x => x.Date == Model.Monday.AddDays(2));}
                     @if (item != null)
                     {
                         wedTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="thuForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Work (Administrative)").FirstOrDefault(x => x.Date == Model.Monday.AddDays(3));}
                     @if (item != null)
                     {
                         thuTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="friForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Work (Administrative)").FirstOrDefault(x => x.Date == Model.Monday.AddDays(4));}
                     @if (item != null)
                     {
                         friTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="satForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Work (Administrative)").FirstOrDefault(x => x.Date == Model.Monday.AddDays(5));}
                     @if (item != null)
                     {
                         satTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="sunForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Work (Administrative)").FirstOrDefault(x => x.Date == Model.Monday.AddDays(6));}
                     @if (item != null)
                     {
                         sunTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
             </tr>
             <tr>
                 <td id="Training">Training</td>
-                <td class="duration">
+                <td class="duration" id="monForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Training").FirstOrDefault(x => x.Date == Model.Monday);}
                     @if (item != null)
                     {
                         monTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="tueForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Training").FirstOrDefault(x => x.Date == Model.Monday.AddDays(1));}
                     @if (item != null)
                     {
                         tueTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="wedForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Training").FirstOrDefault(x => x.Date == Model.Monday.AddDays(2));}
                     @if (item != null)
                     {
                         wedTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="thuForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Training").FirstOrDefault(x => x.Date == Model.Monday.AddDays(3));}
                     @if (item != null)
                     {
                         thuTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="friForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Training").FirstOrDefault(x => x.Date == Model.Monday.AddDays(4));}
                     @if (item != null)
                     {
                         friTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="satForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Training").FirstOrDefault(x => x.Date == Model.Monday.AddDays(5));}
                     @if (item != null)
                     {
                         satTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="sunForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Training").FirstOrDefault(x => x.Date == Model.Monday.AddDays(6));}
                     @if (item != null)
                     {
                         sunTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
 
             </tr>
             <tr>
                 <td id="Sick leave">Sick leave</td>
-                <td class="duration">
+                <td class="duration" id="monForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Sick leave").FirstOrDefault(x => x.Date == Model.Monday);}
                     @if (item != null)
                     {
                         monTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="tueForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Sick leave").FirstOrDefault(x => x.Date == Model.Monday.AddDays(1));}
                     @if (item != null)
                     {
                         tueTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="wedForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Sick leave").FirstOrDefault(x => x.Date == Model.Monday.AddDays(2));}
                     @if (item != null)
                     {
-                        wedTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        wedTotal += item.Duration;@(item.Duration.ToString("#.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="thuForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Sick leave").FirstOrDefault(x => x.Date == Model.Monday.AddDays(3));}
                     @if (item != null)
                     {
                         thuTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="friForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Sick leave").FirstOrDefault(x => x.Date == Model.Monday.AddDays(4));}
                     @if (item != null)
                     {
                         friTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="satForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Sick leave").FirstOrDefault(x => x.Date == Model.Monday.AddDays(5));}
                     @if (item != null)
                     {
                         satTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="sunForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Sick leave").FirstOrDefault(x => x.Date == Model.Monday.AddDays(6));}
                     @if (item != null)
                     {
                         sunTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
             </tr>
             <tr>
                 <td id="Annual">Annual</td>
-                <td class="duration">
+                <td class="duration" id="monForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Annual leave").FirstOrDefault(x => x.Date == Model.Monday);}
                     @if (item != null)
                     {
                         monTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="tueForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Annual leave").FirstOrDefault(x => x.Date == Model.Monday.AddDays(1));}
                     @if (item != null)
                     {
                         tueTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="wedForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Annual leave").FirstOrDefault(x => x.Date == Model.Monday.AddDays(2));}
                     @if (item != null)
                     {
                         wedTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="thuForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Annual leave").FirstOrDefault(x => x.Date == Model.Monday.AddDays(3));}
                     @if (item != null)
                     {
                         thuTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="friForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Annual leave").FirstOrDefault(x => x.Date == Model.Monday.AddDays(4));}
                     @if (item != null)
                     {
                         friTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="satForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Annual leave").FirstOrDefault(x => x.Date == Model.Monday.AddDays(5));}
                     @if (item != null)
                     {
                         satTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="sunForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Annual leave").FirstOrDefault(x => x.Date == Model.Monday.AddDays(6));}
                     @if (item != null)
                     {
                         sunTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
             </tr>
             <tr>
                 <td id="Unpaid">Unpaid</td>
-                <td class="duration">
+                <td class="duration" id="monForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Unpaid leave").FirstOrDefault(x => x.Date == Model.Monday);}
                     @if (item != null)
                     {
                         monTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="tueForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Unpaid leave").FirstOrDefault(x => x.Date == Model.Monday.AddDays(1));}
                     @if (item != null)
                     {
                         tueTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="wedForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Unpaid leave").FirstOrDefault(x => x.Date == Model.Monday.AddDays(2));}
                     @if (item != null)
                     {
                         wedTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="thuForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Unpaid leave").FirstOrDefault(x => x.Date == Model.Monday.AddDays(3));}
                     @if (item != null)
                     {
                         thuTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="friForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Unpaid leave").FirstOrDefault(x => x.Date == Model.Monday.AddDays(4));}
                     @if (item != null)
                     {
                         friTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="satForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Unpaid leave").FirstOrDefault(x => x.Date == Model.Monday.AddDays(5));}
                     @if (item != null)
                     {
                         satTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
-                <td class="duration">
+                <td class="duration" id="sunForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Unpaid leave").FirstOrDefault(x => x.Date == Model.Monday.AddDays(6));}
                     @if (item != null)
                     {
                         sunTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
+                        @(item.Duration.ToString("0.#"))
                     }
                 </td>
             </tr>
@@ -536,7 +535,7 @@
                 <tr>
                     <td id="@(project.ID)">@project.Name<br>@project.Code</td>
                     <td class="duration">Work</td>
-                    <td class="duration">
+                    <td class="duration" id="monForTotal">
                         @{item = Model.Workloads.Where(x => x.ProjectID == project.ID).FirstOrDefault(x => x.Date == Model.Monday);}
                         @if (item != null)
                         {
@@ -544,7 +543,7 @@
                             @(item.Duration.ToString("0.#"))
                         }
                     </td>
-                    <td class="duration">
+                    <td class="duration" id="tueForTotal">
                         @{item = Model.Workloads.Where(x => x.ProjectID == project.ID).FirstOrDefault(x => x.Date == Model.Monday.AddDays(1));}
                         @if (item != null)
                         {
@@ -552,7 +551,7 @@
                             @(item.Duration.ToString("0.#"))
                         }
                     </td>
-                    <td class="duration">
+                    <td class="duration" id="wedForTotal">
                         @{item = Model.Workloads.Where(x => x.ProjectID == project.ID).FirstOrDefault(x => x.Date == Model.Monday.AddDays(2));}
                         @if (item != null)
                         {
@@ -560,7 +559,7 @@
                             @(item.Duration.ToString("0.#"))
                         }
                     </td>
-                    <td class="duration">
+                    <td class="duration" id="thuForTotal">
                         @{item = Model.Workloads.Where(x => x.ProjectID == project.ID).FirstOrDefault(x => x.Date == Model.Monday.AddDays(3));}
                         @if (item != null)
                         {
@@ -568,7 +567,7 @@
                             @(item.Duration.ToString("0.#"))
                         }
                     </td>
-                    <td class="duration">
+                    <td class="duration" id="friForTotal">
                         @{item = Model.Workloads.Where(x => x.ProjectID == project.ID).FirstOrDefault(x => x.Date == Model.Monday.AddDays(4));}
                         @if (item != null)
                         {
@@ -576,7 +575,7 @@
                             @(item.Duration.ToString("0.#"))
                         }
                     </td>
-                    <td class="duration">
+                    <td class="duration" id="satForTotal">
                         @{item = Model.Workloads.Where(x => x.ProjectID == project.ID).FirstOrDefault(x => x.Date == Model.Monday.AddDays(5));}
                         @if (item != null)
                         {
@@ -584,13 +583,10 @@
                             @(item.Duration.ToString("0.#"))
                         }
                     </td>
-                    <td class="duration">
-                        @{item = Model.Workloads.Where(x => x.ProjectID == project.ID).FirstOrDefault(x => x.Date == Model.Monday.AddDays(6));}
-                        @if (item != null)
+                    <td class="duration" id="sunForTotal">
+                        @{item = Model.Workloads.Where(x => x.ProjectID == project.ID).FirstOrDefault(x => x.Date == Model.Monday.AddDays(6));} @if (item != null)
                         {
-                            sunTotal += item.Duration;
-                            @(item.Duration.ToString("0.#"))
-                        }
+                            sunTotal += item.Duration;@(item.Duration.ToString("0.#"))}
                     </td>
                 </tr>
             }
@@ -648,8 +644,8 @@
             var elm_name = t.tagName.toLowerCase();
             //если это инпут - ничего не делаем
             if (elm_name == 'input') { return false; }
-            var valu = $(this).html();
-            var code = '<input type="number" id="edit" value=' + valu + ' min="0.5" max="24" step="0.5" />';
+            var valu = $(this).html().trim().replace(",", ".");;
+            var code = '<input type="number" id="edit" value="' + valu + '" min="0.5" max="24" step="0.5" style="width: 4em" />';
             $(this).empty().append(code);
             $('#edit').focus();
             $('#edit').blur(function () {
@@ -663,33 +659,42 @@
                     else
                         day = t.cellIndex - 1;
                     if (!sendData(val, day, w))
-                        $(this).parent().empty().html("");;
+                        $(this).parent().empty().html("");
                 }
+                calculateTotals();
                 $(this).parent().empty().html(valu);
             });
         });
     });
 
     function checkInput(hours) {
-        if (hours != "") {
-            if (hours > 24 || hours < 0.5) {
-                $('#message').text("Your input cannot be more than 24 or less than 0.5 hours. Please try again.");
-                $('#myModal').modal('show');
-                return false
-            }
-            return true;
+        if (hours > 24) {
+            $('#message').text("Your input cannot be more than 24 hours per day. Please try again.");
+            $('#myModal').modal('show');
+            return false
         }
-        return false
+        else if (hours < 0) {
+            $('#message').text("Your input cannot be less than 0. Please try again");
+            $('#myModal').modal('show');
+            return false;
+        }
+        return true;
     }
 
 
     function sendData(value, day, w) {
+        if (value == "")
+            value = 0;
+        if (w == "Work (Administrative)")
+            day -= 1;
+
         var requestData = {
             WorkloadName: w,
             EnteredValue: value,
             WeekDate: day,
             Monday: $('#mondayHidden').text()
         };
+
 
         $.ajax({
             url: '/Workload/ReceiveDataAjax',
@@ -701,12 +706,12 @@
                 alert('Error: ' + xhr.statusText);
             },
             success: function (response) {
-                if (response.success){
+                if (response.success) {
                     $('#message').text("Saved successfully.");
                     $('#myModal').modal('show');
                     return true;
                 }
-                else{
+                else {
                     $('#message').text(response.reason);
                     $('#myModal').modal('show');
                     return false;
@@ -716,6 +721,75 @@
             async: true,
             processData: false
         });
+    }
+
+    function calculateTotals()
+    {
+        $('#totalMon').text("");
+        $('#totalTue').text("");
+        $('#totalWed').text("");
+        $('#totalThu').text("");
+        $('#totalFri').text(""); 
+        $('#totalSat').text("");
+        $('#totalSun').text("");
+
+        var temp = 0;
+        $("[id=monForTotal]").each(function (i, el) {
+            var tempValue = el.textContent.trim();
+            if (tempValue != "")
+                temp += parseFloat(tempValue.replace(",", "."));
+        });
+        $('#totalMon').text(temp);
+
+        temp = 0;
+        $("[id=tueForTotal]").each(function (i, el) {
+            var tempValue = el.textContent.trim();
+            if (tempValue != "")
+                temp += parseFloat(tempValue.replace(",", "."));
+        });
+        $('#totalTue').text(temp);
+
+        temp = 0;
+        $("[id=wedForTotal]").each(function (i, el) {
+            var tempValue = el.textContent.trim();
+            if (tempValue != "")
+                temp += parseFloat(tempValue.replace(",", "."));
+        });
+        $('#totalWed').text(temp);
+
+        temp = 0;
+        $("[id=thuForTotal]").each(function (i, el) {
+            var tempValue = el.textContent.trim();
+            if (tempValue != "")
+                temp += parseFloat(tempValue.replace(",", "."));
+        });
+        $('#totalThu').text(temp);
+
+        temp = 0;
+        $("[id=friForTotal]").each(function (i, el) {
+            var tempValue = el.textContent.trim();
+            if (tempValue != "")
+                temp += parseFloat(tempValue.replace(",", "."));
+        });
+        $('#totalFri').text(temp);
+
+        temp = 0;
+        $("[id=satForTotal]").each(function (i, el) {
+            var tempValue = el.textContent.trim();
+            if (tempValue != "")
+                temp += parseFloat(tempValue.replace(",", "."));
+        });
+        $('#totalSat').text(temp);
+
+        temp = 0;
+        $("[id=sunForTotal]").each(function (i, el) {
+            var tempValue = el.textContent.trim();
+            if (tempValue != "")
+                temp += parseFloat(tempValue.replace(",", "."));
+        });
+        $('#totalSun').text(temp);
+
+
     }
 
     function setAllDates(monday) {
