@@ -314,8 +314,7 @@ namespace TimeEffort.Controllers
             model.Monday = GetMonday(DateTime.Today);
             model.Projects = inProjects;
             model.Workloads = db.GetWorkloadsByUser(User.Identity.Name).FindAll(x => x.Date >= model.Monday && x.Date <= model.Monday.AddDays(7));
-            return View(model);
-
+            return View("Calendar", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
         public ActionResult DiffCalendar(string today)
@@ -327,7 +326,7 @@ namespace TimeEffort.Controllers
                 model.Monday = GetMonday(temp);
                 model.Projects = db.GetAllInvolvedUserPMProjects(User.Identity.Name);
                 model.Workloads = db.GetWorkloadsByUser(User.Identity.Name).FindAll(x => x.Date >= model.Monday && x.Date <= model.Monday.AddDays(7));
-                return View("Calendar", model);
+                return View("Calendar", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
             catch (Exception e)
             {
