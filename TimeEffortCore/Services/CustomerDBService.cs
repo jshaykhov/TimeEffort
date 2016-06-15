@@ -10,8 +10,14 @@ namespace TimeEffortCore.Services
     public class CustomerDBService
     {
         private time_trackerEntities1 db;
-        public CustomerDBService()
+       public CustomerDBService()
         {
+            ContextSet();
+        }
+
+        private void ContextSet()
+        {
+            
             db = new time_trackerEntities1();
         }
         public void Delete(int itemId)
@@ -20,7 +26,16 @@ namespace TimeEffortCore.Services
             if (item == null)
                 throw new ArgumentNullException("You cannot delete a customer");
             db.Customer.Remove(item);
-            db.SaveChanges();
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                db.Dispose();
+                ContextSet();
+                throw new Exception("You cannot delete this record.");
+            }
         }
 
         public List<Customer> GetAll()

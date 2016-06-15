@@ -51,6 +51,7 @@ namespace TimeEffort.Controllers
             {
                 if (ModelState.IsValid)
                 {
+             
                     var position = PositionMapper.MapPositionFromModel(model);
 
                     Position.Insert(position);
