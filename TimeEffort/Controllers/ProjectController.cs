@@ -90,38 +90,62 @@ namespace TimeEffort.Controllers
         // GET: /Project/Create
         public ActionResult Create()
         {
-            CreateSelectListForDropDownCType();
+            CreateSelectListForDropDownCustomer();
             CreateSelectListForDropDownUsers();
-            CreateSelectListForDropDownStatus();
-
             var model = new ProjectViewModel();
             return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
 
         }
-
+        
+          [HttpGet]
+          public ActionResult GetCodes(ProjectViewModel model)
+          {
+              List<ProjectViewModel> list = new List<ProjectViewModel>();
+            
+              var codes = Service.GetNextCode();
+              foreach (var code in codes)
+              {
+                  list.Add(new ProjectViewModel {Id=0,
+                                                Code=code, 
+                                                CustomerId=model.CustomerId, 
+                                                CMoneyUsd=model.CMoneyUsd/4,
+                                                CMoneyUzs=model.CMoneyUzs/4,
+                                                StartDate=model.StartDate,
+                                                FinishDate=model.FinishDate,
+                                                PManagerId=model.PManagerId,
+                                                ProjectName=model.ProjectName
+                  });
+              }
+              return Json(list, JsonRequestBehavior.AllowGet);
+          }
         //
         // POST: /Project/Create
         [HttpPost]
-        public ActionResult Create(ProjectViewModel model)
+        public ActionResult CreateProjects(List<ProjectCreateViewModel> model)
         {
             try
             {
-                if (ModelState.IsValid)
+                //if (ModelState.IsValid)
+                //{
+                foreach (var i in model)
                 {
-                    var project = ProjectMapper.MapProjectFromModel(model);
-                    Service.GetNextCode(model.CType);
+                    i.Status = "Active";
+                    var project = ProjectMapper.MapProjectFromCreateModel(i);
+                    
+                    //Service.GetNextCode(model.CType);
                     Service.Insert(project);
-                    return RedirectToAction("Index");
                 }
-                CreateSelectListForDropDownCType();
-                CreateSelectListForDropDownUsers();
-                CreateSelectListForDropDownStatus();
-                return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
+                return Json(new { msg = "" });
+                //}
+
+                //CreateSelectListForDropDownUsers();
+                //CreateSelectListForDropDownStatus();
+                //return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
+                return Json(new { msg = e.Message });
             }
 
         }
@@ -209,12 +233,14 @@ namespace TimeEffort.Controllers
             ViewBag.Items = items;
         }
 
-        private void CreateSelectListForDropDownCType()
+        private void CreateSelectListForDropDownCustomer()
         {
-            SelectList items = new SelectList(new List<String>() { "H", "M", "R" });
+            var listOfCustomers = Service.GetAllCustomers();
+            SelectList customers = new SelectList(CustomerMapper.MapCustomersToModels(listOfCustomers),
+                                                   "Id ", "Name");
             //store list of users in ViewBag 
             //for further use in view's dropdown list
-            ViewBag.Types = items;
+            ViewBag.Customers = customers;
         }
 
 
