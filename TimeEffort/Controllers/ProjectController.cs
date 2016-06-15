@@ -121,7 +121,7 @@ namespace TimeEffort.Controllers
         //
         // POST: /Project/Create
         [HttpPost]
-        public ActionResult CreateT(List<ProjectCreateViewModel> model)
+        public ActionResult CreateProjects(List<ProjectCreateViewModel> model)
         {
             try
             {
