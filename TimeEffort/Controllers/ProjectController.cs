@@ -90,8 +90,10 @@ namespace TimeEffort.Controllers
         // GET: /Project/Create
         public ActionResult Create()
         {
-            CreateSelectListForDropDownStatus();
+            CreateSelectListForDropDownCType();
             CreateSelectListForDropDownUsers();
+            CreateSelectListForDropDownStatus();
+
             var model = new ProjectViewModel();
             return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
 
@@ -107,10 +109,11 @@ namespace TimeEffort.Controllers
                 if (ModelState.IsValid)
                 {
                     var project = ProjectMapper.MapProjectFromModel(model);
-
+                    Service.GetNextCode(model.CType);
                     Service.Insert(project);
                     return RedirectToAction("Index");
                 }
+                CreateSelectListForDropDownCType();
                 CreateSelectListForDropDownUsers();
                 CreateSelectListForDropDownStatus();
                 return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
@@ -206,6 +209,15 @@ namespace TimeEffort.Controllers
             ViewBag.Items = items;
         }
 
+        private void CreateSelectListForDropDownCType()
+        {
+            SelectList items = new SelectList(new List<String>() { "H", "M", "R" });
+            //store list of users in ViewBag 
+            //for further use in view's dropdown list
+            ViewBag.Types = items;
+        }
+
+
          // GET: ExportData
         public ActionResult ExportToExcel()
         {
@@ -288,6 +300,8 @@ namespace TimeEffort.Controllers
                 context.Response.End();
                 return View();
             }
+
+        
             
           
         }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.EnterpriseServices;
 using System.Linq;
 using System.Web;
 namespace TimeEffort.Models
@@ -16,11 +17,16 @@ namespace TimeEffort.Models
     public class ProjectViewModel
     {
         public int Id { get; set; }
-        [Required]
+
         [DataType(DataType.Text)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Project code")]
         public string Code { get; set; }
+
+
+        [Display(Name = "Type")]
+        public String CType { get; set; }
+     
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Project name")]
@@ -52,8 +58,22 @@ namespace TimeEffort.Models
         public DateTime FinishDate { get; set; }
         public string Status { get; set; }
 
-        public string FullProjectName { get; set; } 
-    }
+        public string FullProjectName { get; set; }
+
+
+
+        
+
+       
+
+        //public enum CodeType
+       // {
+        //    H = 0,
+        //    M = 1,
+        //    R = 2
+        //}
+    
+}
 
     
 }
