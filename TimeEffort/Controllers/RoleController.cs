@@ -115,7 +115,7 @@ namespace TimeEffort.Controllers
             {
                 var role = Service.GetById(id);
                 var model = RoleMapper.MapRoleToModel(role);
-                ModelState.AddModelError("", e.Message);
+                ModelState.AddModelError("", "This role is currently involved in one or more users. Deleting failed. "+"\n" + e.Message);
                 return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
