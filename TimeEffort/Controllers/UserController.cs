@@ -150,7 +150,7 @@ namespace TimeEffort.Controllers
                     Email = registrationVM.Email
                 };
                 _userService.Register(curUser);
-                return RedirectToAction("Login");
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
