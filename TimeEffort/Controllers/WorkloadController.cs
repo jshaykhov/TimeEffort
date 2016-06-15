@@ -409,7 +409,7 @@ namespace TimeEffort.Controllers
                     try
                     {
                         if (duration == 0)
-                            return Json(new { success = true });
+                            return Json(new { success = false, reason = 0 });
                         db.Insert(workload);
                         return Json(new { success = true });
                     }
