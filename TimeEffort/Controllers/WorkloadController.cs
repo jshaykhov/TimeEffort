@@ -382,7 +382,7 @@ namespace TimeEffort.Controllers
                             Date = date,
                             ProjectID = projectIdDone ? pId : 0,
                             Duration = duration,
-                            WorkloadTypeID = 6,                 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STATIC
+                            WorkloadTypeID = 1,                 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STATIC
                             ApprovedCTO = false,
                             ApprovedMaster = false,
                             ApprovedPM = false
