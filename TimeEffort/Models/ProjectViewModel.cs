@@ -65,17 +65,9 @@ namespace TimeEffort.Models
        
         public int CustomerId { get; set; }
 
-      
-        [Required]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
-        [Required]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Finish Date")]
         public DateTime FinishDate { get; set; }
+        public string Status { get; set; }
     }
     public class ProjectViewModel
     {

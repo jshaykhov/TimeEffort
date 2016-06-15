@@ -42,7 +42,7 @@ namespace TimeEffort.Mappers
                 CustomerId = model.CustomerId,
                 StartDate = model.StartDate.Date,
                 EndDate = model.FinishDate.Date,
-                //Status = (model.Status == "Active") ? true : false
+                Status = (model.Status == "Active") ? true : false
             };
         }
         public static Project MapProjectFromModel(ProjectViewModel model)

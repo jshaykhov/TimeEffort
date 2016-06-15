@@ -129,11 +129,13 @@ namespace TimeEffort.Controllers
                 //{
                 foreach (var i in model)
                 {
+                    i.Status = "Active";
                     var project = ProjectMapper.MapProjectFromCreateModel(i);
+                    
                     //Service.GetNextCode(model.CType);
                     Service.Insert(project);
                 }
-                    return RedirectToAction("Index");
+                return Json(new { msg = "" });
                 //}
 
                 //CreateSelectListForDropDownUsers();
@@ -143,7 +145,7 @@ namespace TimeEffort.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
-                return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
+                return Json(new { msg = e.Message });
             }
 
         }

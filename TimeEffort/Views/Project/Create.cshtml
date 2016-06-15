@@ -193,10 +193,22 @@
             data: JSON.stringify(data),
             type: "POST",
             contentType: "application/json",
-            dataType: "json"
+            dataType: "json",
+            success:function(data)
+                {
+                if (data.msg == "") {
+                    window.location.href = "/Project";
+                }
+                else {
+                    $('#msg').append(result);
+                    $('#myModal').modal('show');
+                }
+                }
         });
-
+            
     }
+   
+    
     function CheckSum()
     {
         var sumUsd = 0;
