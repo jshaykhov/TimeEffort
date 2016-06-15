@@ -153,14 +153,14 @@
             for (var i = 0; i < result.length; i++) {
                 var div = $("<div class=\"col-lg-12 addForm\"/>");
                 $("#body").append(div);
-                div.append("<div class=\"form-group\"><label  class=\"control-label col-md-2\">Code <font color='red'>*</font></label><div class=\"col-md-2\">" +
+                div.append("<div class=\"form-group\"><label  class=\"control-label col-md-2\">Code </label><div class=\"col-md-2\">" +
                "<input class=\"form-control text-box single-line \" disabled=\"disabled\" data-val=\"true\" data-val-required=\"The Project Code field is required.\" id=\"ProjectCode" + i + "\" type=\"text\" value=\"" + result[i].Code +
                "\"/><span class=\"field-validation-valid\" data-valmsg-for=\"ProjectCode\" data-valmsg-replace=\"true\"></span></div></div>");
 
-                div.append("<div class=\"form-group\"><label class=\"control-label col-md-2\">UZS <font color='red'>*</font></label><div class=\"col-md-2\">" +
+                div.append("<div class=\"form-group\"><label class=\"control-label col-md-2\">UZS </label><div class=\"col-md-2\">" +
               "<input class=\"form-control text-box single-line\" data-val=\"true\" data-val-number=\"The field UZS must be a number.\" data-val-required=\"The UZS field is required.\" id=\"Uzs" + i + "\" type=\"text\" value=\"0,00\"/><span class=\"field-validation-valid\" data-valmsg-for=\"ProjectCode\" data-valmsg-replace=\"true\"></span></div></div>");
 
-                div.append("<div class=\"form-group\"><label class=\"control-label col-md-2\">USD <font color='red'>*</font></label><div class=\"col-md-2\">" +
+                div.append("<div class=\"form-group\"><label class=\"control-label col-md-2\">USD </label><div class=\"col-md-2\">" +
                        "<input class=\"form-control text-box single-line\" data-val=\"true\" data-val-number=\"The field USD must be a number.\" data-val-required=\"The USD field is required.\" id=\"Usd" + i + "\" type=\"text\" value=\"0,00\"/><span class=\"field-validation-valid\" data-valmsg-for=\"ProjectCode\" data-valmsg-replace=\"true\"></span></div></div>");
 
             }
@@ -273,7 +273,19 @@
                 $('#FinishValidationResult').get(0).innerHTML = "";
                 finishControl.css("border-color", "#cccccc");
             }
-
+            if (finishControl.val() != 0 && startControl.val() != 0) {
+                if (startControl.val() >= finishControl.val()) {
+                    validationResult = false;
+                    $('#FinishValidationResult').get(0).innerHTML = "<font color='#b94a48'>Finish date cannot be earlier than or equal to Start date</font>";
+                    startControl.css("border-color", "#b94a48");
+                    finishControl.css("border-color", "#b94a48");
+                }
+                else {
+                    $('#FinishValidationResult').get(0).innerHTML = "";
+                    startControl.css("border-color", "#cccccc");
+                    finishControl.css("border-color", "#cccccc");
+                }
+            }
             return validationResult;
 
         }

@@ -12,6 +12,12 @@ namespace TimeEffortCore.Services
         private time_trackerEntities1 db;
         public RoleDBService()
         {
+            ContextSet();
+        }
+
+        private void ContextSet()
+        {
+            
             db = new time_trackerEntities1();
         }
         public void Delete(int itemId)
@@ -19,8 +25,21 @@ namespace TimeEffortCore.Services
             var item = db.Role.FirstOrDefault(p => p.ID == itemId);
             if (item == null)
                 throw new ArgumentNullException("You cannot delete a role");
+            if (db.Access.FirstOrDefault(p => p.RoleID == item.ID) != null)
+            {
+                throw new Exception("You cannot delete this record. Project role is in use!");
+            }
             db.Role.Remove(item);
-            db.SaveChanges();
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                db.Dispose();
+                ContextSet();
+                throw new Exception("You cannot delete this record.");
+            }
         }
 
         public List<Role> GetAll()

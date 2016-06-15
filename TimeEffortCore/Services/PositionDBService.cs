@@ -12,6 +12,12 @@ namespace TimeEffortCore.Services
         private time_trackerEntities1 db;
         public PositionDBService()
         {
+            ContextSet();
+        }
+
+        private void ContextSet()
+        {
+            
             db = new time_trackerEntities1();
         }
         public void Delete(int itemId)
@@ -19,8 +25,17 @@ namespace TimeEffortCore.Services
             var item = db.Position.FirstOrDefault(p => p.ID == itemId);
             if (item == null)
                 throw new ArgumentNullException("You cannot delete a position");
+            
             db.Position.Remove(item);
-            db.SaveChanges();
+            try { 
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                db.Dispose();
+                ContextSet();
+                throw new Exception("You cannot delete this record.");
+            }
         }
 
         public List<Position> GetAll()
