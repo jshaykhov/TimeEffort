@@ -123,7 +123,7 @@ namespace TimeEffort.Controllers
             {
                 var customer = Service.GetById(id);
                 var model = CustomerMapper.MapCustomerToModel(customer);
-                ModelState.AddModelError("", e.Message);
+                ModelState.AddModelError("", "This customer is a client at one or more projects. Thus deleting failed. " + e.Message);
                 return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
