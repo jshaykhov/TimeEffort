@@ -9,67 +9,98 @@
 {
     @Html.TextBox("ProjectId", "", htmlAttributes: new { @id = "tbxProject", @class = "hidden" })
     @Html.TextBox("EmpId", "", htmlAttributes: new { @id = "tbxEmp", @class = "hidden" })
-     @Html.TextBox("RoleId", "", htmlAttributes: new { @id = "tbxRole", @class = "hidden" })
+    @Html.TextBox("RoleId", "", htmlAttributes: new { @id = "tbxRole", @class = "hidden" })
     <input style="display:none" id="btnAddEmp" type="submit" />
 }
-<table class="table" id="Projects">
-    
-    <tr>
-        
-        <th>
-            @Html.DisplayNameFor(model => model.Projects[0].ProjectName)
-        </th>
 
-        <th>
-            @Html.DisplayNameFor(model => model.Projects[0].StartDate)
-        </th>
-
-        <th>
-            @Html.DisplayNameFor(model => model.Projects[0].FinishDate)
-        </th>
-    </tr>
-
-@foreach (var item in Model.Projects)
+@if (Model.Projects.Count == 0)
 {
-
-    <tr data-prop=@item.Id onclick="ViewMembers(@item.Id)">
-
-        <td>
-            @Html.DisplayFor(modelItem => item.FullProjectName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FinishDate)
-        </td>
-    </tr>
+    <div class="col-lg-offset-3 col-md-6">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <div style="vertical-align: middle;">
+                            <i class="fa fa-meh-o fa-5x"></i>
+                        </div>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">Are you really PM?</div>
+                        <div align="justify"><h4>Seems like you do not manage any projects yet. If you are manager of project existing in the system, but you still see this message, please contact system administrator or CTO.</h4></div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("Index","Home")">
+                <div class="panel-footer">
+                    <span class="pull-left">Back to main menu</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="clearfix"></div>
 }
-</table>
+else
+{
+    <table class="table" id="Projects">
 
-<br/>
-@if(Model.Projects.Count>0)
-{ 
-<div id="membersTable">
-<h2>Project members</h2>
-<p>
-    <button id="addMember" onclick="DisplayAddForm()" class="btn btn-sm btn-success .btn-sx">Add new member</button>
-</p>
-<table class="table" id="myTable">
-    <tr>
+        <tr>
 
-        <th>
-            Name
-        </th>
-        <th>
-            Role
-        </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Projects[0].ProjectName)
+            </th>
 
-        <th></th>
-    </tr>
-    <tbody id="tbody"></tbody>
+            <th>
+                @Html.DisplayNameFor(model => model.Projects[0].StartDate)
+            </th>
 
-</table>
+            <th>
+                @Html.DisplayNameFor(model => model.Projects[0].FinishDate)
+            </th>
+        </tr>
+
+        @foreach (var item in Model.Projects)
+        {
+
+            <tr data-prop=@item.Id onclick="ViewMembers(@item.Id)">
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullProjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FinishDate)
+                </td>
+            </tr>
+        }
+    </table>
+}
+<br />
+@if (Model.Projects.Count > 0)
+{
+    <div id="membersTable">
+        <h2>Project members</h2>
+        <p>
+            <button id="addMember" onclick="DisplayAddForm()" class="btn btn-sm btn-success .btn-sx">Add new member</button>
+        </p>
+        <table class="table" id="myTable">
+            <tr>
+
+                <th>
+                    Name
+                </th>
+                <th>
+                    Role
+                </th>
+
+                <th></th>
+            </tr>
+            <tbody id="tbody"></tbody>
+
+        </table>
     </div>
 }
 
@@ -91,17 +122,17 @@
 
 <style>
     .highlight {
-    background-color:lightsteelblue
+        background-color: lightsteelblue;
     }
 </style>
 <script>
-    
+
     $(document).ready(function () {
 
         $('#Projects').find("[data-prop='" + @Model.selectedProject + "']").trigger('click');
 
     });
-    $('#Projects').on('click','tr',function(e){
+    $('#Projects').on('click', 'tr', function (e) {
         $('table').find('tr.highlight').removeClass('highlight');
         $(this).addClass('highlight');
     })
@@ -131,12 +162,10 @@
         row.append($("<td>" + rowData.User + "</td>"));
         row.append($("<td>" + rowData.Role + "</td>"));
         row.append($("<td> <a class=\"btn btn-sm btn-info .btn-sx\" href=\"/Appoint/Edit/" + rowData.Id + "\">Edit</a> <a class=\"btn btn-sm btn-info .btn-sx\" href=\"/Appoint/Delete/" + rowData.Id + "\">Delete</a></td>"))
-       
+
     };
-    function DisplayAddForm()
-    {
-        if ($('#addEmpRow').length > 0)
-        {
+    function DisplayAddForm() {
+        if ($('#addEmpRow').length > 0) {
             return;
         }
         var projectId = $('table').find('tr.highlight').data('prop');
@@ -148,12 +177,10 @@
             dataType: "json"
         });
         request.done(function (result) {
-            if ($('#msgNoMembers').length>0)
-            {
+            if ($('#msgNoMembers').length > 0) {
                 $('#tbody').empty();
             }
-            if (result.Message!=null)
-            {
+            if (result.Message != null) {
                 $('#msg').append(result.Message);
                 $('#myModal').modal('show');
                 return;
@@ -180,16 +207,14 @@
 
         });
     }
-    function Cancel()
-    {
+    function Cancel() {
         var projectId = $('table').find('tr.highlight').data('prop');
         ViewMembers(projectId);
     }
-    function Add()
-    {
-        var projectId=$('table').find('tr.highlight').data('prop');
+    function Add() {
+        var projectId = $('table').find('tr.highlight').data('prop');
         $('#tbxProject').val(projectId);
-        var empId=$('#Employee').val();
+        var empId = $('#Employee').val();
         $('#tbxEmp').val(empId);
         var roleId = $('#Role').val();
         $('#tbxRole').val(roleId);

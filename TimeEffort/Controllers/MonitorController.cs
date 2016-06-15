@@ -45,10 +45,20 @@ namespace TimeEffort.Controllers
         public ActionResult Index()
         {
             var model = new MonitorViewModel();
-            model.allEmployees = HelperUser.GetAllUsers();
-            model.allProjects = db.GetAllProjects();
-            model.workloads = HelperUser.GetAllWorkloadTypes();
-            return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml",model);
+            if (!User.IsInRole("User"))
+            {
+                model.allEmployees = HelperUser.GetAllUsers();
+                model.allProjects = db.GetAllProjects();
+                model.workloads = HelperUser.GetAllWorkloadTypes();
+            }
+            else
+            {
+                var employees = new List<TimeEffortCore.Entities.UserInfo>(); employees.Add(HelperUser.GetUserByName(User.Identity.Name));
+                model.allEmployees = employees;
+                model.allProjects = db.GetAllInvolvedUserPMProjects(User.Identity.Name);
+                model.workloads = db.GetAllTypes();
+            }
+            return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
         [HttpGet]
@@ -60,7 +70,7 @@ namespace TimeEffort.Controllers
         [HttpPost]
         public ActionResult MyAjaxRequest(QueryJson myQuery)
         {
-            DateTime from = DateTime.Now.AddDays(-7), to=DateTime.Now;
+            DateTime from = DateTime.Now.AddDays(-7), to = DateTime.Now;
             if (DateTime.TryParse(myQuery.FromDate, out from))
                 from = from;
             if (DateTime.TryParse(myQuery.ToDate, out to))
@@ -86,7 +96,7 @@ namespace TimeEffort.Controllers
         {
 
             model.projects = GetProjects(DateTime.Now, model.query.FromDate, model.query.ToDate, model.query.Employee, model.query.Project, model.query.WorkloadType);
-            
+
             return model;
         }
 
@@ -112,7 +122,7 @@ namespace TimeEffort.Controllers
             }
             if (!type.Equals("All"))
             {
-                var tempWorkload = HelperUser.GetAllWorkloadTypes().FirstOrDefault(w=>w.Name == type);
+                var tempWorkload = HelperUser.GetAllWorkloadTypes().FirstOrDefault(w => w.Name == type);
                 allWorkloads = allWorkloads.FindAll(x => x.WorkloadTypeID == tempWorkload.ID).ToList();
             }
 
@@ -141,15 +151,15 @@ namespace TimeEffort.Controllers
                     select new XElement("Workload",
                         new XElement("Id", workload.ID),
                         new XElement("Date", workload.Date),
-                        new XElement("UserInfo", workload.UserInfo.LastName+workload.UserInfo.FirstName),
-                        new XElement("Project", workload.Project ==null ? "": workload.Project.Name),
+                        new XElement("UserInfo", workload.UserInfo.LastName + workload.UserInfo.FirstName),
+                        new XElement("Project", workload.Project == null ? "" : workload.Project.Name),
                         new XElement("Duration", workload.Duration),
                         new XElement("ApprovedCTO", workload.ApprovedCTO),
                         new XElement("ApprovedMaster", workload.ApprovedMaster),
                         new XElement("ApprovedPM", workload.ApprovedPM),
                         new XElement("Note", workload.Note),
                         new XElement("WorkloadType", workload.WorkloadType.Name)
-                        
+
                         ));
                 xDoc.Add(xElement);
             }
@@ -180,7 +190,7 @@ namespace TimeEffort.Controllers
         {
             // Step 1 - get the data from database
             var data = db.GetAll();
-            
+
             // instantiate the GridView control from System.Web.UI.WebControls namespace
             // set the data source
             GridView gridview = new GridView();
@@ -210,8 +220,8 @@ namespace TimeEffort.Controllers
             return View();
 
         }
-        
 
-       
-	}
+
+
+    }
 }

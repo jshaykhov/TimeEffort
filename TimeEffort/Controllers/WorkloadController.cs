@@ -394,11 +394,19 @@ namespace TimeEffort.Controllers
                 var trying = db.GetAll().FirstOrDefault(x => x.UserID == workload.UserID && x.ProjectID == workload.ProjectID && x.Date == workload.Date && x.WorkloadTypeID == workload.WorkloadTypeID);
                 if (trying != null)
                 {
-                    trying.Duration = workload.Duration;
                     try
                     {
-                        db.Update(trying);
-                        return Json(new { success = true });
+                        if (duration != 0)
+                        {
+                            trying.Duration = workload.Duration;
+                            db.Update(trying);
+                            return Json(new { success = true });
+                        }
+                        else
+                        {
+                            db.Delete(trying.ID);
+                            return Json(new { success = true });
+                        }
                     }
                     catch (Exception e)
                     {
