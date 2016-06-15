@@ -72,6 +72,10 @@ namespace TimeEffortCore.Services
         {
             return db.UserInfo.ToList();
         }
+        public List<Customer> GetAllCustomers()
+        {
+            return db.Customer.ToList();
+        }
 
         public List<Project> GetProjectsByManager(int projectManagerId)
         {
@@ -86,31 +90,38 @@ namespace TimeEffortCore.Services
 
         //CODE GENERATION
 
-        public string GetNextCode(String ctype)
+        public List<string> GetNextCode()
         {
-            var p = db.Project.LastOrDefault();
+            var p = db.Project.AsEnumerable().LastOrDefault();
             string i = "";
+            List<string> returning = new List<string>();
             if (p != null)
-                i = p.Code.Substring(8, 10);
+                i = p.Code.Substring(8, 3);
             int incrementor = 0;
             bool successful = int.TryParse(i, out incrementor);
             if (successful)
             {
                 incrementor +=1;
                 i = incrementor.ToString();
-                string code = "PJ" + " " + DateTime.Now.Year + "-" + i.ToString().PadLeft(3, '0') + "-" + ctype;
                 if (i.Length == 1)
-                    return "00" + incrementor;
+                    i = "00" + incrementor;
                 else if (i.Length == 2)
-                    return "0" + incrementor;
+                    i =  "0" + incrementor;
                 else if (i.Length == 3)
-                    return incrementor.ToString();
+                    i = incrementor.ToString();
                 else
-                    return "";
+                    i = "";
+
+                if (i != "") { 
+                    returning.Add("PJ" + " " + DateTime.Now.Year + "-" + i + "-R");
+                    returning.Add("PJ" + " " + DateTime.Now.Year + "-" + i + "-H");
+                    returning.Add("PJ" + " " + DateTime.Now.Year + "-" + i + "-M");
+                    returning.Add("PJ" + " " + DateTime.Now.Year + "-" + i + "-B");
+                }
+                return returning;
             }
             else
-                return "";
-
+                return returning;
         }
 
     }

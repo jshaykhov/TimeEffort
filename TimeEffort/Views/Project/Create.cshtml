@@ -13,79 +13,103 @@
 
     <div class="form-horizontal">
         <hr />
-        @Html.ValidationSummary(true)
-
-        <div class="form-group">
-            @Html.LabelForRequired(model => model.CType, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.CType, (SelectList)ViewBag.Types)
-                @Html.ValidationMessageFor(model => model.CType)
-            </div>
-        </div>   
+        @Html.ValidationSummary(true) 
 
         <div class="form-group">
             @Html.LabelForRequired(model => model.ProjectName, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ProjectName)
-                @Html.ValidationMessageFor(model => model.ProjectName)
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.ProjectName, new { htmlAttributes = new { @class = "form-control",  @id="pName"} })
+                @Html.ValidationMessageFor(model => model.ProjectName, "",new {@id="NameValidationResult"})
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CMoneyUsd, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CMoneyUsd)
-                @Html.ValidationMessageFor(model => model.CMoneyUsd)
+            @Html.LabelForRequired(model => model.CustomerId, new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownListFor(model => model.CustomerId, (SelectList)ViewBag.Customers, new { @class = "form-control", @id = "customer" })
+                @Html.ValidationMessageFor(model => model.CustomerId)
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelForRequired(model => model.CMoneyUsd, new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.CMoneyUsd, new { htmlAttributes = new { @class = "form-control", @id = "moneyUsd" } })
+                @Html.ValidationMessageFor(model => model.CMoneyUsd, "", new{ @id = "UsdValidationResult" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CMoneyUzs, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CMoneyUzs)
-                @Html.ValidationMessageFor(model => model.CMoneyUzs)
+            @Html.LabelForRequired(model => model.CMoneyUzs, new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.CMoneyUzs, new { htmlAttributes = new { @class = "form-control", @id = "moneyUzs" } })
+                @Html.ValidationMessageFor(model => model.CMoneyUzs, "",new { @id = "UzsValidationResult" } )
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelForRequired(model => model.PManagerId, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.PManagerId, (SelectList)ViewBag.Users)
+            <div class="col-md-2">
+                @Html.DropDownListFor(model => model.PManagerId, (SelectList)ViewBag.Users, new { @class = "form-control", @id = "manager" })
                 @Html.ValidationMessageFor(model => model.PManagerId)
             </div>
+
         </div>
 
         <div class="form-group">
             @Html.LabelForRequired(model => model.StartDate, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.StartDate)
-                @Html.ValidationMessageFor(model => model.StartDate)
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @id = "start" } })
+                @Html.ValidationMessageFor(model => model.StartDate, "", new { @id = "StartValidationResult" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelForRequired(model => model.FinishDate, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FinishDate)
-                @Html.ValidationMessageFor(model => model.FinishDate)
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.FinishDate, new { htmlAttributes = new { @class = "form-control", @id = "finish" } })
+                @Html.ValidationMessageFor(model => model.FinishDate, "", new { @id = "FinishValidationResult" })
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelForRequired(model => model.Status, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.Status, (SelectList)ViewBag.Items)
                 @Html.ValidationMessageFor(model => model.Status)
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-                <input type="button" onclick="location.href='@Url.Action("Index","Project")'" value="Cancel" class="btn btn-default" />
+            <div class="col-md-offset-2 col-md-2">
+                <input type="button" onclick="CreateProjects()" value="Generate" class="btn btn-default" />
+                @*<input type="button" onclick="location.href='@Url.Action("Index","Project")'" value="Cancel" class="btn btn-default" />*@
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="row" id="body">
+
+    </div>
+    
+    
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Time Effort</h4>
+            </div>
+            <div class="modal-body" id="msg">
+            </div>
+            <div class="modal-footer">
+                Time Effort
             </div>
         </div>
     </div>
+</div>
 }
 
 
@@ -94,5 +118,152 @@
 
 
 }
+<script>
+    $(document).ready(function () {
+        $("#start").val(Date.now);
+        $("#finish").val(Date.now);
+    })
+    function CreateProjects() {
 
+        if ($('.addForm').length > 0) {
+            return;
+        }
+        if (!ValidateInput())
+        {
+            return;
+        }
+        var url = "/Project/GetCodes";
+        var request = $.ajax({
+            url: url,
+            data: {
+                Id: 0,
+                CustomerId: $("#customer").val(),
+                CMoneyUsd: $("#moneyUsd").val(),
+                CMoneyUzs: $("#moneyUzs").val(),
+                StartDate: $("#start").val(),
+                FinishDate: $("#finish").val(),
+                PManagerId: $("#manager").val(),
+                ProjectName: $("#pName").val()
+            },
+            type: "GET",
+            contentType: "application/json",
+            dataType: "json"
+        });
+        request.done(function (result) {
+            for (var i = 0; i < result.length; i++) {
+                var div = $("<div class=\"col-lg-12 addForm\"/>");
+                $("#body").append(div);
+                div.append("<div class=\"form-group\"><label  class=\"control-label col-md-2\">Code <font color='red'>*</font></label><div class=\"col-md-2\">" +
+               "<input class=\"form-control text-box single-line \" disabled=\"disabled\" data-val=\"true\" data-val-required=\"The Project Code field is required.\" id=\"ProjectCode" + i + "\" type=\"text\" value=\"" + result[i].Code +
+               "\"/><span class=\"field-validation-valid\" data-valmsg-for=\"ProjectCode\" data-valmsg-replace=\"true\"></span></div></div>");
+
+                div.append("<div class=\"form-group\"><label class=\"control-label col-md-2\">UZS <font color='red'>*</font></label><div class=\"col-md-2\">" +
+              "<input class=\"form-control text-box single-line\" data-val=\"true\" data-val-number=\"The field UZS must be a number.\" data-val-required=\"The UZS field is required.\" id=\"Uzs" + i + "\" type=\"text\" value=\"0,00\"/><span class=\"field-validation-valid\" data-valmsg-for=\"ProjectCode\" data-valmsg-replace=\"true\"></span></div></div>");
+
+                div.append("<div class=\"form-group\"><label class=\"control-label col-md-2\">USD <font color='red'>*</font></label><div class=\"col-md-2\">" +
+                       "<input class=\"form-control text-box single-line\" data-val=\"true\" data-val-number=\"The field USD must be a number.\" data-val-required=\"The USD field is required.\" id=\"Usd" + i + "\" type=\"text\" value=\"0,00\"/><span class=\"field-validation-valid\" data-valmsg-for=\"ProjectCode\" data-valmsg-replace=\"true\"></span></div></div>");
+
+            }
+            $("#body").append("<input type=\"button\" onclick=\"Save()\" value=\"Save\" class=\"btn btn-default\" /> <input type=\"button\" onclick=\"location.href='/Project'\" value=\"Cancel\" class=\"btn btn-default\" />");
+        });
+    }
+    function Save() {
+        if (!CheckSum())
+        {
+            return;
+        }
+        var data = [];
+        for (var i = 0; i < $("#body").find(".addForm").length; i++) {
+            data.push({
+                Id: 0,
+                CustomerId: $("#customer").val(),
+                Code: $("#ProjectCode" + i).val(),
+                CMoneyUsd: $("#Usd" + i).val().replace(".", ","),
+                CMoneyUzs: $("#Uzs" + i).val().replace(".", ","),
+                StartDate: $("#start").val(),
+                FinishDate: $("#finish").val(),
+                PManagerId: $("#manager").val(),
+                ProjectName: $("#pName").val()
+
+            });
+        }
+        var url = "/Project/CreateT";
+        var request = $.ajax({
+            url: url,
+            data: JSON.stringify(data),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json"
+        });
+
+    }
+    function CheckSum()
+    {
+        var sumUsd = 0;
+        var sumUzs = 0;
+        var sumActUsd = Number($("#moneyUsd" ).val().replace(",", "."));
+        var sumActUzs = Number($("#moneyUzs" ).val().replace(",", "."));
+
+        for (var i = 0; i < $("#body").find(".addForm").length; i++) {
+            sumUsd += Number($("#Usd" + i).val().replace(",","."));
+            sumUzs += Number($("#Uzs" + i).val().replace(",", "."));
+        }
+        if (sumActUsd != sumUsd || sumActUzs != sumUzs) {
+            $('#msg').append("Total contract money and money for projects R,H,M,B do not match");
+            $('#myModal').modal('show');
+            return false;        }
+        else { return true;}
+    }
+        function ValidateInput() {
+            var validationResult = true;
+            var nameControl = $('#pName');
+            var usdControl = $('#moneyUsd');
+            var uzsControl = $('#moneyUzs');
+            var startControl = $('#start');
+            var finishControl = $('#finish');
+            if (nameControl.val().length == 0) {
+                validationResult = false;
+                $('#NameValidationResult').get(0).innerHTML = "<font color='#b94a48'>Project name is required</font>";
+                nameControl.css("border-color", "#b94a48");
+            }
+            else {
+                $('#NameValidationResult').get(0).innerHTML = "";
+                nameControl.css("border-color", "#cccccc");
+            }
+            if ((usdControl.val() == 0 | usdControl.val() == "0,00") && (uzsControl.val() == 0 | uzsControl.val() == "0,00")) {
+                validationResult = false;
+                usdControl.css("border-color", "#b94a48");
+
+                $('#UzsValidationResult').get(0).innerHTML = "<font color='#b94a48'>Please enter contract money in UZS or/and USD</font>";
+                uzsControl.css("border-color", "#b94a48");
+            }
+            else {
+                $('#UsdValidationResult').innerHTML = "";
+                usdControl.css("border-color", "#cccccc");
+                $('#UzsValidationResult').get(0).innerHTML = "";
+                uzsControl.css("border-color", "#cccccc");
+            }
+            if (startControl.val() == 0) {
+                validationResult = false;
+                $('#StartValidationResult').get(0).innerHTML = "<font color='#b94a48'>Start date is required</font>";
+                startControl.css("border-color", "#b94a48");
+            }
+            else {
+                $('#StartValidationResult').get(0).innerHTML = "";
+                startControl.css("border-color", "#cccccc");
+            }
+            if (finishControl.val() == 0) {
+                validationResult = false;
+                $('#FinishValidationResult').get(0).innerHTML = "<font color='#b94a48'>Finish date is required</font>";
+                finishControl.css("border-color", "#b94a48");
+            }
+            else {
+                $('#FinishValidationResult').get(0).innerHTML = "";
+                finishControl.css("border-color", "#cccccc");
+            }
+
+            return validationResult;
+
+        }
+</script>
 

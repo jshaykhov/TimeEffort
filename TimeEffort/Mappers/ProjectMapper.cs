@@ -28,17 +28,35 @@ namespace TimeEffort.Mappers
             };
          
         }
+        public static Project MapProjectFromCreateModel(ProjectCreateViewModel model)
+        {
+            return new Project
+            {
+                ID = model.Id,
+                CType = model.CType,
+                Code = model.Code,
+                Name = model.ProjectName,
+                ContractUSD = decimal.Parse(model.CMoneyUsd),
+                ContractUZS = decimal.Parse(model.CMoneyUzs),
+                ManagerID = model.PManagerId,
+                CustomerId = model.CustomerId,
+                StartDate = model.StartDate.Date,
+                EndDate = model.FinishDate.Date,
+                //Status = (model.Status == "Active") ? true : false
+            };
+        }
         public static Project MapProjectFromModel(ProjectViewModel model)
         {
             return new Project
             {
                 ID = model.Id,
                 CType=model.CType,
-                //Code = model.Code,
+                Code = model.Code,
                 Name = model.ProjectName,
                 ContractUSD = model.CMoneyUsd,
                 ContractUZS = model.CMoneyUzs,
                 ManagerID = model.PManagerId,
+                CustomerId = model.CustomerId,
                 StartDate = model.StartDate.Date,
                 EndDate = model.FinishDate.Date,
                 Status = (model.Status=="Active") ? true:false
