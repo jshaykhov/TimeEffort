@@ -65,7 +65,9 @@ namespace TimeEffortCore.Services
             dbItem.Name = item.Name;
             dbItem.Address = item.Address;
             dbItem.TIN = item.TIN;
-            dbItem.Phone = item.Phone;
+            dbItem.ContactPhone = item.ContactPhone;
+            dbItem.GenDirector = item.GenDirector;
+            dbItem.ContactPerson = item.ContactPerson;
             db.SaveChanges();
         }
     }

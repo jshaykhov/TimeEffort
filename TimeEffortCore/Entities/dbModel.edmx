@@ -22,7 +22,9 @@
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="TIN" Type="nchar" MaxLength="9" Nullable="false" />
           <Property Name="Address" Type="nvarchar(max)" />
-          <Property Name="Phone" Type="nchar" MaxLength="13" />
+          <Property Name="ContactPhone" Type="nvarchar" MaxLength="13" />
+          <Property Name="GenDirector" Type="nvarchar(max)" />
+          <Property Name="ContactPerson" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Position">
           <Key>
@@ -542,8 +544,10 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TIN" Type="String" Nullable="false" MaxLength="9" FixedLength="true" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" MaxLength="13" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Project" Relationship="time_trackerModel.FK_Project_Customer" FromRole="Customer" ToRole="Project" />
+          <Property Name="ContactPhone" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="GenDirector" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPerson" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Project_Customer">
           <End Type="time_trackerModel.Customer" Role="Customer" Multiplicity="0..1" />
@@ -684,7 +688,9 @@
           <EntitySetMapping Name="Customer">
             <EntityTypeMapping TypeName="time_trackerModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+                <ScalarProperty Name="GenDirector" ColumnName="GenDirector" />
+                <ScalarProperty Name="ContactPhone" ColumnName="ContactPhone" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="TIN" ColumnName="TIN" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
