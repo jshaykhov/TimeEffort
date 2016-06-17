@@ -112,8 +112,9 @@ namespace TimeEffort.Controllers
                 }
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
-            catch
+            catch (Exception e)
             {
+                ModelState.AddModelError("",""+e.Message);
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }

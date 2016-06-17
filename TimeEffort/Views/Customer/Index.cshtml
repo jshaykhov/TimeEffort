@@ -5,7 +5,7 @@
 @{
     ViewBag.Title = "Customers";
 }
-
+@Html.ValidationSummary(true)
 <h2>Customers</h2>
  @using (Html.BeginForm("Index", "Customer", FormMethod.Get))
     {
