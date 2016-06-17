@@ -53,20 +53,36 @@ namespace TimeEffortCore.Services
 
         public void Insert(Customer item)
         {
-            db.Customer.Add(item);
-            db.SaveChanges();
+            if (db.Customer.Any(o => o.TIN == item.TIN))
+            {
+                throw new Exception("THE TIN YOU ENTERED ALREADY EXISTS IN THE DATABASE");
+            }
+            else
+            {
+                db.Customer.Add(item);
+                db.SaveChanges();
+            }
         }
 
         public void Update(Customer item)
         {
             var dbItem = db.Customer.FirstOrDefault(p => p.ID == item.ID);
             if (dbItem == null)
-                throw new ArgumentNullException("Customer does not exist");
-            dbItem.Name = item.Name;
-            dbItem.Address = item.Address;
-            dbItem.TIN = item.TIN;
-            dbItem.Phone = item.Phone;
-            db.SaveChanges();
+                throw new Exception("Customer does not exist");
+            if (db.Customer.Any(o => o.TIN == item.TIN))
+            {
+                throw new Exception("THE TIN YOU ENTERED ALREADY EXISTS IN THE DATABASE");
+            }
+            else
+            {
+                dbItem.Name = item.Name;
+                dbItem.Address = item.Address;
+                dbItem.TIN = item.TIN;
+                dbItem.ContactPhone = item.ContactPhone;
+                dbItem.GenDirector = item.GenDirector;
+                dbItem.ContactPerson = item.ContactPerson;
+                db.SaveChanges();
+            }
         }
     }
 }

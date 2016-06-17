@@ -23,7 +23,9 @@ namespace TimeEffortCore.Entities
         public string Name { get; set; }
         public string TIN { get; set; }
         public string Address { get; set; }
-        public string Phone { get; set; }
+        public string ContactPhone { get; set; }
+        public string GenDirector { get; set; }
+        public string ContactPerson { get; set; }
     
         public virtual ICollection<Project> Project { get; set; }
     }

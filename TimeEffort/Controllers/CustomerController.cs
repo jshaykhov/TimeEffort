@@ -7,6 +7,8 @@ using TimeEffort.Helper;
 using TimeEffort.Mappers;
 using TimeEffort.Models;
 using TimeEffortCore.Services;
+using PagedList;
+using PagedList.Mvc;
 
 namespace TimeEffort.Controllers
 {
@@ -25,11 +27,26 @@ namespace TimeEffort.Controllers
         }
         //
         // GET: /Customer/
-        public ActionResult Index()
+        public ActionResult Index(int? page, string currentFilter, string searchByCName)
         {
-            var allRoles = Service.GetAll();
-            var list = CustomerMapper.MapCustomersToModels(allRoles);
-            return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", list);
+            var model = new CustomerModel();
+            var allCustomers = Service.GetAll();
+            var list = CustomerMapper.MapCustomersToModels(allCustomers);
+            if (searchByCName != null)
+                page = 1;
+            else
+                searchByCName = currentFilter;
+
+            ViewBag.CurrentFilter = searchByCName;
+            if (!String.IsNullOrEmpty(searchByCName))
+            {
+                list = list.Where(p => p.Name.ToLower().Contains(searchByCName.ToLower())).ToList();
+            }
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            model.Pagination = list.ToPagedList(pageNumber, pageSize);
+            model.CustomerList = list;
+            return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
         //
@@ -95,8 +112,9 @@ namespace TimeEffort.Controllers
                 }
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
-            catch
+            catch (Exception e)
             {
+                ModelState.AddModelError("",""+e.Message);
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }

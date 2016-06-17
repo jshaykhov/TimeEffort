@@ -18,7 +18,10 @@ namespace TimeEffort.Mappers
                 Name = customer.Name,
                 TIN=customer.TIN,
                 Address=customer.Address,
-                Phone=customer.Phone
+                ContactPhone=customer.ContactPhone,
+                GenDirector=customer.GenDirector,
+                ContactPerson=customer.ContactPerson
+               
             };
          
         }
@@ -30,7 +33,9 @@ namespace TimeEffort.Mappers
                 Name = model.Name,
                 TIN=model.TIN,
                 Address=model.Address,
-                Phone=model.Phone
+                ContactPhone=model.ContactPhone,
+                GenDirector=model.GenDirector,
+                ContactPerson=model.ContactPerson
             };
         }
         public static List<CustomerViewModel> MapCustomersToModels(List<Customer> list)
@@ -41,7 +46,9 @@ namespace TimeEffort.Mappers
                     Name = c.Name,
                     TIN = c.TIN,
                     Address = c.Address,
-                    Phone = c.Phone
+                    ContactPhone = c.ContactPhone,
+                    GenDirector=c.GenDirector,
+                    ContactPerson=c.ContactPerson
                 }).ToList();
         }
     }

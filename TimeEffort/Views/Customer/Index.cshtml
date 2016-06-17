@@ -1,32 +1,49 @@
-﻿@model IEnumerable<TimeEffort.Models.CustomerViewModel>
+﻿@using PagedList.Mvc;
+@model TimeEffort.Models.CustomerModel
+
 
 @{
     ViewBag.Title = "Customers";
 }
-
+@Html.ValidationSummary(true)
 <h2>Customers</h2>
+ @using (Html.BeginForm("Index", "Customer", FormMethod.Get))
+    {
 
+<div class="row">
+    <div class="col-sm-3 pull-right">
+        <b>Search by Customer name</b> @Html.TextBox("SearchByCName", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" class="btn btn-sm btn-default" />
+    </div>
+</div>
+    }
 <p>
     @Html.ActionLink("Create New Customer", "Create", null, new { @class = "btn btn-sm btn-success .btn-sx" })
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Pagination[0].Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TIN)
+            @Html.DisplayNameFor(model => model.Pagination[0].TIN)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Phone)
+            @Html.DisplayNameFor(model => model.Pagination[0].Address)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Address)
+            @Html.DisplayNameFor(model => model.Pagination[0].GenDirector)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pagination[0].ContactPerson)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pagination[0].ContactPhone)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Pagination) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
@@ -35,10 +52,16 @@
             @Html.DisplayFor(modelItem => item.TIN)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Phone)
+            @Html.DisplayFor(modelItem => item.Address)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Address)
+            @Html.DisplayFor(modelItem => item.GenDirector)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactPerson)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactPhone)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-info .btn-sx" })
@@ -48,3 +71,9 @@
 }
 
 </table>
+<span>Page</span>
+@(Model.Pagination.PageCount < Model.Pagination.PageNumber ? 0 : Model.Pagination.PageNumber) <span>of</span>
+@Model.Pagination.PageCount
+@Html.PagedListPager(Model.Pagination, page => Url.Action("Index",
+                                new { page, currentFilter = ViewBag.CurrentFilter, searchByCName = ViewBag.searchByCName }))
+
