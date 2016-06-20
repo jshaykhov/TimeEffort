@@ -27,12 +27,15 @@ namespace TimeEffortCore.Services
 
         public List<Workload> GetAll()
         {
-            return db.Workload.ToList();
+            using (time_trackerEntities1 ctx = new time_trackerEntities1())
+            {
+                return ctx.Workload.ToList();
+            }
         }
 
         public List<Workload> GetAllbyUserAndDate(int userId, DateTime date)
         {
-            return db.Workload.Where(w=>w.UserID==userId && w.Date==date).ToList();
+            return db.Workload.Where(w => w.UserID == userId && w.Date == date).ToList();
         }
 
         public Workload GetById(int id)
@@ -98,33 +101,42 @@ namespace TimeEffortCore.Services
         //WorkloadType
         public List<WorkloadType> GetAllTypes()
         {
-            return db.WorkloadType.ToList();
+            using (time_trackerEntities1 ctx = new time_trackerEntities1())
+            {
+                return ctx.WorkloadType.ToList();
+            }
         }
 
         //User
         public int GetUserByUsername(string username)
         {
-                var user=db.UserInfo.FirstOrDefault(u => u.Username == username);
+            using (time_trackerEntities1 ctx = new time_trackerEntities1())
+            {
+                var user = ctx.UserInfo.FirstOrDefault(u => u.Username == username);
                 if (user == null)
                     throw new ArgumentNullException("User not found");
                 return user.ID;
-           
+            }
+
         }
 
         public List<Project> GetAllInvolvedUserPMProjects(string username)
         {
-            var user = db.UserInfo.FirstOrDefault(u => u.Username == username);
-            List<Project> list = new List<Project>();
-            foreach (Access item in db.Access.Where(x => x.UserID == user.ID).ToList())
+            using (time_trackerEntities1 ctx = new time_trackerEntities1())
             {
-                list.Add(item.Project);
-            }
-            foreach (Project item in db.Project.Where(x => x.ManagerID == user.ID).ToList())
-            {
-                list.Add(item);
-            }
+                var user = ctx.UserInfo.FirstOrDefault(u => u.Username == username);
+                List<Project> list = new List<Project>();
+                foreach (Access item in ctx.Access.Where(x => x.UserID == user.ID).ToList())
+                {
+                    list.Add(item.Project);
+                }
+                foreach (Project item in ctx.Project.Where(x => x.ManagerID == user.ID).ToList())
+                {
+                    list.Add(item);
+                }
 
-            return list;
+                return list;
+            }
         }
     }
 }

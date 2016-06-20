@@ -346,7 +346,7 @@ namespace TimeEffort.Controllers
                     return Json(new { success = false, reason = "Duration_invalid" });
             }
 
-            if (duration >= 0 && duration <= 24)
+            if (duration >= 0 && duration <= 24 && json.workloadName != null)
             {
                 var date = json.monday.AddDays(json.weekDate - 1); //DateTime.Parse(json.monday)
                 var userId = db.GetUserByUsername(User.Identity.Name);
