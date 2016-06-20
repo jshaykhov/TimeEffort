@@ -68,7 +68,7 @@ namespace TimeEffortCore.Services
         public void Update(Customer item)
         {
             var dbItem = db.Customer.FirstOrDefault(p => p.ID == item.ID);
-            if (db.Customer.Any(o => o.TIN == item.TIN));                   
+            if (db.Customer.Any(o => o.TIN == item.TIN))                   
 
             if (dbItem == null)
                 throw new Exception("Customer does not exist");                                
