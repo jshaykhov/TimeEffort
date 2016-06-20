@@ -45,7 +45,7 @@
                 ReturnUrl: objURL["ReturnUrl"]
             };
 
-            $('#progressBar').show();
+            $('#progressBar').attr("class", "progress active progress-striped").show();
             $('#btnSubmit').hide();
             $.ajax({
                 url: '/User/LoginAjax',
@@ -128,7 +128,7 @@
                                 
 
                                 <div class="form-group">
-                                    <div class="progress active progress-striped" style="height:3em" tabindex="-1" id="progressBar">
+                                    <div class="progress active progress-striped hidden" style="height:3em" tabindex="-1" id="progressBar">
                                         <div class="progress-bar progress-bar-success" role="progressbar"
                                              aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%;">
                                             <h5>Login</h5>

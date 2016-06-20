@@ -1,0 +1,56 @@
+﻿@{
+
+    ViewBag.Title = "404 Error";
+    Layout = null;
+    if (User.IsInRole("Admin"))
+        {
+            Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+        }
+        else if (User.IsInRole("CTO"))
+        {
+            Layout = "~/Views/Shared/_LayoutCTO.cshtml";
+        }
+        else if (User.IsInRole("Master"))
+        {
+            Layout = "~/Views/Shared/_LayoutMaster.cshtml";
+        }
+        else if (User.IsInRole("Test"))
+        {
+            Layout = "~/Views/Shared/_LayoutTest.cshtml";
+        }
+        else if (User.IsInRole("User"))
+        {
+            Layout = "~/Views/Shared/_LayoutUser.cshtml";
+        }
+        else if (User.IsInRole("Monitor"))
+        {
+            Layout = "~/Views/Shared/_LayoutMonitor.cshtml";
+        }
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="error-template">
+                <h1>
+                    Oops!
+                </h1>
+                <h2>
+                    404 Not Found
+                </h2>
+                <div class="error-details">
+                    Sorry, an error has occured, Requested page not found!
+                </div>
+                <div class="error-actions">
+                    <a href="@Url.Action("Index","Home")" class="btn btn-primary btn-md">
+                        <span class="glyphicon glyphicon-home"></span>
+                        Take Me Home
+                    </a>
+                    <br />
+                    <br />
+                    <a href="mailto:bakir@lgcns.uz" class="btn btn-default btn-md"><span class="glyphicon glyphicon-envelope"></span> Contact Support </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

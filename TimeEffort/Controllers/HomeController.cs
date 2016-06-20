@@ -15,13 +15,13 @@ namespace TimeEffort.Controllers
         
         public ActionResult Index()
         {
-            Configuration config = WebConfigurationManager.OpenWebConfiguration(Request.ApplicationPath);
-            ConfigurationSection section = config.GetSection("connectionStrings");
-            if (!section.SectionInformation.IsProtected)
-            {
-                section.SectionInformation.ProtectSection("RsaProtectedConfigurationProvider");
-                config.Save();
-            }
+            //Configuration config = WebConfigurationManager.OpenWebConfiguration(Request.ApplicationPath);
+            //ConfigurationSection section = config.GetSection("connectionStrings");
+            //if (!section.SectionInformation.IsProtected)
+            //{
+            //    section.SectionInformation.ProtectSection("RsaProtectedConfigurationProvider");
+            //    config.Save();
+            //}
             //
             return View("Index" + HelperUser.GetRoleName(User), masterName: "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml");
         }
