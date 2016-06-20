@@ -107,6 +107,7 @@ namespace TimeEffort.Controllers
                 if (ModelState.IsValid)
                 {
                     var customer = CustomerMapper.MapCustomerFromModel(model);
+               
                     Service.Update(customer);
                     return RedirectToAction("Index");
                 }
@@ -114,7 +115,7 @@ namespace TimeEffort.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("",""+e.Message);
+                ModelState.AddModelError("", "THE TIN YOU ENTERED ALREADY EXISTS IN THE DATABASE."+" " + e.Message);
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }

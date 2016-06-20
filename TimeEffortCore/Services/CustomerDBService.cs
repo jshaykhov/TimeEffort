@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,22 +68,19 @@ namespace TimeEffortCore.Services
         public void Update(Customer item)
         {
             var dbItem = db.Customer.FirstOrDefault(p => p.ID == item.ID);
+            if (db.Customer.Any(o => o.TIN == item.TIN));                   
+
             if (dbItem == null)
-                throw new Exception("Customer does not exist");
-            if (db.Customer.Any(o => o.TIN == item.TIN))
-            {
-                throw new Exception("THE TIN YOU ENTERED ALREADY EXISTS IN THE DATABASE");
-            }
-            else
-            {
-                dbItem.Name = item.Name;
-                dbItem.Address = item.Address;
-                dbItem.TIN = item.TIN;
-                dbItem.ContactPhone = item.ContactPhone;
-                dbItem.GenDirector = item.GenDirector;
-                dbItem.ContactPerson = item.ContactPerson;
-                db.SaveChanges();
-            }
+                throw new Exception("Customer does not exist");                                
+                                
+            dbItem.Name = item.Name;
+            dbItem.Address = item.Address;
+            dbItem.ContactPhone = item.ContactPhone;
+            dbItem.GenDirector = item.GenDirector;
+            dbItem.ContactPerson = item.ContactPerson;                    
+            dbItem.TIN = item.TIN;
+            db.Entry(dbItem).State = EntityState.Modified;
+            db.SaveChanges();
         }
     }
 }
