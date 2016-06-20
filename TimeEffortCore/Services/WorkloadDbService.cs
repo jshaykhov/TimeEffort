@@ -64,9 +64,7 @@ namespace TimeEffortCore.Services
             var dbItem = db.Workload.FirstOrDefault(w => w.ID == id);
             if (dbItem == null)
                 throw new ArgumentNullException("Workload does not exist");
-            dbItem.ApprovedPM = pm;
-            dbItem.ApprovedMaster = master;
-            dbItem.ApprovedCTO = cto;
+           
             db.SaveChanges();
         }
         public void Update(Workload item)
@@ -79,10 +77,7 @@ namespace TimeEffortCore.Services
             dbItem.UserID = item.UserID;
             dbItem.ProjectID = item.ProjectID;
             dbItem.Duration = item.Duration;
-            dbItem.ApprovedPM = item.ApprovedPM;
-            dbItem.ApprovedCTO = item.ApprovedCTO;
-            dbItem.ApprovedMaster = item.ApprovedMaster;
-            dbItem.Note = item.Note;
+             dbItem.Note = item.Note;
             dbItem.WorkloadTypeID = item.WorkloadTypeID;
 
             db.SaveChanges();

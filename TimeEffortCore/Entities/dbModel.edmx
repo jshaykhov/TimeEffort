@@ -13,6 +13,8 @@
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="ProjectID" Type="int" Nullable="false" />
           <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="DateFrom" Type="datetime" />
+          <Property Name="DateTo" Type="datetime" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -90,9 +92,6 @@
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="ProjectID" Type="int" />
           <Property Name="Duration" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="ApprovedPM" Type="bit" Nullable="false" />
-          <Property Name="ApprovedCTO" Type="bit" Nullable="false" />
-          <Property Name="ApprovedMaster" Type="bit" Nullable="false" />
           <Property Name="Note" Type="nvarchar" MaxLength="150" />
           <Property Name="WorkloadTypeID" Type="int" Nullable="false" />
         </EntityType>
@@ -260,6 +259,8 @@
           <NavigationProperty Name="Project" Relationship="Self.FK_Access_Project" FromRole="Access" ToRole="Project" />
           <NavigationProperty Name="Role" Relationship="Self.FK_Access_Role" FromRole="Access" ToRole="Role" />
           <NavigationProperty Name="UserInfo" Relationship="Self.FK_Access_UserInfo" FromRole="Access" ToRole="UserInfo" />
+          <Property Name="DateFrom" Type="DateTime" Precision="3" />
+          <Property Name="DateTo" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Position">
           <Key>
@@ -336,13 +337,10 @@
           <Property Name="ProjectID" Type="Int32" />
           <Property Name="Duration" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Note" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="WorkloadTypeID" Type="Int32" Nullable="false" />
+          <Property Name="WorkloadTypeID" Nullable="false" Type="Int32" />
           <NavigationProperty Name="Project" Relationship="Self.FK_Workload_Project" FromRole="Workload" ToRole="Project" />
           <NavigationProperty Name="UserInfo" Relationship="Self.FK_Workload_UserInfo" FromRole="Workload" ToRole="UserInfo" />
           <NavigationProperty Name="WorkloadType" Relationship="Self.FK_Workload_WorkloadType" FromRole="Workload" ToRole="WorkloadType" />
-          <Property Name="ApprovedPM" Type="Boolean" Nullable="false" />
-          <Property Name="ApprovedCTO" Type="Boolean" Nullable="false" />
-          <Property Name="ApprovedMaster" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="WorkloadType">
           <Key>
@@ -570,6 +568,8 @@
           <EntitySetMapping Name="Access">
             <EntityTypeMapping TypeName="time_trackerModel.Access">
               <MappingFragment StoreEntitySet="Access">
+                <ScalarProperty Name="DateTo" ColumnName="DateTo" />
+                <ScalarProperty Name="DateFrom" ColumnName="DateFrom" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
@@ -640,9 +640,6 @@
           <EntitySetMapping Name="Workload">
             <EntityTypeMapping TypeName="time_trackerModel.Workload">
               <MappingFragment StoreEntitySet="Workload">
-                <ScalarProperty Name="ApprovedMaster" ColumnName="ApprovedMaster" />
-                <ScalarProperty Name="ApprovedCTO" ColumnName="ApprovedCTO" />
-                <ScalarProperty Name="ApprovedPM" ColumnName="ApprovedPM" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />

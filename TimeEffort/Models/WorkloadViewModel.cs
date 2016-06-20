@@ -32,13 +32,6 @@ namespace TimeEffort.Models
         [Display(Name = "Duration")]
         public decimal Duration { get; set; }
 
-
-        [Required]
-        [Display(Name = "Approved Status")]
-        public bool ApprovedMaster { get; set; }
-        public bool ApprovedCTO { get; set; }
-        public bool ApprovedPM { get; set; }
-
         [DataType(DataType.MultilineText)]
         [Display(Name = "Task / Note")]
         public string Note { get; set; }
