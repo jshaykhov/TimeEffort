@@ -27,63 +27,89 @@ namespace TimeEffort.Helper
 
         public static bool IsInvolvedInProject(Project project, UserInfo user)
         {
-            AccessDBService db = new AccessDBService();
-            return db.IsInvolved(user.ID, project.ID);
+            using (time_trackerEntities1 ctx = new time_trackerEntities1())
+            {
+                return ctx.Access.Any(x => x.UserID == user.ID && x.ProjectID == project.ID);
+            }
         }
 
         public static List<Project> GetAllInvolvedProjects(System.Security.Principal.IPrincipal _user)
         {
-            AccessDBService db = new AccessDBService();
-            ProjectDBService pDb = new ProjectDBService();
-
-            var allProjects = pDb.GetAll();
-            List<Project> returningProjects = new List<Project>();
-            foreach (Project p in allProjects)
+            using (time_trackerEntities1 ctx = new time_trackerEntities1())
             {
-                if (db.IsInvolved(_user.Identity.Name, p.ID))
-                    returningProjects.Add(p);
+
+                var allProjects = ctx.Project.ToList(); ;
+                List<Project> returningProjects = new List<Project>();
+                foreach (Project p in allProjects)
+                {
+                    if (ctx.Access.Any(x => x.UserInfo.Username == _user.Identity.Name && x.ProjectID == p.ID))
+                        returningProjects.Add(p);
+                }
+                return returningProjects;
             }
-            return returningProjects;
         }
 
 
         public static List<Project> GetProjectsByManager(System.Security.Principal.IPrincipal _user)
         {
-            UserService db = new UserService();
-            ProjectDBService p = new ProjectDBService();
-            UserInfo user = db.GetUserByUsername(_user.Identity.Name);
-            return p.GetProjectsByManager(user.ID);
+            using (time_trackerEntities1 ctx = new time_trackerEntities1())
+            {
+                UserInfo user = ctx.UserInfo.FirstOrDefault(u => u.Username == _user.Identity.Name);
+                return ctx.Project.Where(p => p.ManagerID == user.ID).ToList();
+            }
         }
 
         public static List<Project> GetProjectsByWorkingUser(System.Security.Principal.IPrincipal _user)
         {
-            AccessDBService db = new AccessDBService();
-            return db.GetProjectsByUser(_user.Identity.Name);
+            using (time_trackerEntities1 ctx = new time_trackerEntities1())
+            {
+                List<Project> returningList = new List<Project>();
+
+                var user = ctx.UserInfo.FirstOrDefault(u => u.Username == _user.Identity.Name);
+                var projects = ctx.Project.ToList();
+
+
+                foreach (Project p in projects)
+                {
+                    if (ctx.Access.Any(x => x.UserID == user.ID && x.ProjectID == p.ID) && p.ManagerID != user.ID)
+                        returningList.Add(p);
+                }
+
+                return returningList;
+            }
         }
 
         public static UserInfo GetUserByName(string username)
         {
-            UserService db = new UserService();
-            return db.GetUserByUsername(username);
+            using (time_trackerEntities1 ctx = new time_trackerEntities1())
+            {
+                return ctx.UserInfo.FirstOrDefault(u => u.Username == username);
+            }
         }
 
 
         public static Project GetProjectByCode(string projectCode)
         {
-            ProjectDBService db = new ProjectDBService();
-            return db.GetProjectByCode(projectCode);
+            using (time_trackerEntities1 ctx = new time_trackerEntities1())
+            {
+                return ctx.Project.FirstOrDefault(p => p.Code.Equals(projectCode));
+            }
         }
 
         public static List<UserInfo> GetAllUsers()
         {
-            UserService db = new UserService();
-            return db.GetAll();
+            using (time_trackerEntities1 ctx = new time_trackerEntities1())
+            {
+                return ctx.UserInfo.ToList();
+            }
         }
 
         internal static List<WorkloadType> GetAllWorkloadTypes()
         {
-            WorkloadDbService db = new WorkloadDbService();
-            return db.GetAllTypes();
+            using (time_trackerEntities1 ctx = new time_trackerEntities1())
+            {
+                return ctx.WorkloadType.ToList();
+            }
         }
     }
 }
