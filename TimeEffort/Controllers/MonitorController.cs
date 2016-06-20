@@ -154,9 +154,9 @@ namespace TimeEffort.Controllers
                         new XElement("UserInfo", workload.UserInfo.LastName + workload.UserInfo.FirstName),
                         new XElement("Project", workload.Project == null ? "" : workload.Project.Name),
                         new XElement("Duration", workload.Duration),
-                        new XElement("ApprovedCTO", workload.ApprovedCTO),
-                        new XElement("ApprovedMaster", workload.ApprovedMaster),
-                        new XElement("ApprovedPM", workload.ApprovedPM),
+                        //new XElement("ApprovedCTO", workload.ApprovedCTO),
+                        //new XElement("ApprovedMaster", workload.ApprovedMaster),
+                        //new XElement("ApprovedPM", workload.ApprovedPM),
                         new XElement("Note", workload.Note),
                         new XElement("WorkloadType", workload.WorkloadType.Name)
 

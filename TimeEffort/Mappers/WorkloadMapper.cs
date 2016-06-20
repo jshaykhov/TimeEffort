@@ -18,10 +18,7 @@ namespace TimeEffort.Mappers
                 Date = item.Date,
                 ProjectId = item.ProjectID.GetValueOrDefault(),                     //pay attention
                 UserId = item.UserID,                       //pay attention
-                ApprovedPM = item.ApprovedPM,
-                ApprovedCTO = item.ApprovedCTO,
-                ApprovedMaster = item.ApprovedMaster,
-                Duration = item.Duration,
+                 Duration = item.Duration,
                 Note = item.Note,
                 WorkLoadTypeId = item.WorkloadTypeID             //pay attention
             };
@@ -39,9 +36,6 @@ namespace TimeEffort.Mappers
                 UserID = model.UserId,
                 ProjectID = model.ProjectId,
                 Duration = model.Duration,
-                ApprovedPM = model.ApprovedPM,
-                ApprovedMaster = model.ApprovedMaster,
-                ApprovedCTO = model.ApprovedCTO,
                 Note = model.Note,
                 WorkloadTypeID = model.WorkLoadTypeId,                
             };
@@ -58,10 +52,7 @@ namespace TimeEffort.Mappers
                 Project = item.Project == null ? "Overhead" : item.Project.Name,                     //pay attention
                 UserId = item.UserInfo.ID,
                 EmployeeName=item.UserInfo.FirstName+" "+item.UserInfo.LastName,
-                ApprovedPM=item.ApprovedPM,
-                ApprovedCTO = item.ApprovedCTO,
-                ApprovedMaster = item.ApprovedMaster,
-                //pay attention
+                   //pay attention
                 //Approved = item.Approved,
                 //Note = item.Note,
                 Duration = item.Duration,
