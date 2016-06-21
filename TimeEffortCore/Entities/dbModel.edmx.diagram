@@ -23,6 +23,12 @@
         <AssociationConnector Association="time_trackerModel.FK_Project_UserInfo" />
         <EntityTypeShape EntityType="time_trackerModel.Customer" Width="1.5" PointX="8.375" PointY="0.875" />
         <AssociationConnector Association="time_trackerModel.FK_Project_Customer" />
+        <EntityTypeShape EntityType="time_trackerModel.Notification" Width="1.5" PointX="5" PointY="8.375" />
+        <EntityTypeShape EntityType="time_trackerModel.NotificationType" Width="1.5" PointX="2.75" PointY="15.25" />
+        <AssociationConnector Association="time_trackerModel.fk_FromID" />
+        <AssociationConnector Association="time_trackerModel.fk_ProjectId" />
+        <AssociationConnector Association="time_trackerModel.fk_ToID" />
+        <AssociationConnector Association="time_trackerModel.fk_TypeID" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

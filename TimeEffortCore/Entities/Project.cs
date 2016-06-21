@@ -18,6 +18,7 @@ namespace TimeEffortCore.Entities
         {
             this.Access = new HashSet<Access>();
             this.Workload = new HashSet<Workload>();
+            this.Notification = new HashSet<Notification>();
         }
     
         public int ID { get; set; }
@@ -36,5 +37,6 @@ namespace TimeEffortCore.Entities
         public virtual ICollection<Workload> Workload { get; set; }
         public virtual UserInfo UserInfo { get; set; }
         public virtual Customer Customer { get; set; }
+        public virtual ICollection<Notification> Notification { get; set; }
     }
 }
