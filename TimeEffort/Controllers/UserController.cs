@@ -28,7 +28,7 @@ namespace TimeEffort.Controllers
         // GET: User/Login
         public ActionResult Login()
         {
-            Encrypt.EncryptWebConfig(Request);
+            //Encrypt.EncryptWebConfig(Request);
             return View();
         }
 
