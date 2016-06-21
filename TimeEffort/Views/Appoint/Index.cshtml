@@ -10,6 +10,8 @@
     @Html.TextBox("ProjectId", "", htmlAttributes: new { @id = "tbxProject", @class = "hidden" })
     @Html.TextBox("EmpId", "", htmlAttributes: new { @id = "tbxEmp", @class = "hidden" })
     @Html.TextBox("RoleId", "", htmlAttributes: new { @id = "tbxRole", @class = "hidden" })
+    @Html.TextBox("DateFrom", "", htmlAttributes: new { @id = "tbxFrom", @class = "hidden" })
+    @Html.TextBox("DateTo", "", htmlAttributes: new { @id = "tbxTo", @class = "hidden" })
     <input style="display:none" id="btnAddEmp" type="submit" />
 }
 
@@ -58,6 +60,10 @@ else
             <th>
                 @Html.DisplayNameFor(model => model.Projects[0].FinishDate)
             </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Projects[0].Status)
+            </th>
         </tr>
 
         @foreach (var item in Model.Projects)
@@ -68,11 +74,14 @@ else
                 <td>
                     @Html.DisplayFor(modelItem => item.FullProjectName)
                 </td>
-                <td>
+                <td id="Start">
                     @Html.DisplayFor(modelItem => item.StartDate)
                 </td>
-                <td>
+                <td id="End">
                     @Html.DisplayFor(modelItem => item.FinishDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
                 </td>
             </tr>
         }
@@ -94,6 +103,12 @@ else
                 </th>
                 <th>
                     Role
+                </th>
+                <th>
+                    From
+                </th>
+                <th>
+                    To
                 </th>
 
                 <th></th>
@@ -161,14 +176,36 @@ else
         $("#tbody").append(row);
         row.append($("<td>" + rowData.User + "</td>"));
         row.append($("<td>" + rowData.Role + "</td>"));
+
+        row.append($("<td>" + ConvertDate(rowData.DateFrom) + "</td>"));
+        row.append($("<td>" + ConvertDate(rowData.DateTo) + "</td>"));
         row.append($("<td> <a class=\"btn btn-sm btn-info .btn-sx\" href=\"/Appoint/Edit/" + rowData.Id + "\">Edit</a> <a class=\"btn btn-sm btn-info .btn-sx\" href=\"/Appoint/Delete/" + rowData.Id + "\">Delete</a></td>"))
 
     };
-    function DisplayAddForm() {
+    function ConvertDate(date)
+    {
+        var dateString = date.substr(6);
+        var currentTime = new Date(parseInt(dateString));
+        var month = currentTime.getMonth() + 1;
+        if (month.toString().length == 1)
+        {
+            month = "0" + month;
+        }
+        var day = currentTime.getDate();
+        if (day.toString().length == 1) {
+            day = "0" + day;
+        }
+        var year = currentTime.getFullYear();
+        var date = year + "-" + month + "-" + day;
+       
+        return date;
+    }
+    function ShowForm(projectId) {
         if ($('#addEmpRow').length > 0) {
             return;
         }
-        var projectId = $('table').find('tr.highlight').data('prop');
+        
+        
         var url = "/Appoint/FillDropDowns";
         var request = $.ajax({
             url: url + "?projectId=" + projectId,
@@ -181,6 +218,7 @@ else
                 $('#tbody').empty();
             }
             if (result.Message != null) {
+                $('#msg').empty();
                 $('#msg').append(result.Message);
                 $('#myModal').modal('show');
                 return;
@@ -202,22 +240,81 @@ else
             }
             selectRoles += '</select>';
             row.append($('<td>' + selectRoles + '</td>'));
-
+            row.append($('<td>' +'<input class="form-control text-box single-line" data-val="true" data-val-date="The field Finish Date must be a date." id="From" type="date" value='+Date.now+ '/>'+'</td>'));
+            row.append($('<td>' + '<input class="form-control text-box single-line" data-val="true" data-val-date="The field Finish Date must be a date." id="To" type="date" value='+Date.now +'/>' + '</td>'));
             row.append($('<td><button onclick="Add()" class=\"btn btn-sm btn-info .btn-sx\" >Add</button> <button onclick="Cancel()" class=\"btn btn-sm btn-info .btn-sx\">Cancel</button></td>'));
 
         });
     }
+
+    function DisplayAddForm()
+    {
+        var projectId = $('table').find('tr.highlight').data('prop');
+        var url = "/Appoint/IsActive";
+        var request = $.ajax({
+            url: url + "?projectId=" + projectId,
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                if (data.msg != "") {
+                    $('#msg').empty();
+                    $('#msg').append(data.msg);
+                    $('#myModal').modal('show');
+                    return false;
+                }
+                else { ShowForm(projectId);}
+            }
+        });
+     
+    }
+
     function Cancel() {
         var projectId = $('table').find('tr.highlight').data('prop');
         ViewMembers(projectId);
     }
     function Add() {
+     
         var projectId = $('table').find('tr.highlight').data('prop');
-        $('#tbxProject').val(projectId);
+        var projectStart=$('table').find('tr.highlight').find('#Start').html().trim();
+        var projectEnd=$('table').find('tr.highlight').find('#End').html().trim();
         var empId = $('#Employee').val();
-        $('#tbxEmp').val(empId);
         var roleId = $('#Role').val();
+        var from = $('#From').val();
+        var to = $('#To').val();
+        $('#msg').empty();
+        if (from > to)
+        {
+            $('#msg').append("Date To cannot be earlier than Date From");
+            $('#myModal').modal('show');
+            return;
+        }
+        else if (from < projectStart)
+        {
+            $('#msg').append("Date From cannot be earlier than Project Start Date");
+            $('#myModal').modal('show');
+            return;
+        }
+        //else if (from > projectEnd) {
+        //    $('#msg').append("Date From cannot be later than Project Finish Date");
+        //    $('#myModal').modal('show');
+        //    return;
+        //}
+        else if (to < projectStart) {
+            $('#msg').append("Date To cannot be earlier than Project Start Date");
+            $('#myModal').modal('show');
+            return;
+        }
+        else if (to > projectEnd) {
+            $('#msg').append("Date To cannot be later than Project Finish Date");
+            $('#myModal').modal('show');
+            return;
+        }
+        $('#tbxProject').val(projectId);
+        $('#tbxEmp').val(empId);
         $('#tbxRole').val(roleId);
+        $('#tbxFrom').val(from);
+        $('#tbxTo').val(to);
         $('#btnAddEmp').trigger("click");
     }
 </script>

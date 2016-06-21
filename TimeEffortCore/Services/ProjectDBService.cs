@@ -9,7 +9,7 @@ namespace TimeEffortCore.Services
 {
     public class ProjectDBService
     {
-        private static time_trackerEntities1 db;
+        protected static time_trackerEntities1 db;
 
         public ProjectDBService()
         {
@@ -52,10 +52,11 @@ namespace TimeEffortCore.Services
 
         public void Update(Project item)
         {
+
             var dbItem = db.Project.FirstOrDefault(p => p.ID == item.ID);
             if (dbItem == null)
                 throw new ArgumentNullException("Project does not exist");
-            dbItem.Code = item.Code;
+           
             dbItem.Name = item.Name;
             dbItem.ContractUSD = item.ContractUSD;
             dbItem.ContractUZS = item.ContractUZS;

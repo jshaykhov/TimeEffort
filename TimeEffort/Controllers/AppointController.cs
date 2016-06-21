@@ -63,6 +63,17 @@ namespace TimeEffort.Controllers
             model.Roles = RoleMapper.MapRolesToModels(Service.GetAllRoles());
             return Json(model, JsonRequestBehavior.DenyGet);
         }
+        [HttpPost]
+        public ActionResult IsActive(int projectId)
+        {
+            bool isActive = Service.GetAllProjects().FirstOrDefault(p => p.ID == projectId).Status;
+            string message = "";
+            if (!isActive)
+            {
+                message = "Imposible to assign project members. The project is not active!";
+            }
+            return Json(new { msg=message});
+        }
         
         //
         // GET: /Appoint/Create
@@ -78,12 +89,14 @@ namespace TimeEffort.Controllers
         //
         // POST: /Appoint/Create
         [HttpPost]
-        public ActionResult Create(int projectId, int empId, int roleId)
+        public ActionResult Create(int projectId, int empId, int roleId, DateTime dateFrom, DateTime dateTo)
         {
             AppointViewModel model = new AppointViewModel();
             model.ProjectID = projectId;
             model.UserID = empId;
             model.RoleID = roleId;
+            model.DateFrom = dateFrom;
+            model.DateTo = dateTo;
             
             try
             {
@@ -129,6 +142,7 @@ namespace TimeEffort.Controllers
                 if (ModelState.IsValid)
                 {
                     int projectId = Service.GetById(id).ProjectID;
+                    model.ProjectID = projectId;
                     var appoint = AppointMapper.MapAppointFromModel(model);
                     Service.Update(appoint);
                     return RedirectToAction("Index", new { projectId = projectId });
@@ -136,8 +150,11 @@ namespace TimeEffort.Controllers
                 CreateSelectListForDropDownRoles();
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
-            catch
+            catch (Exception ex)
             {
+                
+                CreateSelectListForDropDownRoles();
+                ModelState.AddModelError("", ex.Message);
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }

@@ -7,13 +7,13 @@ using TimeEffortCore.Entities;
 
 namespace TimeEffortCore.Services
 {
-    public class AccessDBService
+    public class AccessDBService:ProjectDBService
     {
-        private time_trackerEntities1 db;
-        public AccessDBService()
-        {
-            db = new time_trackerEntities1();
-        }
+        //private time_trackerEntities1 db;
+        //public AccessDBService()
+        //{
+        //    db = new time_trackerEntities1();
+        //}
         public bool IsInvolved(int userId, int projectId)
         {
             return db.Access.Any(x => x.UserID == userId && x.ProjectID == projectId);
@@ -56,7 +56,7 @@ namespace TimeEffortCore.Services
         //Project
         public List<Project> GetAllProjects()
         {
-            return db.Project.ToList();
+                return db.Project.ToList();
         }
 
         
@@ -90,12 +90,23 @@ namespace TimeEffortCore.Services
         {
             var dbItem = db.Access.FirstOrDefault(p => p.ID == item.ID);
             if (dbItem == null)
-                throw new ArgumentNullException("Appointment does not exist");
+                throw new Exception("Appointment does not exist");
             //dbItem.UserID = item.UserID;
+            var projectItem = db.Project.FirstOrDefault(p => p.ID == item.ProjectID);
 
+            if(item.DateFrom<projectItem.StartDate || item.DateFrom>projectItem.EndDate)
+                throw new Exception("Date From should be between" + projectItem.StartDate.ToShortDateString() + " and " + projectItem.EndDate.ToShortDateString());
+
+            if (item.DateTo < projectItem.StartDate || item.DateTo > projectItem.EndDate)
+                throw new Exception("Date To should be between" + projectItem.StartDate.ToShortDateString() + " and " + projectItem.EndDate.ToShortDateString());
+
+            if (item.DateFrom > projectItem.EndDate)
+                throw new Exception("Date To cannot be earlier than Date From");
             //dbItem.ProjectID = item.ProjectID;
 
             dbItem.RoleID = item.RoleID;
+            dbItem.DateFrom = item.DateFrom;
+            dbItem.DateTo = item.DateTo;
 
             db.SaveChanges();
         }

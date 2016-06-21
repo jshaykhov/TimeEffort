@@ -20,6 +20,8 @@ namespace TimeEffort.Mappers
              Project=access.Project.Name,
              RoleID=access.RoleID,
              Role = access.Role.Name,
+             DateFrom=access.DateFrom,
+             DateTo=access.DateTo
            
             };
 
@@ -31,7 +33,9 @@ namespace TimeEffort.Mappers
                 ID=model.Id,
                 UserID = model.UserID,
                 ProjectID = model.ProjectID,
-                RoleID = model.RoleID
+                RoleID = model.RoleID,
+                DateFrom=model.DateFrom,
+                DateTo=model.DateTo
             };
         }
         public static List<AppointViewModel> MapAppointsToModels(List<Access> list)
@@ -45,6 +49,8 @@ namespace TimeEffort.Mappers
                 Project = c.Project.Name,
                 RoleID = c.RoleID,
                 Role = c.Role.Name,
+                DateFrom=c.DateFrom,
+                DateTo=c.DateTo
             }).ToList();
         }
         public static List<UserViewModel> MapUsersToModels(List<UserInfo> list)
