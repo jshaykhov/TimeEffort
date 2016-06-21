@@ -132,6 +132,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dbModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Notification.cs">
+      <DependentUpon>dbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\NotificationType.cs">
+      <DependentUpon>dbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\Position.cs">
       <DependentUpon>dbModel.tt</DependentUpon>
     </Compile>
