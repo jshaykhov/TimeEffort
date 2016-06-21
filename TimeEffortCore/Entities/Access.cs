@@ -18,6 +18,8 @@ namespace TimeEffortCore.Entities
         public int UserID { get; set; }
         public int ProjectID { get; set; }
         public int RoleID { get; set; }
+        public Nullable<System.DateTime> DateFrom { get; set; }
+        public Nullable<System.DateTime> DateTo { get; set; }
     
         public virtual Project Project { get; set; }
         public virtual Role Role { get; set; }
