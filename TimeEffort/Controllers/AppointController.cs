@@ -35,7 +35,7 @@ namespace TimeEffort.Controllers
         public ActionResult Index (int? projectId)
         {
             int managerId=Service.GetUserIdByUsername(User.Identity.Name);
-            var projects = ProjectMapper.MapProjectsToModels(Service.GetAllProjects().Where(p => p.ManagerID == managerId).ToList());
+            var projects = ProjectMapper.MapProjectsToModels(Service.GetAllProjects().Where(p => p.ManagerID == managerId && p.Status!="Completed").ToList());
             AppointListModel model = new AppointListModel();
             model.Projects = projects;
             if (projects.Count > 0)
@@ -64,16 +64,16 @@ namespace TimeEffort.Controllers
             return Json(model, JsonRequestBehavior.DenyGet);
         }
         [HttpPost]
-        public ActionResult IsActive(int projectId)
-        {
-            bool isActive = Service.GetAllProjects().FirstOrDefault(p => p.ID == projectId).Status;
-            string message = "";
-            if (!isActive)
-            {
-                message = "Imposible to assign project members. The project is not active!";
-            }
-            return Json(new { msg=message});
-        }
+        //public ActionResult IsActive(int projectId)
+        //{
+        //    string isActive = Service.GetAllProjects().FirstOrDefault(p => p.ID == projectId).Status;
+        //    string message = "";
+        //    if (isActive=="Active")
+        //    {
+        //        message = "Imposible to assign project members. The project is not active!";
+        //    }
+        //    return Json(new { msg=message});
+        //}
         
         //
         // GET: /Appoint/Create

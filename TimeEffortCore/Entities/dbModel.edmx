@@ -47,7 +47,7 @@
           <Property Name="ManagerID" Type="int" Nullable="false" />
           <Property Name="StartDate" Type="datetime" Nullable="false" />
           <Property Name="EndDate" Type="datetime" Nullable="false" />
-          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CType" Type="text" />
           <Property Name="CustomerId" Type="int" />
         </EntityType>
@@ -282,7 +282,7 @@
           <Property Name="ManagerID" Type="Int32" Nullable="false" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="false" />
           <NavigationProperty Name="Access" Relationship="Self.FK_Access_Project" FromRole="Project" ToRole="Access" />
           <NavigationProperty Name="Workload" Relationship="Self.FK_Workload_Project" FromRole="Project" ToRole="Workload" />
           <NavigationProperty Name="UserInfo" Relationship="time_trackerModel.FK_Project_UserInfo" FromRole="Project" ToRole="UserInfo" />

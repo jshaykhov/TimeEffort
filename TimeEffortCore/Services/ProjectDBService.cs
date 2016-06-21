@@ -39,15 +39,15 @@ namespace TimeEffortCore.Services
 
         public void Insert(Project item)
         {
-            try
-            {
+            //try
+            //{
                 db.Project.Add(item);
                 db.SaveChanges();
-            }
-            catch (Exception e)
-            {
+            //}
+            //catch (Exception e)
+            //{
 
-            }
+            //}
         }
 
         public void Update(Project item)

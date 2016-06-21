@@ -14,36 +14,11 @@ namespace TimeEffort.Models
 
     }
 
-    //public class ProjectCreateViewModel
-    //{
-    //    [Required]
-    //    [DataType(DataType.Text)]
-    //    [Display(Name = "Project name")]
-    //    public string ProjectName { get; set; }
-    //    [Required]
-    //    [Display(Name = "USD")]
-    //    public decimal CMoneyUsd { get; set; }
-    //    [Required]
-    //    [Display(Name = "UZS")]
-    //    public decimal CMoneyUzs { get; set; }
-
-    //    [Required]
-    //    [DataType(DataType.Date)]
-    //    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-    //    [Display(Name = "Start Date")]
-    //    public DateTime StartDate { get; set; }
-    //    [Required]
-    //    [DataType(DataType.Date)]
-    //    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-    //    [Display(Name = "Finish Date")]
-    //    public DateTime FinishDate { get; set; }
-
-
-    //    //public List<CustomerViewModel> Customers { get; set; }
-    //    //public List<UserViewModel> Users { get; set; }
-
-    //}
-
+    public class ProjectsAndManagersModel
+    {
+        public List<ProjectViewModel> Projects { get; set; }
+        public List<UserViewModel> Users { get; set; }
+    }
     public class ProjectCreateViewModel
     {
         public int Id { get; set; }

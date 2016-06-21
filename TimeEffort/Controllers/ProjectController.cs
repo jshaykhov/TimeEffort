@@ -100,7 +100,9 @@ namespace TimeEffort.Controllers
           [HttpGet]
           public ActionResult GetCodes(ProjectViewModel model)
           {
+             ProjectsAndManagersModel myModel = new ProjectsAndManagersModel();
               List<ProjectViewModel> list = new List<ProjectViewModel>();
+              var listOfUsers = UserMapper.MapUsersToModels( Service.GetAllUsers());
             
               var codes = Service.GetNextCode();
               foreach (var code in codes)
@@ -116,8 +118,11 @@ namespace TimeEffort.Controllers
                                                 ProjectName=model.ProjectName
                   });
               }
-              return Json(list, JsonRequestBehavior.AllowGet);
+              myModel.Projects = list;
+              myModel.Users = listOfUsers;
+              return Json(myModel, JsonRequestBehavior.AllowGet);
           }
+         
         //
         // POST: /Project/Create
         [HttpPost]
@@ -129,7 +134,7 @@ namespace TimeEffort.Controllers
                 //{
                 foreach (var i in model)
                 {
-                    i.Status = "Active";
+                    //i.Status = "Active";
                     var project = ProjectMapper.MapProjectFromCreateModel(i);
                     
                     //Service.GetNextCode(model.CType);
@@ -227,7 +232,7 @@ namespace TimeEffort.Controllers
         }
         private void CreateSelectListForDropDownStatus()
         {
-            SelectList items = new SelectList(new List<String>() {"Active", "Inactive"});
+            SelectList items = new SelectList(new List<String>() {"Preparing", "Active", "Completed"});
             //store list of users in ViewBag 
             //for further use in view's dropdown list
             ViewBag.Items = items;
