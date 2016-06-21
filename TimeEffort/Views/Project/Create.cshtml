@@ -181,17 +181,10 @@
         }
         var data = [];
         for (var i = 0; i < $("#body").find(".addForm").length; i++) {
-            var status = "";
-            if ($("#start").val() > Date.now)
-                status = "Preparing";
-            else if ($("#start").val() <= Date.now || Date.now <= $("#finish").val())
-                status = "Active";
-            else if (Date.now > $("#finish").val())
-                status = "Completed";
+           
             data.push({
                 Id: 0,
                 CustomerId: $("#customer").val(),
-                Status:status,
                 Code: $("#ProjectCode" + i).val(),
                 CMoneyUsd: $("#Usd" + i).val().replace(".", ","),
                 CMoneyUzs: $("#Uzs" + i).val().replace(".", ","),
@@ -215,7 +208,7 @@
                     window.location.href = "/Project";
                 }
                 else {
-                    $('#msg').append(result);
+                    $('#msg').append(data);
                     $('#myModal').modal('show');
                 }
                 }

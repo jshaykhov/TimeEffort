@@ -63,7 +63,7 @@ namespace TimeEffort.Controllers
             model.Roles = RoleMapper.MapRolesToModels(Service.GetAllRoles());
             return Json(model, JsonRequestBehavior.DenyGet);
         }
-        [HttpPost]
+      
         //public ActionResult IsActive(int projectId)
         //{
         //    string isActive = Service.GetAllProjects().FirstOrDefault(p => p.ID == projectId).Status;
@@ -222,6 +222,24 @@ namespace TimeEffort.Controllers
             //store list of projects in ViewBag 
             //for further use in view's dropdown list
             ViewBag.Users = users;
+        }
+
+        [HttpGet]
+        public ActionResult GetCurProjects(int userId)
+        {
+            var list = AppointMapper.MapAppointsToModels(Service.GetAll().Where(p=>p.UserID==userId).ToList());
+
+            object[] arr = ConvertToArray(list);
+            return Json(arr, JsonRequestBehavior.AllowGet);
+        }
+        private object[] ConvertToArray(List<AppointViewModel> list)
+        {
+            object[] arr = new object[list.Count];
+            for (int i = 0; i < list.Count; i++)
+            {
+                arr[i] = new { start = list.ElementAt(i).DateFrom, title = list.ElementAt(i).Project, end = list.ElementAt(i).DateTo};
+            }
+            return arr;
         }
     }
 }

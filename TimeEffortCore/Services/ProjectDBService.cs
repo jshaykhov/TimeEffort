@@ -21,6 +21,7 @@ namespace TimeEffortCore.Services
             if (item == null)
                 throw new ArgumentNullException("You cannot delete a project");
             db.Project.Remove(item);
+            //DeleteNotification(,itemId);
             db.SaveChanges();
         }
 
@@ -42,6 +43,7 @@ namespace TimeEffortCore.Services
             //try
             //{
                 db.Project.Add(item);
+                GenerateNotification(item);
                 db.SaveChanges();
             //}
             //catch (Exception e)
@@ -123,6 +125,56 @@ namespace TimeEffortCore.Services
             }
             else
                 return returning;
+        }
+        //GENERATE NOTIFICATION
+        public void GenerateNotification(Project project){
+
+            var notification = new Notification();
+            if (DateTime.Today < project.StartDate && DateTime.Today < project.EndDate)
+            {
+                db.Notification.Add(notification);
+                notification.MESSAGE = "Project Status is Preparing";
+
+                notification.ISREAD = false;
+                db.SaveChanges();
+            }
+            if (DateTime.Today == project.StartDate)
+            {
+                db.Notification.Add(notification);
+                notification.MESSAGE = "Project Status is Active ";
+                notification.ISREAD = false;
+                db.SaveChanges();
+            }
+            if(DateTime.Today==project.EndDate)
+            db.Notification.Add(notification);
+            notification.MESSAGE = "Project Status is Completed";
+            notification.ISREAD = false;
+            db.SaveChanges();
+            if (DateTime.Today > project.StartDate&& DateTime.Today<project.EndDate)
+            {
+                db.Notification.Add(notification);
+                notification.MESSAGE = "Project Status is Active";
+                notification.ISREAD = false;
+                db.SaveChanges();
+            }
+           
+          }
+        //UPDATE NOTIFICATION
+        public void UpdateNotification(Notification notification)
+        {
+            var dbItem = db.Notification.FirstOrDefault(u => u.ID == notification.ID);
+            //think
+        }
+
+         //DELETE NOTIFICATION
+        public void DeleteNotification(int notificationId, int projectId)
+        {
+            var project = db.Project.FirstOrDefault(k => k.ID == projectId);
+            var notification = db.Notification.FirstOrDefault(a => a.ID == notificationId);
+            if (notification == null)
+                throw new ArgumentNullException("You cannot delete a notification");
+            db.Notification.Remove(notification);
+            db.SaveChanges();
         }
 
     }
