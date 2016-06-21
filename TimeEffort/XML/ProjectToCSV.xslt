@@ -25,9 +25,6 @@
       "<xsl:value-of select="UserInfo" />",
       "<xsl:value-of select="Project" />",
       "<xsl:value-of select="Duration" />",
-      "<xsl:value-of select="ApprovedCTO" />,
-      "<xsl:value-of select="ApprovedMaster" />,
-      "<xsl:value-of select="ApprovedPM" />,
       "<xsl:value-of select="Note" />",
       "<xsl:value-of select="WorkloadType" />"
       <xsl:text>&#xD;</xsl:text>
