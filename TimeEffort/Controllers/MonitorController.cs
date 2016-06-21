@@ -117,7 +117,7 @@ namespace TimeEffort.Controllers
 
             if (!project.Equals("All"))
             {
-                var tempProject = db.GetProjectByCode(project); 
+                var tempProject = db.GetProjectByCode(project);
                 allWorkloads = allWorkloads.FindAll(x => x.ProjectID == tempProject.ID).ToList();
             }
             if (!type.Equals("All"))
