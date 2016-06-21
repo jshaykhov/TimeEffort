@@ -204,7 +204,7 @@ else
         if ($('#addEmpRow').length > 0) {
             return;
         }
-        
+        var projectId = $('table').find('tr.highlight').data('prop');
         
         var url = "/Appoint/FillDropDowns";
         var request = $.ajax({
@@ -247,7 +247,7 @@ else
         });
     }
 
-    function DisplayAddForm()
+    function DisplayAddFormNotUsed()
     {
         var projectId = $('table').find('tr.highlight').data('prop');
         var url = "/Appoint/IsActive";

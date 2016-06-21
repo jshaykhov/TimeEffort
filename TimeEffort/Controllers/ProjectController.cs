@@ -134,7 +134,12 @@ namespace TimeEffort.Controllers
                 //{
                 foreach (var i in model)
                 {
-                    //i.Status = "Active";
+                    if(i.StartDate<=DateTime.Now && i.FinishDate>=DateTime.Now)
+                        i.Status = "Active";
+                    else if (i.StartDate > DateTime.Now)
+                        i.Status = "Preparing";
+                    if (i.FinishDate < DateTime.Now)
+                        i.Status = "Completed";
                     var project = ProjectMapper.MapProjectFromCreateModel(i);
                     
                     //Service.GetNextCode(model.CType);

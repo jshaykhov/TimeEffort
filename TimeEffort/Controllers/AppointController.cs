@@ -63,7 +63,7 @@ namespace TimeEffort.Controllers
             model.Roles = RoleMapper.MapRolesToModels(Service.GetAllRoles());
             return Json(model, JsonRequestBehavior.DenyGet);
         }
-        [HttpPost]
+      
         //public ActionResult IsActive(int projectId)
         //{
         //    string isActive = Service.GetAllProjects().FirstOrDefault(p => p.ID == projectId).Status;
