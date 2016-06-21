@@ -28,6 +28,26 @@
           <Property Name="GenDirector" Type="nvarchar(max)" />
           <Property Name="ContactPerson" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="FROMID" Type="int" />
+          <Property Name="TOID" Type="int" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="MESSAGE" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ISREAD" Type="bit" Nullable="false" />
+          <Property Name="TYPEID" Type="int" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NotificationType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Position">
           <Key>
             <PropertyRef Name="ID" />
@@ -140,6 +160,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_FromID">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="FROMID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Project_Customer">
           <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
           <End Role="Project" Type="Self.Project" Multiplicity="*" />
@@ -163,6 +195,42 @@
             </Principal>
             <Dependent Role="Project">
               <PropertyRef Name="ManagerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectId">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ToID">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="TOID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TypeID">
+          <End Role="NotificationType" Type="Self.NotificationType" Multiplicity="0..1" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NotificationType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="TYPEID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -212,6 +280,8 @@
         <EntityContainer Name="time_trackerModelStoreContainer">
           <EntitySet Name="Access" EntityType="Self.Access" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NotificationType" EntityType="Self.NotificationType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
@@ -231,6 +301,10 @@
             <End Role="UserInfo" EntitySet="UserInfo" />
             <End Role="Access" EntitySet="Access" />
           </AssociationSet>
+          <AssociationSet Name="fk_FromID" Association="Self.fk_FromID">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="Notification" EntitySet="Notification" />
+          </AssociationSet>
           <AssociationSet Name="FK_Project_Customer" Association="Self.FK_Project_Customer">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="Project" EntitySet="Project" />
@@ -238,6 +312,18 @@
           <AssociationSet Name="FK_Project_UserInfo" Association="Self.FK_Project_UserInfo">
             <End Role="UserInfo" EntitySet="UserInfo" />
             <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectId" Association="Self.fk_ProjectId">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Notification" EntitySet="Notification" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ToID" Association="Self.fk_ToID">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="Notification" EntitySet="Notification" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TypeID" Association="Self.fk_TypeID">
+            <End Role="NotificationType" EntitySet="NotificationType" />
+            <End Role="Notification" EntitySet="Notification" />
           </AssociationSet>
           <AssociationSet Name="FK_UserInfo_Position" Association="Self.FK_UserInfo_Position">
             <End Role="Position" EntitySet="Position" />
@@ -282,13 +368,14 @@
           <Property Name="ManagerID" Type="Int32" Nullable="false" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Status" Type="String" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Access" Relationship="Self.FK_Access_Project" FromRole="Project" ToRole="Access" />
           <NavigationProperty Name="Workload" Relationship="Self.FK_Workload_Project" FromRole="Project" ToRole="Workload" />
           <NavigationProperty Name="UserInfo" Relationship="time_trackerModel.FK_Project_UserInfo" FromRole="Project" ToRole="UserInfo" />
           <Property Name="CType" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CustomerId" Type="Int32" />
           <NavigationProperty Name="Customer" Relationship="time_trackerModel.FK_Project_Customer" FromRole="Project" ToRole="Customer" />
+          <NavigationProperty Name="Notification" Relationship="time_trackerModel.fk_ProjectId" FromRole="Project" ToRole="Notification" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -326,6 +413,8 @@
           <NavigationProperty Name="Project" Relationship="time_trackerModel.FK_Project_UserInfo" FromRole="UserInfo" ToRole="Project" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Major" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Notification" Relationship="time_trackerModel.fk_FromID" FromRole="UserInfo" ToRole="Notification" />
+          <NavigationProperty Name="Notification1" Relationship="time_trackerModel.fk_ToID" FromRole="UserInfo" ToRole="Notification" />
         </EntityType>
         <EntityType Name="Workload">
           <Key>
@@ -510,6 +599,24 @@
             <End Role="Customer" EntitySet="Customer" />
             <End Role="Project" EntitySet="Project" />
           </AssociationSet>
+          <EntitySet Name="Notification" EntityType="time_trackerModel.Notification" />
+          <EntitySet Name="NotificationType" EntityType="time_trackerModel.NotificationType" />
+          <AssociationSet Name="fk_FromID" Association="time_trackerModel.fk_FromID">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="Notification" EntitySet="Notification" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectId" Association="time_trackerModel.fk_ProjectId">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Notification" EntitySet="Notification" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ToID" Association="time_trackerModel.fk_ToID">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="Notification" EntitySet="Notification" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TypeID" Association="time_trackerModel.fk_TypeID">
+            <End Role="NotificationType" EntitySet="NotificationType" />
+            <End Role="Notification" EntitySet="Notification" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -556,6 +663,79 @@
             </Principal>
             <Dependent Role="Project">
               <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="FROMID" Type="Int32" />
+          <Property Name="TOID" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MESSAGE" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ISREAD" Type="Boolean" Nullable="false" />
+          <Property Name="TYPEID" Type="Int32" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UserInfo" Relationship="time_trackerModel.fk_FromID" FromRole="Notification" ToRole="UserInfo" />
+          <NavigationProperty Name="Project" Relationship="time_trackerModel.fk_ProjectId" FromRole="Notification" ToRole="Project" />
+          <NavigationProperty Name="UserInfo1" Relationship="time_trackerModel.fk_ToID" FromRole="Notification" ToRole="UserInfo" />
+          <NavigationProperty Name="NotificationType" Relationship="time_trackerModel.fk_TypeID" FromRole="Notification" ToRole="NotificationType" />
+        </EntityType>
+        <EntityType Name="NotificationType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="NAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Notification" Relationship="time_trackerModel.fk_TypeID" FromRole="NotificationType" ToRole="Notification" />
+        </EntityType>
+        <Association Name="fk_FromID">
+          <End Type="time_trackerModel.UserInfo" Role="UserInfo" Multiplicity="0..1" />
+          <End Type="time_trackerModel.Notification" Role="Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="FROMID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectId">
+          <End Type="time_trackerModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="time_trackerModel.Notification" Role="Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ToID">
+          <End Type="time_trackerModel.UserInfo" Role="UserInfo" Multiplicity="0..1" />
+          <End Type="time_trackerModel.Notification" Role="Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="TOID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TypeID">
+          <End Type="time_trackerModel.NotificationType" Role="NotificationType" Multiplicity="0..1" />
+          <End Type="time_trackerModel.Notification" Role="Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NotificationType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="TYPEID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -691,6 +871,28 @@
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="TIN" ColumnName="TIN" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notification">
+            <EntityTypeMapping TypeName="time_trackerModel.Notification">
+              <MappingFragment StoreEntitySet="Notification">
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="TYPEID" ColumnName="TYPEID" />
+                <ScalarProperty Name="ISREAD" ColumnName="ISREAD" />
+                <ScalarProperty Name="MESSAGE" ColumnName="MESSAGE" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="TOID" ColumnName="TOID" />
+                <ScalarProperty Name="FROMID" ColumnName="FROMID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NotificationType">
+            <EntityTypeMapping TypeName="time_trackerModel.NotificationType">
+              <MappingFragment StoreEntitySet="NotificationType">
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

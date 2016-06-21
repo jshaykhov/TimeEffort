@@ -157,7 +157,10 @@ else
     }
 </style>
 <script>
+    var calendar=$("#calendar").fullCalendar(
+        {
 
+        });
     $(document).ready(function () {
 
         $('#Projects').find("[data-prop='" + @Model.selectedProject + "']").trigger('click');
@@ -244,7 +247,7 @@ else
             $('#tbody').append(row);
             var employees = result.Emps;
             var roles = result.Roles;
-            var selectEmp = '<select class="form-control" id="Employee">'
+            var selectEmp = '<select class="form-control" onchange="SetEmpId()" id="Employee">'
             for (var i = 0; i < employees.length; i++) {
                 selectEmp += '<option value="' + employees[i].Id + '">' + employees[i].FullName + '</option>';
             }
@@ -262,23 +265,38 @@ else
 
         });
     }
-
-    $('#Employee').change(function () {
-        var empId= $('#Employee').val();
+    function SetEmpId()
+    {
+        var empId = $('#Employee').val();
         $('#Schedule').data('prop', empId);
-    })
+    }
+    //$('#Employee').c(function () {
+    //    var empId= $('#Employee').val();
+    //    $('#Schedule').data('prop', empId);
+    //})
 
     function ShowCalendar()
     {
         //$('.modal-body').empty();
         //$('.modal-body').append('<div id="calendar"></div>');
-      
         var empId = $('#Schedule').data('prop')
+        var url = "/Appoint/GetCurProjects";
+        $.ajax({
+            url: url + "?userId=" + empId,
+            type: "GET",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                calendar.events = data;
+                $('#myModalCalendar').modal('show');
+            }
+        });
+      
        
         //$('#calendar').fullCalendar('addEventSource', "/Appoint/GetCurProjects" + "?userId=" + empId);
-        $('#myModalCalendar').modal('show');
+     
     }
-    $("#calendar").fullCalendar();
+   
    
 
     function DisplayAddFormNotUsed()
