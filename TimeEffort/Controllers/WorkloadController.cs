@@ -191,7 +191,7 @@ namespace TimeEffort.Controllers
                 {
                     var tempWorkload = new Workload
                     {
-                        
+
                         Date = item.Date,
                         Duration = decimal.Parse(item.Duration),
                         ProjectID = item.ProjectId.GetValueOrDefault(),
@@ -306,10 +306,10 @@ namespace TimeEffort.Controllers
 
         public ActionResult Calendar()
         {
-            //return View(GetCalendarResults(today));
-            var inProjects = db.GetAllInvolvedUserPMProjects(User.Identity.Name);
+            //return View(GetCalendarResults(today));            
             var model = new CalendarReturningModel();
             model.Monday = GetMonday(DateTime.Today);
+            var inProjects = db.GetAllInvolvedUserPMProjects(User.Identity.Name, model.Monday, model.Monday.AddDays(7));
             model.Projects = inProjects;
             model.Workloads = db.GetWorkloadsByUser(User.Identity.Name).FindAll(x => x.Date >= model.Monday && x.Date <= model.Monday.AddDays(7));
             return View("Calendar", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
@@ -322,7 +322,7 @@ namespace TimeEffort.Controllers
                 var temp = DateTime.Parse(today);
                 var model = new CalendarReturningModel();
                 model.Monday = GetMonday(temp);
-                model.Projects = db.GetAllInvolvedUserPMProjects(User.Identity.Name);
+                model.Projects = db.GetAllInvolvedUserPMProjects(User.Identity.Name, model.Monday, model.Monday.AddDays(7));
                 model.Workloads = db.GetWorkloadsByUser(User.Identity.Name).FindAll(x => x.Date >= model.Monday && x.Date <= model.Monday.AddDays(7));
                 return View("Calendar", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
@@ -367,7 +367,7 @@ namespace TimeEffort.Controllers
                             ProjectID = 0,                      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STATIC
                             Duration = duration,
                             WorkloadTypeID = wType.ID,
-                           
+
                         };
                         break;
 
@@ -379,7 +379,7 @@ namespace TimeEffort.Controllers
                             ProjectID = projectIdDone ? pId : 0,
                             Duration = duration,
                             WorkloadTypeID = 1,                 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STATIC
-                            
+
                         };
                         break;
 
@@ -410,6 +410,16 @@ namespace TimeEffort.Controllers
                 else
                     try
                     {
+                        //Checking if the workload can be added based on the access dates;
+                        var tempProjectId = workload.ProjectID.GetValueOrDefault(0);
+                        if (tempProjectId != 0)
+                        {
+                            if (!db.IsAccessibleOnDate(workload.Date, tempProjectId, workload.UserID))
+                                return Json(new { success = false, reason = "You are not appointed on project this project on " + workload.Date.ToString("dd MMM YYYY") + "."});
+                        }
+                        //End checking the workload access dates
+
+
                         if (duration == 0)
                             return Json(new { success = false, reason = 0 });
                         db.Insert(workload);
