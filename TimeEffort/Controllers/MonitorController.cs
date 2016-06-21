@@ -111,18 +111,18 @@ namespace TimeEffort.Controllers
             var allWorkloads = db.GetAll().FindAll(x => x.Date >= from && x.Date <= to).ToList();
             if (!user.Equals("All"))
             {
-                var tempUser = HelperUser.GetUserByName(user);
+                var tempUser = db.GetUserByUsername(user);
                 allWorkloads = allWorkloads.FindAll(x => x.UserInfo.Username == user).ToList();
             }
 
             if (!project.Equals("All"))
             {
-                var tempProject = HelperUser.GetProjectByCode(project);
+                var tempProject = db.GetProjectByCode(project);
                 allWorkloads = allWorkloads.FindAll(x => x.ProjectID == tempProject.ID).ToList();
             }
             if (!type.Equals("All"))
             {
-                var tempWorkload = HelperUser.GetAllWorkloadTypes().FirstOrDefault(w => w.Name == type);
+                var tempWorkload = db.GetAllTypes().FirstOrDefault(w => w.Name == type);
                 allWorkloads = allWorkloads.FindAll(x => x.WorkloadTypeID == tempWorkload.ID).ToList();
             }
 
