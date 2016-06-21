@@ -135,13 +135,32 @@ else
     </div>
 </div>
 
+@*Calendar*@
+<div class="modal fade" id="myModalCalendar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Time Effort</h4>
+            </div>
+            <div class="modal-body" id="calendar">
+            </div>
+            <div class="modal-footer">
+                Time Effort
+            </div>
+        </div>
+    </div>
+</div>
 <style>
     .highlight {
         background-color: lightsteelblue;
     }
 </style>
 <script>
+    var calendar=$("#calendar").fullCalendar(
+        {
 
+        });
     $(document).ready(function () {
 
         $('#Projects').find("[data-prop='" + @Model.selectedProject + "']").trigger('click');
@@ -228,7 +247,7 @@ else
             $('#tbody').append(row);
             var employees = result.Emps;
             var roles = result.Roles;
-            var selectEmp = '<select class="form-control" id="Employee">'
+            var selectEmp = '<select class="form-control" onchange="SetEmpId()" id="Employee">'
             for (var i = 0; i < employees.length; i++) {
                 selectEmp += '<option value="' + employees[i].Id + '">' + employees[i].FullName + '</option>';
             }
@@ -242,10 +261,43 @@ else
             row.append($('<td>' + selectRoles + '</td>'));
             row.append($('<td>' +'<input class="form-control text-box single-line" data-val="true" data-val-date="The field Finish Date must be a date." id="From" type="date" value='+Date.now+ '/>'+'</td>'));
             row.append($('<td>' + '<input class="form-control text-box single-line" data-val="true" data-val-date="The field Finish Date must be a date." id="To" type="date" value='+Date.now +'/>' + '</td>'));
-            row.append($('<td><button onclick="Add()" class=\"btn btn-sm btn-info .btn-sx\" >Add</button> <button onclick="Cancel()" class=\"btn btn-sm btn-info .btn-sx\">Cancel</button></td>'));
+            row.append($('<td><button onclick="Add()" class=\"btn btn-sm btn-info .btn-sx\" >Add</button> <button id="Schedule" onclick="ShowCalendar()" class=\"btn btn-sm btn-info .btn-sx\">Look up projects</button> <button onclick="Cancel()" class=\"btn btn-sm btn-info .btn-sx\">Cancel</button></td>'));
 
         });
     }
+    function SetEmpId()
+    {
+        var empId = $('#Employee').val();
+        $('#Schedule').data('prop', empId);
+    }
+    //$('#Employee').c(function () {
+    //    var empId= $('#Employee').val();
+    //    $('#Schedule').data('prop', empId);
+    //})
+
+    function ShowCalendar()
+    {
+        //$('.modal-body').empty();
+        //$('.modal-body').append('<div id="calendar"></div>');
+        var empId = $('#Schedule').data('prop')
+        var url = "/Appoint/GetCurProjects";
+        $.ajax({
+            url: url + "?userId=" + empId,
+            type: "GET",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                calendar.events = data;
+                $('#myModalCalendar').modal('show');
+            }
+        });
+      
+       
+        //$('#calendar').fullCalendar('addEventSource', "/Appoint/GetCurProjects" + "?userId=" + empId);
+     
+    }
+   
+   
 
     function DisplayAddFormNotUsed()
     {
