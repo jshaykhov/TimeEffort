@@ -27,10 +27,7 @@ namespace TimeEffortCore.Services
 
         public List<Workload> GetAll()
         {
-            using (time_trackerEntities1 ctx = new time_trackerEntities1())
-            {
-                return ctx.Workload.ToList();
-            }
+                return db.Workload.ToList();
         }
 
         public List<Workload> GetAllbyUserAndDate(int userId, DateTime date)
@@ -101,10 +98,7 @@ namespace TimeEffortCore.Services
         //WorkloadType
         public List<WorkloadType> GetAllTypes()
         {
-            using (time_trackerEntities1 ctx = new time_trackerEntities1())
-            {
-                return ctx.WorkloadType.ToList();
-            }
+            return db.WorkloadType.ToList();
         }
 
         //User
@@ -118,21 +112,42 @@ namespace TimeEffortCore.Services
 
         public List<Project> GetAllInvolvedUserPMProjects(string username)
         {
-            using (time_trackerEntities1 ctx = new time_trackerEntities1())
+            var user = db.UserInfo.FirstOrDefault(u => u.Username == username);
+            List<Project> list = new List<Project>();
+            foreach (Access item in db.Access.Where(x => x.UserID == user.ID).ToList())
             {
-                var user = ctx.UserInfo.FirstOrDefault(u => u.Username == username);
-                List<Project> list = new List<Project>();
-                foreach (Access item in ctx.Access.Where(x => x.UserID == user.ID).ToList())
-                {
-                    list.Add(item.Project);
-                }
-                foreach (Project item in ctx.Project.Where(x => x.ManagerID == user.ID).ToList())
-                {
-                    list.Add(item);
-                }
-
-                return list;
+                list.Add(item.Project);
             }
+            foreach (Project item in db.Project.Where(x => x.ManagerID == user.ID).ToList())
+            {
+                list.Add(item);
+            }
+
+            return list;
+        }
+
+        public List<Project> GetAllInvolvedUserPMProjects(string username, DateTime from, DateTime to)
+        {
+            var user = db.UserInfo.FirstOrDefault(u => u.Username == username);
+            List<Project> list = new List<Project>();
+            foreach (Access item in db.Access.Where(x => x.UserID == user.ID && x.DateFrom >= from && x.DateTo <= to).ToList())
+            {
+                list.Add(item.Project);
+            }
+            foreach (Project item in db.Project.Where(x => x.ManagerID == user.ID && !x.Status.Equals("Completed") && x.EndDate >= to).ToList())
+            {
+                list.Add(item);
+            }
+
+            return list;
+        }
+
+        public bool IsAccessibleOnDate(DateTime date, int projectId, int userId)
+        {
+            if (db.Access.Any(x => x.UserID == userId && x.ProjectID == projectId && x.DateFrom >= date && x.DateTo <= date))
+                return true;
+            else
+                return db.Project.Any(x => x.ManagerID == userId && x.StartDate >= date && x.EndDate <= date);
         }
 
         public Project GetProjectByCode(string project)
