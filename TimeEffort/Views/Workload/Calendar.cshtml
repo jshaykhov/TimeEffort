@@ -633,7 +633,7 @@
 
     $(window).keydown(function (event) {
         //ловим событие нажатия клавиши
-        
+
 
         if (event.keyCode == 9) {
             blurCheck();
@@ -643,7 +643,7 @@
             var current = $('[data-tabindex=' + globalTabIndex + ']')[0];
             var curText = current.innerText;
             $(current).empty().html(curText);
-            
+
             var code = '<input type="text" id="edit" value="' + curText + '" min="0.5" max="24" step="0.5" style="width: 4em" />';
             $(current).empty().append(code);
             var inputElement = document.getElementById("edit");
@@ -685,8 +685,7 @@
         $('#tbody').on('keydown', '#edit', function (e) { -1 !== $.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) || /65|67|86|88/.test(e.keyCode) && (!0 === e.ctrlKey || !0 === e.metaKey) || 35 <= e.keyCode && 40 >= e.keyCode || (e.shiftKey || 48 > e.keyCode || 57 < e.keyCode) && (96 > e.keyCode || 105 < e.keyCode) && e.preventDefault() });
     })
 
-    function blurCheck()
-    {
+    function blurCheck() {
         if (globalTabIndex > $('#lastTabIndex').attr('data-tabindex'))
             globalTabIndex = 0;
         $('#edit').blur();
@@ -754,6 +753,16 @@
         return true;
     }
 
+    $(function () {
+        $('input').on('focus', function (e) {
+            $(this)
+                .one('mouseup', function () {
+                    $(this).select();
+                    return false;
+                })
+                .select();
+        });
+    })
 
     function sendData(value, day, w) {
         if (value == "")
@@ -786,10 +795,12 @@
                 break;
         }
 
-        if ((total + parseInt(value)) > 24) {
-            $('#message').text("Your cannot work more than 24 hours per day. Please try again");
-            $('#myModal').modal('show');
-            return false;
+        if (!checkTotalSum(day)) {
+            if ((total + parseInt(value)) > 24) {
+                $('#message').text("Your cannot work more than 24 hours per day. Please try again");
+                $('#myModal').modal('show');
+                return false;
+            }
         }
 
         var requestData = {
@@ -823,6 +834,37 @@
             async: true,
             processData: false
         });
+    }
+
+    function checkTotalSum(day) {
+        var dayText = "";
+        day--;
+        if (day == 0)
+            dayText = "mon";
+        else if (day == 1)
+            dayText = "tue";
+        else if (day == 2)
+            dayText = "wed";
+        else if (day == 3)
+            dayText = "thu";
+        else if (day == 4)
+            dayText = "fri";
+        else if (day == 5)
+            dayText = "sat";
+        else if (day == 6)
+            dayText = "sun";
+        else
+            return false;
+        var temp = 0;
+        $("[id=" + dayText + "ForTotal]").each(function (i, el) {
+            var tempValue = el.textContent.trim();
+            if (tempValue != "")
+                temp += parseFloat(tempValue.replace(",", "."));
+        });
+        if (temp > 0 && temp <= 24)
+            return true;
+        else
+            return false;
     }
 
     function calculateTotals() {
@@ -932,6 +974,7 @@
         border-color: #ffffff;
         font-size: 14px;
         padding: 0;
+        width: inherit;
     }
 
         input:hover {
@@ -943,14 +986,11 @@
         input:focus {
             background-color: #ffffff;
             outline: 0;
-            border: dashed;
-            border-color: #000;
+            width: inherit;
         }
 
         input:not(:focus) {
             text-align: end;
-            border: dashed;
-            border-color: #000;
         }
 
         input[type="text"] {

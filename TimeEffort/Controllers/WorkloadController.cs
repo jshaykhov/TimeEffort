@@ -191,9 +191,7 @@ namespace TimeEffort.Controllers
                 {
                     var tempWorkload = new Workload
                     {
-                        ApprovedCTO = false,
-                        ApprovedMaster = false,
-                        ApprovedPM = false,
+                        
                         Date = item.Date,
                         Duration = decimal.Parse(item.Duration),
                         ProjectID = item.ProjectId.GetValueOrDefault(),
@@ -348,7 +346,7 @@ namespace TimeEffort.Controllers
                     return Json(new { success = false, reason = "Duration_invalid" });
             }
 
-            if (duration >= 0 && duration <= 24)
+            if (duration >= 0 && duration <= 24 && json.workloadName != null)
             {
                 var date = json.monday.AddDays(json.weekDate - 1); //DateTime.Parse(json.monday)
                 var userId = db.GetUserByUsername(User.Identity.Name);
@@ -369,9 +367,7 @@ namespace TimeEffort.Controllers
                             ProjectID = 0,                      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STATIC
                             Duration = duration,
                             WorkloadTypeID = wType.ID,
-                            ApprovedCTO = false,
-                            ApprovedMaster = false,
-                            ApprovedPM = false
+                           
                         };
                         break;
 
@@ -383,9 +379,7 @@ namespace TimeEffort.Controllers
                             ProjectID = projectIdDone ? pId : 0,
                             Duration = duration,
                             WorkloadTypeID = 1,                 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STATIC
-                            ApprovedCTO = false,
-                            ApprovedMaster = false,
-                            ApprovedPM = false
+                            
                         };
                         break;
 

@@ -14,6 +14,7 @@ using System.Net;
 using Microsoft.Owin.Security;
 using PagedList;
 using TimeEffort.Helper;
+using TimeEffort.App_Start;
 
 namespace TimeEffort.Controllers
 {
@@ -27,6 +28,7 @@ namespace TimeEffort.Controllers
         // GET: User/Login
         public ActionResult Login()
         {
+            Encrypt.EncryptWebConfig(Request);
             return View();
         }
 
