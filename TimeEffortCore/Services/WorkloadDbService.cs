@@ -110,14 +110,10 @@ namespace TimeEffortCore.Services
         //User
         public int GetUserByUsername(string username)
         {
-            using (time_trackerEntities1 ctx = new time_trackerEntities1())
-            {
-                var user = ctx.UserInfo.FirstOrDefault(u => u.Username == username);
+                var user = db.UserInfo.FirstOrDefault(u => u.Username == username);
                 if (user == null)
                     throw new ArgumentNullException("User not found");
                 return user.ID;
-            }
-
         }
 
         public List<Project> GetAllInvolvedUserPMProjects(string username)
@@ -137,6 +133,11 @@ namespace TimeEffortCore.Services
 
                 return list;
             }
+        }
+
+        public Project GetProjectByCode(string project)
+        {
+            return db.Project.FirstOrDefault(p => p.Code.Equals(project));
         }
     }
 }
