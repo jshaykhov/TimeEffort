@@ -227,17 +227,18 @@ namespace TimeEffort.Controllers
         [HttpGet]
         public ActionResult GetCurProjects(int userId)
         {
-            var list = AppointMapper.MapAppointsToModels(Service.GetAll().Where(p=>p.UserID==userId).ToList());
+            var list = AppointMapper.MapAppointsToModels(Service.GetAll().Where(p=>p.UserID==userId & p.Project.EndDate.Year>=DateTime.Now.Year).ToList());
 
             object[] arr = ConvertToArray(list);
             return Json(arr, JsonRequestBehavior.AllowGet);
         }
         private object[] ConvertToArray(List<AppointViewModel> list)
         {
+            string[] colors = new string[] { "#66CC99", "#CCFF66", "#99CCFF", "#CCCC33", "#99FF66", "#FFCC66", "#66CC99", "#CC9999", "#99CCFF", "#66CC99", "#CC9999", "#99CCFF" };
             object[] arr = new object[list.Count];
             for (int i = 0; i < list.Count; i++)
             {
-                arr[i] = new { start = list.ElementAt(i).DateFrom, title = list.ElementAt(i).Project, end = list.ElementAt(i).DateTo};
+                arr[i] = new { start = list.ElementAt(i).DateFrom, title = list.ElementAt(i).ProjectFullName, end = list.ElementAt(i).DateTo, allDay = true, color = colors[i] };
             }
             return arr;
         }

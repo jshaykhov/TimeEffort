@@ -504,8 +504,8 @@ temporary rendered events).
 .fc-event {
 	position: relative; /* for resize handle and other inner positioning */
 	display: block; /* make the <a> tag block */
-	font-size: 1.25em;
-	line-height: 2.3;
+	font-size: 1.10em;
+	line-height: 1.5;
 	border-radius: 3px;
 	border: 1px solid #3a87ad; /* default BORDER color */
 	background-color: #3a87ad; /* default BACKGROUND color */
@@ -516,7 +516,7 @@ temporary rendered events).
 .fc-event,
 .fc-event:hover,
 .ui-widget .fc-event {
-	color: #fff; /* default TEXT color */
+	color: #000; /* default TEXT color */
 	text-decoration: none; /* if <a> has an href */
 }
 

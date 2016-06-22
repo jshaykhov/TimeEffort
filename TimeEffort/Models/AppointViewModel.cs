@@ -60,6 +60,8 @@ namespace TimeEffort.Models
         [Display(Name = "To")]
         public DateTime? DateTo { get; set; }
 
+        public string ProjectFullName { get; set; }
+
         
     }
 

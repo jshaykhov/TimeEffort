@@ -143,7 +143,8 @@ else
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Time Effort</h4>
             </div>
-            <div class="modal-body" id="calendar">
+            <div class="modal-body" id="calendarBody">
+                <div id="calendar"></div>
             </div>
             <div class="modal-footer">
                 Time Effort
@@ -157,10 +158,7 @@ else
     }
 </style>
 <script>
-    var calendar=$("#calendar").fullCalendar(
-        {
-
-        });
+    var calendar = $("#calendar");
     $(document).ready(function () {
 
         $('#Projects').find("[data-prop='" + @Model.selectedProject + "']").trigger('click');
@@ -261,8 +259,8 @@ else
             row.append($('<td>' + selectRoles + '</td>'));
             row.append($('<td>' +'<input class="form-control text-box single-line" data-val="true" data-val-date="The field Finish Date must be a date." id="From" type="date" value='+Date.now+ '/>'+'</td>'));
             row.append($('<td>' + '<input class="form-control text-box single-line" data-val="true" data-val-date="The field Finish Date must be a date." id="To" type="date" value='+Date.now +'/>' + '</td>'));
-            row.append($('<td><button onclick="Add()" class=\"btn btn-sm btn-info .btn-sx\" >Add</button> <button id="Schedule" onclick="ShowCalendar()" class=\"btn btn-sm btn-info .btn-sx\">Look up projects</button> <button onclick="Cancel()" class=\"btn btn-sm btn-info .btn-sx\">Cancel</button></td>'));
-
+            row.append($('<td><button onclick="Add()" class=\"btn btn-sm btn-info .btn-sx\" >Add</button> <button onclick="Cancel()" class=\"btn btn-sm btn-info .btn-sx\">Cancel</button> <button id="Schedule" onclick="ShowCalendar()" class=\"btn btn-sm btn-danger .btn-sx\"><i class="fa fa-calendar fa-fw"></i></button></td>'));
+            SetEmpId();
         });
     }
     function SetEmpId()
@@ -277,28 +275,45 @@ else
 
     function ShowCalendar()
     {
+        //$(calendar).empty();
         //$('.modal-body').empty();
         //$('.modal-body').append('<div id="calendar"></div>');
         var empId = $('#Schedule').data('prop')
         var url = "/Appoint/GetCurProjects";
-        $.ajax({
+        var request= $.ajax({
             url: url + "?userId=" + empId,
             type: "GET",
             contentType: "application/json",
             dataType: "json",
-            success: function (data) {
-                calendar.events = data;
+            success: (function (data) {
+                calendar.fullCalendar( 'destroy' )
+                calendar.fullCalendar();
+                calendar.fullCalendar('removeEvents');//document.getElementById("calendar").fullCalendar('removeEvents');
+                calendar.fullCalendar("addEventSource", data);
                 $('#myModalCalendar').modal('show');
-            }
+                window.setTimeout(clickToday, 150);
+            })
         });
-      
-       
+        //request.done(function (data) {
+        //    calendar.fullCalendar();
+        //    calendar.fullCalendar('removeEvents');
+        //    calendar.fullCalendar("addEventSource", data);
+        //    calendar.fullCalendar('rerenderEvents')
+        //    $('#myModalCalendar').modal('show');
+        //    window.setTimeout(clickToday, 150);
+        //})
         //$('#calendar').fullCalendar('addEventSource', "/Appoint/GetCurProjects" + "?userId=" + empId);
      
     }
-   
-   
 
+    //$('#button').click(function () {
+       
+    //});
+
+    function clickToday() {
+        $('.fc-today-button').click();
+    }
+   
     function DisplayAddFormNotUsed()
     {
         var projectId = $('table').find('tr.highlight').data('prop');
