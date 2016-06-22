@@ -17,10 +17,10 @@ namespace TimeEffortCore.Entities
         public UserInfo()
         {
             this.Access = new HashSet<Access>();
-            this.Workload = new HashSet<Workload>();
-            this.Project = new HashSet<Project>();
             this.Notification = new HashSet<Notification>();
             this.Notification1 = new HashSet<Notification>();
+            this.Project = new HashSet<Project>();
+            this.Workload = new HashSet<Workload>();
         }
     
         public int ID { get; set; }
@@ -35,10 +35,10 @@ namespace TimeEffortCore.Entities
         public string Major { get; set; }
     
         public virtual ICollection<Access> Access { get; set; }
-        public virtual Position Position { get; set; }
-        public virtual ICollection<Workload> Workload { get; set; }
-        public virtual ICollection<Project> Project { get; set; }
         public virtual ICollection<Notification> Notification { get; set; }
         public virtual ICollection<Notification> Notification1 { get; set; }
+        public virtual Position Position { get; set; }
+        public virtual ICollection<Project> Project { get; set; }
+        public virtual ICollection<Workload> Workload { get; set; }
     }
 }

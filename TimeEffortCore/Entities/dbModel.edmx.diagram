@@ -4,31 +4,31 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="05182bf6f3ac4ac48a758ed8afca354b" Name="Diagram1">
-        <EntityTypeShape EntityType="time_trackerModel.Access" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="time_trackerModel.Position" Width="1.5" PointX="1.5" PointY="12.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="time_trackerModel.Project" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="time_trackerModel.Role" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="time_trackerModel.sysdiagrams" Width="1.5" PointX="2.75" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="time_trackerModel.UserInfo" Width="1.5" PointX="0.75" PointY="8.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="time_trackerModel.Workload" Width="1.5" PointX="6" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="time_trackerModel.WorkloadType" Width="1.5" PointX="3.75" PointY="1.75" IsExpanded="true" />
-        <AssociationConnector Association="time_trackerModel.FK_Access_Project" ManuallyRouted="false" />
-        <AssociationConnector Association="time_trackerModel.FK_Access_Role" ManuallyRouted="false" />
-        <AssociationConnector Association="time_trackerModel.FK_Access_UserInfo" ManuallyRouted="false" />
-        <AssociationConnector Association="time_trackerModel.FK_UserInfo_Position" ManuallyRouted="false" />
-        <AssociationConnector Association="time_trackerModel.FK_Workload_Project" ManuallyRouted="false" />
-        <AssociationConnector Association="time_trackerModel.FK_Workload_UserInfo" ManuallyRouted="false" />
-        <AssociationConnector Association="time_trackerModel.FK_Workload_WorkloadType" ManuallyRouted="false" />
-        <AssociationConnector Association="time_trackerModel.FK_Project_UserInfo" />
-        <EntityTypeShape EntityType="time_trackerModel.Customer" Width="1.5" PointX="8.375" PointY="0.875" />
+      <Diagram DiagramId="05182bf6f3ac4ac48a758ed8afca354b" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="time_trackerModel.Access" Width="1.5" PointX="5.25" PointY="6.375" />
+        <EntityTypeShape EntityType="time_trackerModel.Customer" Width="1.5" PointX="3" PointY="1.5" />
+        <EntityTypeShape EntityType="time_trackerModel.Notification" Width="1.5" PointX="8.25" PointY="6.125" />
+        <EntityTypeShape EntityType="time_trackerModel.NotificationType" Width="1.5" PointX="6" PointY="13" />
+        <EntityTypeShape EntityType="time_trackerModel.Position" Width="1.5" PointX="0.75" PointY="7" />
+        <EntityTypeShape EntityType="time_trackerModel.Project" Width="1.5" PointX="5.25" PointY="0.75" />
+        <EntityTypeShape EntityType="time_trackerModel.Role" Width="1.5" PointX="3" PointY="11" />
+        <EntityTypeShape EntityType="time_trackerModel.sysdiagrams" Width="1.5" PointX="9.75" PointY="1.25" />
+        <EntityTypeShape EntityType="time_trackerModel.UserInfo" Width="1.5" PointX="3" PointY="5.75" />
+        <EntityTypeShape EntityType="time_trackerModel.Workload" Width="1.5" PointX="7.5" PointY="1.875" />
+        <EntityTypeShape EntityType="time_trackerModel.WorkloadType" Width="1.5" PointX="5.25" PointY="10.5" />
+        <AssociationConnector Association="time_trackerModel.FK_Access_Project" />
+        <AssociationConnector Association="time_trackerModel.FK_Access_Role" />
+        <AssociationConnector Association="time_trackerModel.FK_Access_UserInfo" />
         <AssociationConnector Association="time_trackerModel.FK_Project_Customer" />
-        <EntityTypeShape EntityType="time_trackerModel.Notification" Width="1.5" PointX="5" PointY="8.375" />
-        <EntityTypeShape EntityType="time_trackerModel.NotificationType" Width="1.5" PointX="2.75" PointY="15.25" />
         <AssociationConnector Association="time_trackerModel.fk_FromID" />
         <AssociationConnector Association="time_trackerModel.fk_ProjectId" />
         <AssociationConnector Association="time_trackerModel.fk_ToID" />
         <AssociationConnector Association="time_trackerModel.fk_TypeID" />
+        <AssociationConnector Association="time_trackerModel.FK_UserInfo_Position" />
+        <AssociationConnector Association="time_trackerModel.FK_Project_UserInfo" />
+        <AssociationConnector Association="time_trackerModel.FK_Workload_Project" />
+        <AssociationConnector Association="time_trackerModel.FK_Workload_UserInfo" />
+        <AssociationConnector Association="time_trackerModel.FK_Workload_WorkloadType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
