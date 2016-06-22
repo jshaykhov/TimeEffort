@@ -39,7 +39,7 @@ namespace TimeEffort.Mappers
                 Major = model.Major,
                 Email = model.Email,
                 PositionID = model.PositionId,
-                //Position = model.Position,
+                // Position = model.Position,
                 Username = model.UserName
             };
         }

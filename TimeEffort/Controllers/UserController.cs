@@ -168,11 +168,11 @@ namespace TimeEffort.Controllers
             //to pass it to view's dropdown
             //to allow user selection during registration
             var listOfPositions = _userService.GetAllPositions();
-            SelectList positions = new SelectList(PositionMapper.MapPositionsToModels(listOfPositions),
+            SelectList allpositions = new SelectList(PositionMapper.MapPositionsToModels(listOfPositions),
                                                    "Id ", "Position");
             //store list of positions in ViewBag 
             //for further use in view's dropdown list
-            ViewBag.Positions = positions;
+            ViewBag.Positions = allpositions;
         }
 
         [HttpPost]
@@ -290,6 +290,7 @@ namespace TimeEffort.Controllers
             model.Id = id;
             UserViewModel user1 = UserMapper.MapUserToModel(_userService.GetById(model.Id));
             model.Password = user1.Password;
+            model.UserName = user1.UserName;
             try
             {
                 if (ModelState.IsValid)
