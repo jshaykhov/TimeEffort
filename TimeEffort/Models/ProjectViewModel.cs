@@ -23,12 +23,9 @@ namespace TimeEffort.Models
     {
         public int Id { get; set; }
         public string Code { get; set; }
-
-
-       
+               
         public String CType { get; set; }
-
-       
+               
         public string ProjectName { get; set; }
       
         public string CMoneyUsd { get; set; }

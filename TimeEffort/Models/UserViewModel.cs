@@ -89,18 +89,15 @@ namespace TimeEffort.Models
 
         [Display(Name = "System role")]
 
+         public string Position { get; set; }
 
-        public string Position { get; set; }
-
-        [Required]
+       //  [Required]
         [DataType(DataType.Text)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Username")]
         public string UserName { get; set; }
 
-
-
-
+        
         [DataType(DataType.Password)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Password")]
