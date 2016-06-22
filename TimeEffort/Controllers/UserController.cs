@@ -269,7 +269,7 @@ namespace TimeEffort.Controllers
             {
                 var user = _userService.GetById(id);
                 var model = UserMapper.MapUserToModel(user);
-                ModelState.AddModelError("", e.Message);
+                ModelState.AddModelError("", "You cannot delete this user, as the user is involved one or more projects");
                 return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
