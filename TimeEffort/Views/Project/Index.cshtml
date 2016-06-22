@@ -98,27 +98,27 @@
 }
 
 
-    <h2>List of Projects</h2>
+<h2>List of Projects</h2>
 
-    <p>
-    </p>
+<p>
+</p>
 
-    @using (Html.BeginForm("Index", "Project", FormMethod.Get))
-    {
+@using (Html.BeginForm("Index", "Project", FormMethod.Get))
+{
 
-        <div class="row">
-            @if (!User.IsInRole("User"))
-            {
-                <div class="col-md-2">
-                    @Html.ActionLink("Create New Project", "Create", null, new { @class = "btn btn-sm btn-success .btn-sx" })
-                </div>
-            }
-            <div class="col-sm-3 pull-right">
-                <b>Search by Project name</b> @Html.TextBox("SearchByPName", ViewBag.CurrentFilter as string)
-                <input type="submit" value="Search" class="btn btn-sm btn-default" />
+    <div class="row">
+        @if (!User.IsInRole("User"))
+        {
+            <div class="col-md-2">
+                @Html.ActionLink("Create New Project", "Create", null, new { @class = "btn btn-sm btn-success .btn-sx" })
             </div>
+        }
+        <div class="col-sm-3 pull-right">
+            <b>Search by Project name</b> @Html.TextBox("SearchByPName", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search" class="btn btn-sm btn-default" />
         </div>
-    }
+    </div>
+}
 
 
 @if (Model.UserProjects.Count != 0)
@@ -237,6 +237,10 @@
                 {
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-info .btn-sx" })
+                    </td>
+                }@if (User.IsInRole("Admin") || User.IsInRole("CTO"))
+                {   <td>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-info .btn-sx" })
                     </td>
                 }
             </tr>

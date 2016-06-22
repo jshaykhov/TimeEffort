@@ -28,6 +28,9 @@ namespace TimeEffortCore.Entities
         }
     
         public virtual DbSet<Access> Access { get; set; }
+        public virtual DbSet<Customer> Customer { get; set; }
+        public virtual DbSet<Notification> Notification { get; set; }
+        public virtual DbSet<NotificationType> NotificationType { get; set; }
         public virtual DbSet<Position> Position { get; set; }
         public virtual DbSet<Project> Project { get; set; }
         public virtual DbSet<Role> Role { get; set; }
@@ -35,9 +38,6 @@ namespace TimeEffortCore.Entities
         public virtual DbSet<UserInfo> UserInfo { get; set; }
         public virtual DbSet<Workload> Workload { get; set; }
         public virtual DbSet<WorkloadType> WorkloadType { get; set; }
-        public virtual DbSet<Customer> Customer { get; set; }
-        public virtual DbSet<Notification> Notification { get; set; }
-        public virtual DbSet<NotificationType> NotificationType { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
