@@ -16,15 +16,15 @@ namespace TimeEffort.Controllers
     public class RoleController : Controller
     {
         //static properties does not requiere instantiation on accessing different Actions
-        static RoleDBService _Service;
+        static AllDBServices _Service;
         //singleton to ensure that there is only one instance of the service
 
-        private RoleDBService Service
+        private AllDBServices Service
         {
             get
             {
                 if (_Service == null)
-                    _Service = new RoleDBService();
+                    _Service = new AllDBServices();
                 return _Service;
             }
         }
@@ -32,7 +32,7 @@ namespace TimeEffort.Controllers
     
         public ActionResult Index()
         {
-            var allRoles = Service.GetAll();
+            var allRoles = Service.GetAllRoles();
             var list = RoleMapper.MapRolesToModels(allRoles);
             return View("Index" , "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml",list);
         }
@@ -69,7 +69,7 @@ namespace TimeEffort.Controllers
         // GET: Role/Edit/5
         public ActionResult Edit(int id)
         {
-            var model = RoleMapper.MapRoleToModel(Service.GetById(id));
+            var model = RoleMapper.MapRoleToModel(Service.GetRoleById(id));
             return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
@@ -97,7 +97,7 @@ namespace TimeEffort.Controllers
         // GET: Role/Delete/5
         public ActionResult Delete(int id)
         {
-            var role = Service.GetById(id);
+            var role = Service.GetRoleById(id);
             var model = RoleMapper.MapRoleToModel(role);
             return View("Delete" , "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
@@ -108,12 +108,12 @@ namespace TimeEffort.Controllers
         {
             try
             {
-                Service.Delete(id);
+                Service.DeleteRole(id);
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-                var role = Service.GetById(id);
+                var role = Service.GetRoleById(id);
                 var model = RoleMapper.MapRoleToModel(role);
                 ModelState.AddModelError("", "This role is currently involved in one or more users. Deleting failed. "+"\n" + e.Message);
                 return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);

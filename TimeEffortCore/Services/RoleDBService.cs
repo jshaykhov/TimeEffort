@@ -20,7 +20,7 @@ namespace TimeEffortCore.Services
             
             db = new time_trackerEntities1();
         }
-        public void Delete(int itemId)
+        public void DeleteRole(int itemId)
         {
             var item = db.Role.FirstOrDefault(p => p.ID == itemId);
             if (item == null)
@@ -42,12 +42,12 @@ namespace TimeEffortCore.Services
             }
         }
 
-        public List<Role> GetAll()
+        public List<Role> GetAllRoles()
         {
             return db.Role.ToList();
         }
 
-        public Role GetById(int Id)
+        public Role GetRoleById(int Id)
         {
             var item = db.Role.FirstOrDefault(p => p.ID == Id);
             if (item == null)

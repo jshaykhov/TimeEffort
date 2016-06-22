@@ -42,9 +42,10 @@
             <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
         </div>
         <!-- /.navbar-header -->
-
         @Html.Partial("_LoginPartial")
+        @{Html.RenderAction("GetUnreadNotification", "Notification");}
         <!-- /.navbar-top-links -->
+
 
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">

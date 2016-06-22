@@ -20,10 +20,7 @@ namespace TimeEffort.Controllers
 {
     public class UserController : Controller
     {
-        static UserService _userService = new UserService();
-
-
-       
+        static AllDBServices _userService = new AllDBServices();    
 
         // GET: User/Login
         public ActionResult Login()
@@ -237,7 +234,7 @@ namespace TimeEffort.Controllers
         {
             var sendingModel = new SendingModel();
             var allUserLists = new UserViewModel();
-            var allUsers = _userService.GetAll();
+            var allUsers = _userService.GetAllUsers();
             var list = UserMapper.MapUsersToModels(allUsers);
             //Add paging
             int pageSize = 5;
@@ -251,7 +248,7 @@ namespace TimeEffort.Controllers
          [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
-            var user = _userService.GetById(id);
+            var user = _userService.GetUserById(id);
             var model = UserMapper.MapUserToModel(user);
             return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
@@ -262,12 +259,12 @@ namespace TimeEffort.Controllers
         {
             try
             {
-                _userService.Delete(id);
+                _userService.DeleteUser(id);
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-                var user = _userService.GetById(id);
+                var user = _userService.GetUserById(id);
                 var model = UserMapper.MapUserToModel(user);
                 ModelState.AddModelError("", e.Message);
                 return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
@@ -279,7 +276,7 @@ namespace TimeEffort.Controllers
         public ActionResult Edit(int id)
         {
             CreateSelectListForDropDown();
-            var model = UserMapper.MapUserToModel(_userService.GetById(id));
+            var model = UserMapper.MapUserToModel(_userService.GetUserById(id));
             return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml",model);
         }
 
@@ -288,7 +285,7 @@ namespace TimeEffort.Controllers
         public ActionResult Edit(int id, UserViewModel model)
         {
             model.Id = id;
-            UserViewModel user1 = UserMapper.MapUserToModel(_userService.GetById(model.Id));
+            UserViewModel user1 = UserMapper.MapUserToModel(_userService.GetUserById(model.Id));
             model.Password = user1.Password;
             try
             {
@@ -311,20 +308,20 @@ namespace TimeEffort.Controllers
           [Authorize(Roles = "Admin, Master, Monitor, User,CTO, Test")]
         public ActionResult UserProfile()
         {
-            int id = _userService.GetUserByUsername(this.HttpContext.User.Identity.Name).ID;
-            var model = UserMapper.MapUserToModel(_userService.GetById(id));
+            int id = _userService.GetUserIdByUsername(this.HttpContext.User.Identity.Name);
+            var model = UserMapper.MapUserToModel(_userService.GetUserById(id));
             return View("UserProfile", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
           [Authorize(Roles = "Admin, Master, Monitor, User,CTO, Test")]
         public ActionResult Manage(int id)
         {
-            var model = UserMapper.MapUserToModel(_userService.GetById(id));
+            var model = UserMapper.MapUserToModel(_userService.GetUserById(id));
             return View("Manage", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
         [HttpPost]
         public ActionResult Manage(int id,ProfileViewModel model)
         {
-            ProfileViewModel user = UserMapper.MapProfileToModel(_userService.GetById(model.Id));
+            ProfileViewModel user = UserMapper.MapProfileToModel(_userService.GetUserById(model.Id));
             model.UserName = user.UserName;
             model.PositionId = user.PositionId;
             model.Password = user.Password;

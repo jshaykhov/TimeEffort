@@ -15,14 +15,14 @@ namespace TimeEffort.Controllers
     public class WorkloadController : Controller
     {
         //---------------Singleton------------------
-        public static WorkloadDbService _db;
+        public static AllDBServices _db;
         private static DateTime date;
-        public static WorkloadDbService db
+        public static AllDBServices db
         {
             get
             {
                 if (_db == null)
-                    _db = new WorkloadDbService();
+                    _db = new AllDBServices();
                 return _db;
             }
         }
@@ -32,8 +32,8 @@ namespace TimeEffort.Controllers
         public ActionResult GetWorkload()
         {
             var username = this.HttpContext.User.Identity.Name;
-            int userId = db.GetUserByUsername(username);
-            var list = WorkloadMapper.MapWorkloadsToModels(db.GetAll());
+            int userId = db.GetUserIdByUsername(username);
+            var list = WorkloadMapper.MapWorkloadsToModels(db.GetAllWorkloads());
             list = list.Where(u => u.UserId == userId).ToList();
             object[] arr = GetWorkloadDuration(list);
             return Json(arr, JsonRequestBehavior.AllowGet);
@@ -58,7 +58,7 @@ namespace TimeEffort.Controllers
         public ActionResult Workloads(string dateClicked)
         {
             var username = this.HttpContext.User.Identity.Name;
-            int userId = db.GetUserByUsername(username);
+            int userId = db.GetUserIdByUsername(username);
             DateTime workloadDate;
             if (!String.IsNullOrEmpty(dateClicked))
             {
@@ -79,7 +79,7 @@ namespace TimeEffort.Controllers
         public ActionResult Create(DateTime dateClicked)
         {
             var model = new WorkloadCreateModel();
-            model.Types = db.GetAllTypes();
+            model.Types = db.GetAllWorkloadTypes();
             model.Projects = db.GetAllProjects();
             if (User.IsInRole("User"))
             {
@@ -87,7 +87,7 @@ namespace TimeEffort.Controllers
             }
             model.Date = dateClicked;
 
-            int userId = db.GetUserByUsername(User.Identity.Name);
+            int userId = db.GetUserIdByUsername(User.Identity.Name);
 
             model.Workloads = WorkloadMapper.MapWorkloadsToModels(db.GetAllbyUserAndDate(userId, dateClicked));
 
@@ -103,7 +103,7 @@ namespace TimeEffort.Controllers
         public ActionResult Create(WorkloadViewModel model)
         {
             var username = this.HttpContext.User.Identity.Name;
-            model.UserId = db.GetUserByUsername(username);
+            model.UserId = db.GetUserIdByUsername(username);
 
 
             if (ModelState.IsValid)
@@ -120,7 +120,7 @@ namespace TimeEffort.Controllers
         {
             CreateSelectListForDropDownWlTypes();
             CreateSelectListForDropDownProjects();
-            var model = WorkloadMapper.MapWorkloadToModel(db.GetById(id));
+            var model = WorkloadMapper.MapWorkloadToModel(db.GetWorkloadById(id));
             return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
@@ -130,7 +130,7 @@ namespace TimeEffort.Controllers
         {
             model.Id = id;
             var username = this.HttpContext.User.Identity.Name;
-            model.UserId = db.GetUserByUsername(username);
+            model.UserId = db.GetUserIdByUsername(username);
             try
             {
                 if (ModelState.IsValid)
@@ -153,7 +153,7 @@ namespace TimeEffort.Controllers
         // GET: Service/Delete/5
         public ActionResult Delete(int id)
         {
-            var model = WorkloadMapper.MapWorkloadToModel(db.GetById(id));
+            var model = WorkloadMapper.MapWorkloadToModel(db.GetWorkloadById(id));
             return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
@@ -163,7 +163,7 @@ namespace TimeEffort.Controllers
         {
             try
             {
-                db.Delete(id);
+                db.DeleteWorkload(id);
 
                 return RedirectToAction("Workloads");
             }
@@ -184,7 +184,7 @@ namespace TimeEffort.Controllers
         [HttpPost]
         public ActionResult ReceiveList(List<RequestDataJson> query)
         {
-            var userId = db.GetUserByUsername(User.Identity.Name);
+            var userId = db.GetUserIdByUsername(User.Identity.Name);
             foreach (RequestDataJson item in query)
             {
                 if (item != null)
@@ -210,7 +210,7 @@ namespace TimeEffort.Controllers
         private void CreateSelectListForDropDownWlTypes()
         {
 
-            var list = db.GetAllTypes();
+            var list = db.GetAllWorkloadTypes();
             SelectList types = new SelectList(WloadTypeMapper.MapWorkloadTypesToModels(list),
                                                    "Id ", "WloadType");
             //store list of types in ViewBag 
@@ -349,8 +349,8 @@ namespace TimeEffort.Controllers
             if (duration >= 0 && duration <= 24 && json.workloadName != null)
             {
                 var date = json.monday.AddDays(json.weekDate - 1); //DateTime.Parse(json.monday)
-                var userId = db.GetUserByUsername(User.Identity.Name);
-                var wType = db.GetAllTypes().FirstOrDefault(x => x.Name.Contains(json.workloadName));
+                var userId = db.GetUserIdByUsername(User.Identity.Name);
+                var wType = db.GetAllWorkloadTypes().FirstOrDefault(x => x.Name.Contains(json.workloadName));
                 Workload workload = new Workload();
                 switch (json.workloadName)
                 {
@@ -385,7 +385,7 @@ namespace TimeEffort.Controllers
 
                 }
 
-                var trying = db.GetAll().FirstOrDefault(x => x.UserID == workload.UserID && x.ProjectID == workload.ProjectID && x.Date == workload.Date && x.WorkloadTypeID == workload.WorkloadTypeID);
+                var trying = db.GetAllWorkloads().FirstOrDefault(x => x.UserID == workload.UserID && x.ProjectID == workload.ProjectID && x.Date == workload.Date && x.WorkloadTypeID == workload.WorkloadTypeID);
                 if (trying != null)
                 {
                     try
@@ -398,7 +398,7 @@ namespace TimeEffort.Controllers
                         }
                         else
                         {
-                            db.Delete(trying.ID);
+                            db.DeleteWorkload(trying.ID);
                             return Json(new { success = true });
                         }
                     }
@@ -415,7 +415,7 @@ namespace TimeEffort.Controllers
                         if (tempProjectId != 0)
                         {
                             if (!db.IsAccessibleOnDate(workload.Date, tempProjectId, workload.UserID))
-                                return Json(new { success = false, reason = "You are not appointed on project this project on " + workload.Date.ToString("dd MMM YYYY") + "."});
+                                return Json(new { success = false, reason = "You are not appointed on project this project on " + workload.Date.ToString("dd MMM yyyy") + "."});
                         }
                         //End checking the workload access dates
 

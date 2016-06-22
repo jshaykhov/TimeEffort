@@ -27,14 +27,14 @@ namespace TimeEffort.Controllers
     public class MonitorController : Controller
     {
         //---------------Singleton------------------
-        public static WorkloadDbService _db;
+        public static AllDBServices _db;
 
-        public static WorkloadDbService db
+        public static AllDBServices db
         {
             get
             {
                 if (_db == null)
-                    _db = new WorkloadDbService();
+                    _db = new AllDBServices();
                 return _db;
             }
         }
@@ -56,7 +56,7 @@ namespace TimeEffort.Controllers
                 var employees = new List<TimeEffortCore.Entities.UserInfo>(); employees.Add(HelperUser.GetUserByName(User.Identity.Name));
                 model.allEmployees = employees;
                 model.allProjects = db.GetAllInvolvedUserPMProjects(User.Identity.Name);
-                model.workloads = db.GetAllTypes();
+                model.workloads = db.GetAllWorkloadTypes();
             }
             return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
@@ -108,10 +108,9 @@ namespace TimeEffort.Controllers
                 to = now;
 
 
-            var allWorkloads = db.GetAll().FindAll(x => x.Date >= from && x.Date <= to).ToList();
+            var allWorkloads = db.GetAllWorkloads().FindAll(x => x.Date >= from && x.Date <= to).ToList();
             if (!user.Equals("All"))
             {
-                var tempUser = db.GetUserByUsername(user);
                 allWorkloads = allWorkloads.FindAll(x => x.UserInfo.Username == user).ToList();
             }
 
@@ -122,7 +121,7 @@ namespace TimeEffort.Controllers
             }
             if (!type.Equals("All"))
             {
-                var tempWorkload = db.GetAllTypes().FirstOrDefault(w => w.Name == type);
+                var tempWorkload = db.GetAllWorkloadTypes().FirstOrDefault(w => w.Name == type);
                 allWorkloads = allWorkloads.FindAll(x => x.WorkloadTypeID == tempWorkload.ID).ToList();
             }
 
@@ -143,7 +142,7 @@ namespace TimeEffort.Controllers
             xDoc.Add(new XProcessingInstruction("xml-stylesheet", "type='text/xsl' href='/xml/ProjectToCSV.xslt'"));
 
             xDoc.Declaration = new XDeclaration("1.0", "utf-8", null);
-            var workloads = db.GetAll();
+            var workloads = db.GetAllWorkloads();
             if (workloads.Count > 0)
             {
                 var xElement = new XElement("Workloads",
@@ -189,7 +188,7 @@ namespace TimeEffort.Controllers
         public ActionResult ExportToExcel()
         {
             // Step 1 - get the data from database
-            var data = db.GetAll();
+            var data = db.GetAllWorkloads();
 
             // instantiate the GridView control from System.Web.UI.WebControls namespace
             // set the data source

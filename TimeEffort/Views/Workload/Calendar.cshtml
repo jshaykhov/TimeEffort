@@ -810,7 +810,7 @@
             Monday: $('#mondayHidden').text()
         };
 
-
+        var GlobalResponse;
         $.ajax({
             url: '/Workload/ReceiveDataAjax',
             type: 'POST',
@@ -831,9 +831,10 @@
                 }
 
             },
-            async: true,
+            async: false,
             processData: false
         });
+
     }
 
     function checkTotalSum(day) {

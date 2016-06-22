@@ -15,22 +15,22 @@ namespace TimeEffort.Controllers
     {
         
         //static properties does not requiere instantiation on accessing different Actions
-        static WloadTypeDBService _Service;
+        static AllDBServices _Service;
         //singleton to ensure that there is only one instance of the service
 
-        private WloadTypeDBService Service
+        private AllDBServices Service
         {
             get
             {
                 if (_Service == null)
-                    _Service = new WloadTypeDBService();
+                    _Service = new AllDBServices();
                 return _Service;
             }
         }
         // GET: /WloadType/
         public ActionResult Index()
         {
-            var allWloadTypes = Service.GetAll();
+            var allWloadTypes = Service.GetAllWorkloadTypes();
             var list = WloadTypeMapper.MapWorkloadTypesToModels(allWloadTypes);
             return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", list);
         }
@@ -67,7 +67,7 @@ namespace TimeEffort.Controllers
         // GET: WloadType/Edit/5
         public ActionResult Edit(int id)
         {
-            var model = WloadTypeMapper.MapWorkloadTypeToModel(Service.GetById(id));
+            var model = WloadTypeMapper.MapWorkloadTypeToModel(Service.GetWorkloadTypeById(id));
             return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
@@ -95,7 +95,7 @@ namespace TimeEffort.Controllers
         // GET: WloadType/Delete/5
         public ActionResult Delete(int id)
         {
-            var wloadtype = Service.GetById(id);
+            var wloadtype = Service.GetWorkloadTypeById(id);
             var model = WloadTypeMapper.MapWorkloadTypeToModel(wloadtype);
             return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
@@ -106,12 +106,12 @@ namespace TimeEffort.Controllers
         {
             try
             {
-                Service.Delete(id);
+                Service.DeleteWorkloadType(id);
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-                var wloadtype = Service.GetById(id);
+                var wloadtype = Service.GetWorkloadTypeById(id);
                 var model = WloadTypeMapper.MapWorkloadTypeToModel(wloadtype);
                 ModelState.AddModelError("", e.Message);
                 return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);

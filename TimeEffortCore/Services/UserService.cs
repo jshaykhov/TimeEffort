@@ -173,7 +173,7 @@ namespace TimeEffortCore.Services
             return db.Position.ToList();
         }
         //get by id
-        public UserInfo GetById(int Id)
+        public UserInfo GetUserById(int Id)
         {
             var item = db.UserInfo.FirstOrDefault(p => p.ID == Id);
             if (item == null)
@@ -181,7 +181,7 @@ namespace TimeEffortCore.Services
             return item;
         }
         //Delete
-        public void Delete(int itemId)
+        public void DeleteUser(int itemId)
         {
             var item = db.UserInfo.FirstOrDefault(p => p.ID == itemId);
             if (item == null)

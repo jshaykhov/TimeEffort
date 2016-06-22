@@ -20,7 +20,7 @@ namespace TimeEffortCore.Services
             
             db = new time_trackerEntities1();
         }
-        public void Delete(int itemId)
+        public void DeleteWorkloadType(int itemId)
         {
             var item = db.WorkloadType.FirstOrDefault(p => p.ID == itemId);
             if (item == null)
@@ -38,12 +38,12 @@ namespace TimeEffortCore.Services
             }
         }
 
-        public List<WorkloadType> GetAll()
+        public List<WorkloadType> GetAllWorkloadTypes()
         {
             return db.WorkloadType.ToList();
         }
 
-        public WorkloadType GetById(int Id)
+        public WorkloadType GetWorkloadTypeById(int Id)
         {
             var item = db.WorkloadType.FirstOrDefault(p => p.ID == Id);
             if (item == null)

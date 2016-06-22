@@ -15,7 +15,7 @@ namespace TimeEffortCore.Services
         {
             db = new time_trackerEntities1();
         }
-        public void Delete(int itemId)
+        public void DeleteProject(int itemId)
         {
             // var notification = new Notification();
             var item = db.Project.FirstOrDefault(p => p.ID == itemId);
@@ -26,12 +26,12 @@ namespace TimeEffortCore.Services
             //DeleteNotification(itemId);
         }
 
-        public List<Project> GetAll()
+        public List<Project> GetAllProjects()
         {
             return db.Project.ToList();
         }
 
-        public Project GetById(int Id)
+        public Project GetProjectById(int Id)
         {
             var item = db.Project.FirstOrDefault(p => p.ID == Id);
             if (item == null)

@@ -204,6 +204,7 @@
     <Compile Include="Mappers\WorkloadMapper.cs" />
     <Compile Include="Models\MonitorViewModel.cs" />
     <Compile Include="Models\CustomerViewModel.cs" />
+    <Compile Include="Models\NotificationViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\PositionViewModel.cs" />
@@ -1836,6 +1837,7 @@
     <Content Include="Views\Customer\Edit.cshtml" />
     <Content Include="Views\Customer\Delete.cshtml" />
     <Content Include="Views\Errors\NotFound.cshtml" />
+    <Content Include="Views\Shared\_NotificationPartial.cshtml" />
     <None Include="XML\ProjectSchema.xsd">
       <SubType>Designer</SubType>
     </None>

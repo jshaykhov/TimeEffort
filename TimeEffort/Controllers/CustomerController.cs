@@ -15,13 +15,13 @@ namespace TimeEffort.Controllers
     [Authorize(Roles = "Admin, Master, Monitor,CTO, Test")]
     public class CustomerController : Controller
     {
-        static CustomerDBService _Service;
-        private CustomerDBService Service
+        static AllDBServices _Service;
+        private AllDBServices Service
         {
             get
             {
                 if (_Service == null)
-                    _Service = new CustomerDBService();
+                    _Service = new AllDBServices();
                 return _Service;
             }
         }
@@ -30,7 +30,7 @@ namespace TimeEffort.Controllers
         public ActionResult Index(int? page, string currentFilter, string searchByCName)
         {
             var model = new CustomerModel();
-            var allCustomers = Service.GetAll();
+            var allCustomers = Service.GetAllCustomers();
             var list = CustomerMapper.MapCustomersToModels(allCustomers);
             if (searchByCName != null)
                 page = 1;
@@ -92,7 +92,7 @@ namespace TimeEffort.Controllers
         // GET: /Customer/Edit/5
         public ActionResult Edit(int id)
         {
-            var model = CustomerMapper.MapCustomerToModel(Service.GetById(id));
+            var model = CustomerMapper.MapCustomerToModel(Service.GetCustomerById(id));
             return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
@@ -123,7 +123,7 @@ namespace TimeEffort.Controllers
         // GET: /Customer/Delete/5
         public ActionResult Delete(int id)
         {
-            var customer = Service.GetById(id);
+            var customer = Service.GetCustomerById(id);
             var model = CustomerMapper.MapCustomerToModel(customer);
             return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
@@ -135,12 +135,12 @@ namespace TimeEffort.Controllers
         {
             try
             {
-                Service.Delete(id);
+                Service.DeleteCustomer(id);
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-                var customer = Service.GetById(id);
+                var customer = Service.GetCustomerById(id);
                 var model = CustomerMapper.MapCustomerToModel(customer);
                 ModelState.AddModelError("", "This customer is a client at one or more projects. Thus deleting failed. " + e.Message);
                 return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);

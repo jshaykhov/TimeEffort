@@ -21,14 +21,14 @@ namespace TimeEffort.Controllers
     public class ProjectController : Controller
     {
         //static properties does not requiere instantiation on accessing different Actions
-        static ProjectDBService _Service;
+        static AllDBServices _Service;
         //singleton to ensure that there is only one instance of the service
-        private ProjectDBService Service
+        private AllDBServices Service
         {
             get
             {
                 if (_Service == null)
-                    _Service = new ProjectDBService();
+                    _Service = new AllDBServices();
                 return _Service;
             }
         }
@@ -40,7 +40,7 @@ namespace TimeEffort.Controllers
         {
             var allProjects = new AllUserModel();
 
-            var userProjects = Service.GetAll();
+            var userProjects = Service.GetAllProjects();
 
             if (User.IsInRole("User"))
             {                                                                     //If user's role is USER
@@ -166,7 +166,7 @@ namespace TimeEffort.Controllers
         {
             CreateSelectListForDropDownUsers();
             CreateSelectListForDropDownStatus();
-            var model = ProjectMapper.MapProjectToModel(Service.GetById(id));
+            var model = ProjectMapper.MapProjectToModel(Service.GetProjectById(id));
             return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
@@ -199,7 +199,7 @@ namespace TimeEffort.Controllers
         // GET: /Project/Delete/5
         public ActionResult Delete(int id)
         {
-            var project = Service.GetById(id);
+            var project = Service.GetProjectById(id);
             var model = ProjectMapper.MapProjectToModel(project);
             return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
@@ -211,12 +211,12 @@ namespace TimeEffort.Controllers
         {
             try
             {
-                Service.Delete(id);
+                Service.DeleteProject(id);
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-                var project = Service.GetById(id);
+                var project = Service.GetProjectById(id);
                 var model = ProjectMapper.MapProjectToModel(project);
                 ModelState.AddModelError("", "You cannot delete this project, because there are records of employee efforts for this project.");
                 return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
@@ -258,7 +258,7 @@ namespace TimeEffort.Controllers
         public ActionResult ExportToExcel()
         {
             // Step 1 - get the data from database
-            var data = Service.GetAll();
+            var data = Service.GetAllProjects();
 
             // instantiate the GridView control from System.Web.UI.WebControls namespace
             // set the data source
@@ -296,7 +296,7 @@ namespace TimeEffort.Controllers
                 xDoc.Add(new XProcessingInstruction("xml-stylesheet", "type='text/xsl' href='/xml/ProjectToCSV.xslt'"));
 
                 xDoc.Declaration = new XDeclaration("1.0", "utf-8", null);
-                var projects = Service.GetAll();
+                var projects = Service.GetAllProjects();
                 if (projects.Count > 0)
                 {
                     var xElement = new XElement("Projects",

@@ -25,7 +25,7 @@ namespace TimeEffortCore.Services
             db.SaveChanges();
         }
 
-        public List<Workload> GetAll()
+        public List<Workload> GetAllWorkloads()
         {
                 return db.Workload.ToList();
         }
@@ -35,7 +35,7 @@ namespace TimeEffortCore.Services
             return db.Workload.Where(w => w.UserID == userId && w.Date == date).ToList();
         }
 
-        public Workload GetById(int id)
+        public Workload GetWorkloadById(int id)
         {
             var item = db.Workload.FirstOrDefault(w => w.ID == id);
             if (item == null)
@@ -80,7 +80,7 @@ namespace TimeEffortCore.Services
             db.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void DeleteWorkload(int id)
         {
             var item = db.Workload.FirstOrDefault(w => w.ID == id);
             if (item == null)
@@ -96,7 +96,7 @@ namespace TimeEffortCore.Services
         }
 
         //WorkloadType
-        public List<WorkloadType> GetAllTypes()
+        public List<WorkloadType> GetAllWorkloadTypes()
         {
             return db.WorkloadType.ToList();
         }

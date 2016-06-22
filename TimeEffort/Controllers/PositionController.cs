@@ -14,15 +14,15 @@ namespace TimeEffort.Controllers
     public class PositionController : Controller
     {
         //static properties does not requiere instantiation on accessing different Actions
-        static PositionDBService _Position;
+         static AllDBServices _Position;
         //singleton to ensure that there is only one instance of the service
 
-        private PositionDBService Position
+         private AllDBServices Position
         {
             get
             {
                 if (_Position == null)
-                    _Position = new PositionDBService();
+                    _Position = new AllDBServices();
                 return _Position;
             }
         }
@@ -30,7 +30,7 @@ namespace TimeEffort.Controllers
         
         public ActionResult Index()
         {
-            var allPositions = Position.GetAll();
+            var allPositions = Position.GetAllPositions();
             var list = PositionMapper.MapPositionsToModels(allPositions);
             return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml",list);
             //return View(list);
@@ -69,7 +69,7 @@ namespace TimeEffort.Controllers
         // GET: Position/Edit/5
         public ActionResult Edit(int id)
         {
-            var model = PositionMapper.MapPositionToModel(Position.GetById(id));
+            var model = PositionMapper.MapPositionToModel(Position.GetPositionById(id));
             return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
@@ -97,7 +97,7 @@ namespace TimeEffort.Controllers
         // GET: Position/Delete/5
         public ActionResult Delete(int id)
         {
-            var position = Position.GetById(id);
+            var position = Position.GetPositionById(id);
             var model = PositionMapper.MapPositionToModel(position);
             return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml",model);
          
@@ -109,12 +109,12 @@ namespace TimeEffort.Controllers
         {
             try
             {
-                Position.Delete(id);
+                Position.DeletePosition(id);
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-                var position = Position.GetById(id);
+                var position = Position.GetPositionById(id);
                 var model = PositionMapper.MapPositionToModel(position);
                 ModelState.AddModelError("", e.Message);
                 return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
