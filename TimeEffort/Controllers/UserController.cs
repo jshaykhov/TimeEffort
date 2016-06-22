@@ -165,11 +165,11 @@ namespace TimeEffort.Controllers
             //to pass it to view's dropdown
             //to allow user selection during registration
             var listOfPositions = _userService.GetAllPositions();
-            SelectList positions = new SelectList(PositionMapper.MapPositionsToModels(listOfPositions),
+            SelectList allpositions = new SelectList(PositionMapper.MapPositionsToModels(listOfPositions),
                                                    "Id ", "Position");
             //store list of positions in ViewBag 
             //for further use in view's dropdown list
-            ViewBag.Positions = positions;
+            ViewBag.Positions = allpositions;
         }
 
         [HttpPost]
@@ -266,7 +266,7 @@ namespace TimeEffort.Controllers
             {
                 var user = _userService.GetUserById(id);
                 var model = UserMapper.MapUserToModel(user);
-                ModelState.AddModelError("", e.Message);
+                ModelState.AddModelError("", "You cannot delete this user, as the user is involved one or more projects");
                 return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
@@ -287,6 +287,7 @@ namespace TimeEffort.Controllers
             model.Id = id;
             UserViewModel user1 = UserMapper.MapUserToModel(_userService.GetUserById(model.Id));
             model.Password = user1.Password;
+            model.UserName = user1.UserName;
             try
             {
                 if (ModelState.IsValid)

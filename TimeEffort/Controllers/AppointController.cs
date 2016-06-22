@@ -14,17 +14,17 @@ namespace TimeEffort.Controllers
     public class AppointController : Controller
     {
         //static properties does not requiere instantiation on accessing different Actions
-        static AllDBServices _Service;
+        static AccessDBService _Service;
        
         //static UserService UserService;
         //singleton to ensure that there is only one instance of the service
 
-        private AllDBServices Service
+        private AccessDBService Service
         {
             get
             {
                 if (_Service == null)
-                    _Service = new AllDBServices();
+                    _Service = new AccessDBService();
                 return _Service;
             }
         }
@@ -47,14 +47,14 @@ namespace TimeEffort.Controllers
         public ActionResult GetMembers(int projectId)
         { 
             int userId= Service.GetUserIdByUsername(User.Identity.Name);
-            List<AppointViewModel> members= AppointMapper.MapAppointsToModels(Service.GetAllAccesses().Where(m=>m.ProjectID==projectId && m.UserID!=userId).ToList());
+            List<AppointViewModel> members= AppointMapper.MapAppointsToModels(Service.GetAll().Where(m=>m.ProjectID==projectId && m.UserID!=userId).ToList());
             return Json(members, JsonRequestBehavior.DenyGet);
         }
         [HttpPost]
         public ActionResult FillDropDowns(int projectId)
         {
             AppointCreateModel model = new AppointCreateModel();
-            var involvedUsers = Service.GetAllAccesses().Where(p => p.ProjectID == projectId).Select(u=>u.UserID).ToList();
+            var involvedUsers = Service.GetAll().Where(p => p.ProjectID == projectId).Select(u=>u.UserID).ToList();
             involvedUsers.Add(Service.GetUserIdByUsername(User.Identity.Name));
             List<UserViewModel> unassignedEmps = UserMapper.MapUsersToModels(Service.GetAllUsers().Where(u => !involvedUsers.Contains(u.ID)).ToList());
             if (unassignedEmps.Count == 0)
@@ -126,7 +126,7 @@ namespace TimeEffort.Controllers
         public ActionResult Edit(int id)
         {
             CreateSelectListForDropDownRoles();
-            var model = AppointMapper.MapAppointToModel(Service.GetAccessById(id));
+            var model = AppointMapper.MapAppointToModel(Service.GetById(id));
             return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
 
@@ -141,10 +141,10 @@ namespace TimeEffort.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    int projectId = Service.GetAccessById(id).ProjectID;
+                    int projectId = Service.GetById(id).ProjectID;
                     model.ProjectID = projectId;
                     var appoint = AppointMapper.MapAppointFromModel(model);
-                    Service.UpdateAccess(appoint);
+                    Service.Update(appoint);
                     return RedirectToAction("Index", new { projectId = projectId });
                 }
                 CreateSelectListForDropDownRoles();
@@ -163,7 +163,7 @@ namespace TimeEffort.Controllers
         // GET: /Appoint/Delete/5
         public ActionResult Delete(int id)
         {
-            var appoint = Service.GetAccessById(id);
+            var appoint = Service.GetById(id);
             var model = AppointMapper.MapAppointToModel(appoint);
             return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
@@ -175,13 +175,13 @@ namespace TimeEffort.Controllers
         {
             try
             {
-                int projectId = Service.GetAccessById(id).ProjectID;
-                Service.DeleteAccess(id);
+                int projectId = Service.GetById(id).ProjectID;
+                Service.Delete(id);
                 return RedirectToAction("Index", new { projectId = projectId});
             }
             catch (Exception e)
             {
-                var appoint = Service.GetAccessById(id);
+                var appoint = Service.GetById(id);
                 var model = AppointMapper.MapAppointToModel(appoint);
                 ModelState.AddModelError("", e.Message);
                 return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
@@ -227,17 +227,18 @@ namespace TimeEffort.Controllers
         [HttpGet]
         public ActionResult GetCurProjects(int userId)
         {
-            var list = AppointMapper.MapAppointsToModels(Service.GetAllAccesses().Where(p=>p.UserID==userId).ToList());
+            var list = AppointMapper.MapAppointsToModels(Service.GetAll().Where(p=>p.UserID==userId & p.Project.EndDate.Year>=DateTime.Now.Year).ToList());
 
             object[] arr = ConvertToArray(list);
             return Json(arr, JsonRequestBehavior.AllowGet);
         }
         private object[] ConvertToArray(List<AppointViewModel> list)
         {
+            string[] colors = new string[] { "#66CC99", "#CCFF66", "#99CCFF", "#CCCC33", "#99FF66", "#FFCC66", "#66CC99", "#CC9999", "#99CCFF", "#66CC99", "#CC9999", "#99CCFF" };
             object[] arr = new object[list.Count];
             for (int i = 0; i < list.Count; i++)
             {
-                arr[i] = new { start = list.ElementAt(i).DateFrom, title = list.ElementAt(i).Project, end = list.ElementAt(i).DateTo};
+                arr[i] = new { start = list.ElementAt(i).DateFrom, title = list.ElementAt(i).ProjectFullName, end = list.ElementAt(i).DateTo, allDay = true, color = colors[i] };
             }
             return arr;
         }
