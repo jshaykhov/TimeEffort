@@ -47,6 +47,7 @@ namespace TimeEffort.Mappers
                 User = c.UserInfo.FirstName + " " + c.UserInfo.LastName,
                 ProjectID = c.ProjectID,
                 Project = c.Project.Name,
+                ProjectFullName=c.Project.Code+" "+c.Project.Name,
                 RoleID = c.RoleID,
                 Role = c.Role.Name,
                 DateFrom=c.DateFrom,

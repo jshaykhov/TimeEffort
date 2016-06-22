@@ -95,10 +95,10 @@ namespace TimeEffortCore.Services
             var projectItem = db.Project.FirstOrDefault(p => p.ID == item.ProjectID);
 
             if(item.DateFrom<projectItem.StartDate || item.DateFrom>projectItem.EndDate)
-                throw new Exception("Date From should be between" + projectItem.StartDate.ToShortDateString() + " and " + projectItem.EndDate.ToShortDateString());
+                throw new Exception("Date From should be between " + projectItem.StartDate.ToShortDateString() + " and " + projectItem.EndDate.ToShortDateString());
 
             if (item.DateTo < projectItem.StartDate || item.DateTo > projectItem.EndDate)
-                throw new Exception("Date To should be between" + projectItem.StartDate.ToShortDateString() + " and " + projectItem.EndDate.ToShortDateString());
+                throw new Exception("Date To should be between " + projectItem.StartDate.ToShortDateString() + " and " + projectItem.EndDate.ToShortDateString());
 
             if (item.DateFrom > projectItem.EndDate)
                 throw new Exception("Date To cannot be earlier than Date From");
