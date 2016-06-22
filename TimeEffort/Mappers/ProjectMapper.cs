@@ -16,7 +16,7 @@ namespace TimeEffort.Mappers
             {
                 Id = project.ID,
                 Code = project.Code,
-                CType=project.CType,
+                CType=project.CType == null ? "" : project.CType,
                 ProjectName=project.Name,
                 CMoneyUsd=project.ContractUSD,
                 CMoneyUzs=project.ContractUZS,

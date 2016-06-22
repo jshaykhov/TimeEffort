@@ -132,6 +132,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dbModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Entities\dbModel1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\Notification.cs">
       <DependentUpon>dbModel.tt</DependentUpon>
     </Compile>
@@ -193,7 +198,7 @@
     <None Include="Entities\dbModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>dbModel.edmx</DependentUpon>
-      <LastGenOutput>dbModel.cs</LastGenOutput>
+      <LastGenOutput>dbModel1.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

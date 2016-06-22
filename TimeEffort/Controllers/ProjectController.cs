@@ -218,7 +218,7 @@ namespace TimeEffort.Controllers
             {
                 var project = Service.GetById(id);
                 var model = ProjectMapper.MapProjectToModel(project);
-                ModelState.AddModelError("", e.Message);
+                ModelState.AddModelError("", "You cannot delete this project, because there are records of employee efforts for this project.");
                 return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
 

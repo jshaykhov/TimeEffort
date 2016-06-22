@@ -32,7 +32,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FROMID" Type="int" />
           <Property Name="TOID" Type="int" />
           <Property Name="Date" Type="datetime" Nullable="false" />
@@ -45,7 +45,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NAME" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Position">
@@ -123,7 +123,9 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <Association Name="FK_Access_Project">
-          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Access" Type="Self.Access" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Project">
@@ -135,7 +137,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Access_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="Role" Type="Self.Role" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Access" Type="Self.Access" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
@@ -185,9 +189,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Project_UserInfo">
-          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1" />
           <End Role="Project" Type="Self.Project" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserInfo">
@@ -199,7 +201,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_ProjectId">
-          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Project">
@@ -223,7 +227,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_TypeID">
-          <End Role="NotificationType" Type="Self.NotificationType" Multiplicity="0..1" />
+          <End Role="NotificationType" Type="Self.NotificationType" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="NotificationType">
@@ -243,6 +249,42 @@
             </Principal>
             <Dependent Role="UserInfo">
               <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Workload_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
+          <End Role="Workload" Type="Self.Workload" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Workload">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Workload_UserInfo">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1" />
+          <End Role="Workload" Type="Self.Workload" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Workload">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Workload_WorkloadType">
+          <End Role="WorkloadType" Type="Self.WorkloadType" Multiplicity="1" />
+          <End Role="Workload" Type="Self.Workload" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkloadType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Workload">
+              <PropertyRef Name="WorkloadTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -329,225 +371,6 @@
             <End Role="Position" EntitySet="Position" />
             <End Role="UserInfo" EntitySet="UserInfo" />
           </AssociationSet>
-        </EntityContainer>
-      </Schema></edmx:StorageModels>
-    <!-- CSDL content -->
-    <edmx:ConceptualModels>
-      <Schema Namespace="time_trackerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Access">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="ProjectID" Type="Int32" Nullable="false" />
-          <Property Name="RoleID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Project" Relationship="Self.FK_Access_Project" FromRole="Access" ToRole="Project" />
-          <NavigationProperty Name="Role" Relationship="Self.FK_Access_Role" FromRole="Access" ToRole="Role" />
-          <NavigationProperty Name="UserInfo" Relationship="Self.FK_Access_UserInfo" FromRole="Access" ToRole="UserInfo" />
-          <Property Name="DateFrom" Type="DateTime" Precision="3" />
-          <Property Name="DateTo" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="Position">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="UserInfo" Relationship="Self.FK_UserInfo_Position" FromRole="Position" ToRole="UserInfo" />
-        </EntityType>
-        <EntityType Name="Project">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ContractUSD" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="ContractUZS" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="ManagerID" Type="Int32" Nullable="false" />
-          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Access" Relationship="Self.FK_Access_Project" FromRole="Project" ToRole="Access" />
-          <NavigationProperty Name="Workload" Relationship="Self.FK_Workload_Project" FromRole="Project" ToRole="Workload" />
-          <NavigationProperty Name="UserInfo" Relationship="time_trackerModel.FK_Project_UserInfo" FromRole="Project" ToRole="UserInfo" />
-          <Property Name="CType" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="CustomerId" Type="Int32" />
-          <NavigationProperty Name="Customer" Relationship="time_trackerModel.FK_Project_Customer" FromRole="Project" ToRole="Customer" />
-          <NavigationProperty Name="Notification" Relationship="time_trackerModel.fk_ProjectId" FromRole="Project" ToRole="Notification" />
-        </EntityType>
-        <EntityType Name="Role">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Access" Relationship="Self.FK_Access_Role" FromRole="Role" ToRole="Access" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="UserInfo">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Phone" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PositionID" Type="Int32" Nullable="false" />
-          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Access" Relationship="Self.FK_Access_UserInfo" FromRole="UserInfo" ToRole="Access" />
-          <NavigationProperty Name="Position" Relationship="Self.FK_UserInfo_Position" FromRole="UserInfo" ToRole="Position" />
-          <NavigationProperty Name="Workload" Relationship="Self.FK_Workload_UserInfo" FromRole="UserInfo" ToRole="Workload" />
-          <NavigationProperty Name="Project" Relationship="time_trackerModel.FK_Project_UserInfo" FromRole="UserInfo" ToRole="Project" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Major" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Notification" Relationship="time_trackerModel.fk_FromID" FromRole="UserInfo" ToRole="Notification" />
-          <NavigationProperty Name="Notification1" Relationship="time_trackerModel.fk_ToID" FromRole="UserInfo" ToRole="Notification" />
-        </EntityType>
-        <EntityType Name="Workload">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="ProjectID" Type="Int32" />
-          <Property Name="Duration" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="Note" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="WorkloadTypeID" Nullable="false" Type="Int32" />
-          <NavigationProperty Name="Project" Relationship="Self.FK_Workload_Project" FromRole="Workload" ToRole="Project" />
-          <NavigationProperty Name="UserInfo" Relationship="Self.FK_Workload_UserInfo" FromRole="Workload" ToRole="UserInfo" />
-          <NavigationProperty Name="WorkloadType" Relationship="Self.FK_Workload_WorkloadType" FromRole="Workload" ToRole="WorkloadType" />
-        </EntityType>
-        <EntityType Name="WorkloadType">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Workload" Relationship="Self.FK_Workload_WorkloadType" FromRole="WorkloadType" ToRole="Workload" />
-        </EntityType>
-        <Association Name="FK_Access_Project">
-          <End Role="Project" Type="Self.Project" Multiplicity="1" />
-          <End Role="Access" Type="Self.Access" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Project">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Access">
-              <PropertyRef Name="ProjectID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Access_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="1" />
-          <End Role="Access" Type="Self.Access" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Access">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Access_UserInfo">
-          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1" />
-          <End Role="Access" Type="Self.Access" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserInfo">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Access">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserInfo_Position">
-          <End Role="Position" Type="Self.Position" Multiplicity="1" />
-          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Position">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UserInfo">
-              <PropertyRef Name="PositionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Workload_Project">
-          <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
-          <End Role="Workload" Type="Self.Workload" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Project">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Workload">
-              <PropertyRef Name="ProjectID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Workload_UserInfo">
-          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1" />
-          <End Role="Workload" Type="Self.Workload" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserInfo">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Workload">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Workload_WorkloadType">
-          <End Role="WorkloadType" Type="Self.WorkloadType" Multiplicity="1" />
-          <End Role="Workload" Type="Self.Workload" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WorkloadType">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Workload">
-              <PropertyRef Name="WorkloadTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="time_trackerEntities1" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Access" EntityType="Self.Access" />
-          <EntitySet Name="Position" EntityType="Self.Position" />
-          <EntitySet Name="Project" EntityType="Self.Project" />
-          <EntitySet Name="Role" EntityType="Self.Role" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <EntitySet Name="UserInfo" EntityType="Self.UserInfo" />
-          <EntitySet Name="Workload" EntityType="Self.Workload" />
-          <EntitySet Name="WorkloadType" EntityType="Self.WorkloadType" />
-          <AssociationSet Name="FK_Access_Project" Association="Self.FK_Access_Project">
-            <End Role="Project" EntitySet="Project" />
-            <End Role="Access" EntitySet="Access" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Access_Role" Association="Self.FK_Access_Role">
-            <End Role="Role" EntitySet="Role" />
-            <End Role="Access" EntitySet="Access" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Access_UserInfo" Association="Self.FK_Access_UserInfo">
-            <End Role="UserInfo" EntitySet="UserInfo" />
-            <End Role="Access" EntitySet="Access" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserInfo_Position" Association="Self.FK_UserInfo_Position">
-            <End Role="Position" EntitySet="Position" />
-            <End Role="UserInfo" EntitySet="UserInfo" />
-          </AssociationSet>
           <AssociationSet Name="FK_Workload_Project" Association="Self.FK_Workload_Project">
             <End Role="Project" EntitySet="Project" />
             <End Role="Workload" EntitySet="Workload" />
@@ -560,6 +383,12 @@
             <End Role="WorkloadType" EntitySet="WorkloadType" />
             <End Role="Workload" EntitySet="Workload" />
           </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="time_trackerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="time_trackerEntities1" annotation:LazyLoadingEnabled="true">
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -590,17 +419,33 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
-          <AssociationSet Name="FK_Project_UserInfo" Association="time_trackerModel.FK_Project_UserInfo">
-            <End Role="UserInfo" EntitySet="UserInfo" />
-            <End Role="Project" EntitySet="Project" />
-          </AssociationSet>
+          <EntitySet Name="Access" EntityType="time_trackerModel.Access" />
           <EntitySet Name="Customer" EntityType="time_trackerModel.Customer" />
+          <EntitySet Name="Notification" EntityType="time_trackerModel.Notification" />
+          <EntitySet Name="NotificationType" EntityType="time_trackerModel.NotificationType" />
+          <EntitySet Name="Position" EntityType="time_trackerModel.Position" />
+          <EntitySet Name="Project" EntityType="time_trackerModel.Project" />
+          <EntitySet Name="Role" EntityType="time_trackerModel.Role" />
+          <EntitySet Name="sysdiagrams" EntityType="time_trackerModel.sysdiagrams" />
+          <EntitySet Name="UserInfo" EntityType="time_trackerModel.UserInfo" />
+          <EntitySet Name="Workload" EntityType="time_trackerModel.Workload" />
+          <EntitySet Name="WorkloadType" EntityType="time_trackerModel.WorkloadType" />
+          <AssociationSet Name="FK_Access_Project" Association="time_trackerModel.FK_Access_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Access" EntitySet="Access" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Access_Role" Association="time_trackerModel.FK_Access_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Access" EntitySet="Access" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Access_UserInfo" Association="time_trackerModel.FK_Access_UserInfo">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="Access" EntitySet="Access" />
+          </AssociationSet>
           <AssociationSet Name="FK_Project_Customer" Association="time_trackerModel.FK_Project_Customer">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="Project" EntitySet="Project" />
           </AssociationSet>
-          <EntitySet Name="Notification" EntityType="time_trackerModel.Notification" />
-          <EntitySet Name="NotificationType" EntityType="time_trackerModel.NotificationType" />
           <AssociationSet Name="fk_FromID" Association="time_trackerModel.fk_FromID">
             <End Role="UserInfo" EntitySet="UserInfo" />
             <End Role="Notification" EntitySet="Notification" />
@@ -617,7 +462,27 @@
             <End Role="NotificationType" EntitySet="NotificationType" />
             <End Role="Notification" EntitySet="Notification" />
           </AssociationSet>
-        </EntityContainer>
+          <AssociationSet Name="FK_UserInfo_Position" Association="time_trackerModel.FK_UserInfo_Position">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="UserInfo" EntitySet="UserInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project_UserInfo" Association="time_trackerModel.FK_Project_UserInfo">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Workload_Project" Association="time_trackerModel.FK_Workload_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Workload" EntitySet="Workload" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Workload_UserInfo" Association="time_trackerModel.FK_Workload_UserInfo">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="Workload" EntitySet="Workload" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Workload_WorkloadType" Association="time_trackerModel.FK_Workload_WorkloadType">
+            <End Role="WorkloadType" EntitySet="WorkloadType" />
+            <End Role="Workload" EntitySet="Workload" />
+          </AssociationSet>
+          </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
           <Property Type="Binary" Name="definition" Nullable="true" />
@@ -629,18 +494,20 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
-        <Association Name="FK_Project_UserInfo">
-          <End Type="time_trackerModel.UserInfo" Role="UserInfo" Multiplicity="1" />
-          <End Type="time_trackerModel.Project" Role="Project" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserInfo">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Project">
-              <PropertyRef Name="ManagerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityType Name="Access">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="ProjectID" Type="Int32" Nullable="false" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="DateFrom" Type="DateTime" Precision="3" />
+          <Property Name="DateTo" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Project" Relationship="time_trackerModel.FK_Access_Project" FromRole="Access" ToRole="Project" />
+          <NavigationProperty Name="Role" Relationship="time_trackerModel.FK_Access_Role" FromRole="Access" ToRole="Role" />
+          <NavigationProperty Name="UserInfo" Relationship="time_trackerModel.FK_Access_UserInfo" FromRole="Access" ToRole="UserInfo" />
+        </EntityType>
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="ID" />
@@ -649,28 +516,16 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TIN" Type="String" Nullable="false" MaxLength="9" FixedLength="true" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Project" Relationship="time_trackerModel.FK_Project_Customer" FromRole="Customer" ToRole="Project" />
           <Property Name="ContactPhone" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
           <Property Name="GenDirector" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ContactPerson" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Project" Relationship="time_trackerModel.FK_Project_Customer" FromRole="Customer" ToRole="Project" />
         </EntityType>
-        <Association Name="FK_Project_Customer">
-          <End Type="time_trackerModel.Customer" Role="Customer" Multiplicity="0..1" />
-          <End Type="time_trackerModel.Project" Role="Project" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Project">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Notification">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FROMID" Type="Int32" />
           <Property Name="TOID" Type="Int32" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
@@ -687,10 +542,155 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Notification" Relationship="time_trackerModel.fk_TypeID" FromRole="NotificationType" ToRole="Notification" />
         </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserInfo" Relationship="time_trackerModel.FK_UserInfo_Position" FromRole="Position" ToRole="UserInfo" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContractUSD" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ContractUZS" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ManagerID" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CType" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerId" Type="Int32" />
+          <NavigationProperty Name="Access" Relationship="time_trackerModel.FK_Access_Project" FromRole="Project" ToRole="Access" />
+          <NavigationProperty Name="Customer" Relationship="time_trackerModel.FK_Project_Customer" FromRole="Project" ToRole="Customer" />
+          <NavigationProperty Name="Notification" Relationship="time_trackerModel.fk_ProjectId" FromRole="Project" ToRole="Notification" />
+          <NavigationProperty Name="UserInfo" Relationship="time_trackerModel.FK_Project_UserInfo" FromRole="Project" ToRole="UserInfo" />
+          <NavigationProperty Name="Workload" Relationship="time_trackerModel.FK_Workload_Project" FromRole="Project" ToRole="Workload" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Access" Relationship="time_trackerModel.FK_Access_Role" FromRole="Role" ToRole="Access" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PositionID" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Major" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Access" Relationship="time_trackerModel.FK_Access_UserInfo" FromRole="UserInfo" ToRole="Access" />
+          <NavigationProperty Name="Notification" Relationship="time_trackerModel.fk_FromID" FromRole="UserInfo" ToRole="Notification" />
+          <NavigationProperty Name="Notification1" Relationship="time_trackerModel.fk_ToID" FromRole="UserInfo" ToRole="Notification" />
+          <NavigationProperty Name="Position" Relationship="time_trackerModel.FK_UserInfo_Position" FromRole="UserInfo" ToRole="Position" />
+          <NavigationProperty Name="Project" Relationship="time_trackerModel.FK_Project_UserInfo" FromRole="UserInfo" ToRole="Project" />
+          <NavigationProperty Name="Workload" Relationship="time_trackerModel.FK_Workload_UserInfo" FromRole="UserInfo" ToRole="Workload" />
+        </EntityType>
+        <EntityType Name="Workload">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="Duration" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Note" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="WorkloadTypeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Project" Relationship="time_trackerModel.FK_Workload_Project" FromRole="Workload" ToRole="Project" />
+          <NavigationProperty Name="UserInfo" Relationship="time_trackerModel.FK_Workload_UserInfo" FromRole="Workload" ToRole="UserInfo" />
+          <NavigationProperty Name="WorkloadType" Relationship="time_trackerModel.FK_Workload_WorkloadType" FromRole="Workload" ToRole="WorkloadType" />
+        </EntityType>
+        <EntityType Name="WorkloadType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Workload" Relationship="time_trackerModel.FK_Workload_WorkloadType" FromRole="WorkloadType" ToRole="Workload" />
+        </EntityType>
+        <Association Name="FK_Access_Project">
+          <End Type="time_trackerModel.Project" Role="Project" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="time_trackerModel.Access" Role="Access" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Access">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Access_Role">
+          <End Type="time_trackerModel.Role" Role="Role" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="time_trackerModel.Access" Role="Access" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Access">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Access_UserInfo">
+          <End Type="time_trackerModel.UserInfo" Role="UserInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="time_trackerModel.Access" Role="Access" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Access">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_Customer">
+          <End Type="time_trackerModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="time_trackerModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_FromID">
           <End Type="time_trackerModel.UserInfo" Role="UserInfo" Multiplicity="0..1" />
           <End Type="time_trackerModel.Notification" Role="Notification" Multiplicity="*" />
@@ -704,7 +704,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_ProjectId">
-          <End Type="time_trackerModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="time_trackerModel.Project" Role="Project" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="time_trackerModel.Notification" Role="Notification" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Project">
@@ -728,7 +730,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_TypeID">
-          <End Type="time_trackerModel.NotificationType" Role="NotificationType" Multiplicity="0..1" />
+          <End Type="time_trackerModel.NotificationType" Role="NotificationType" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="time_trackerModel.Notification" Role="Notification" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="NotificationType">
@@ -739,105 +743,72 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_UserInfo_Position">
+          <End Type="time_trackerModel.Position" Role="Position" Multiplicity="1" />
+          <End Type="time_trackerModel.UserInfo" Role="UserInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserInfo">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project_UserInfo">
+          <End Type="time_trackerModel.UserInfo" Role="UserInfo" Multiplicity="1" />
+          <End Type="time_trackerModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="ManagerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Workload_Project">
+          <End Type="time_trackerModel.Project" Role="Project" Multiplicity="0..1" />
+          <End Type="time_trackerModel.Workload" Role="Workload" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Workload">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Workload_UserInfo">
+          <End Type="time_trackerModel.UserInfo" Role="UserInfo" Multiplicity="1" />
+          <End Type="time_trackerModel.Workload" Role="Workload" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Workload">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Workload_WorkloadType">
+          <End Type="time_trackerModel.WorkloadType" Role="WorkloadType" Multiplicity="1" />
+          <End Type="time_trackerModel.Workload" Role="Workload" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkloadType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Workload">
+              <PropertyRef Name="WorkloadTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="time_trackerModelStoreContainer" CdmEntityContainer="time_trackerEntities1">
-          <EntitySetMapping Name="Access">
-            <EntityTypeMapping TypeName="time_trackerModel.Access">
-              <MappingFragment StoreEntitySet="Access">
-                <ScalarProperty Name="DateTo" ColumnName="DateTo" />
-                <ScalarProperty Name="DateFrom" ColumnName="DateFrom" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Position">
-            <EntityTypeMapping TypeName="time_trackerModel.Position">
-              <MappingFragment StoreEntitySet="Position">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Project">
-            <EntityTypeMapping TypeName="time_trackerModel.Project">
-              <MappingFragment StoreEntitySet="Project">
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="CType" ColumnName="CType" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="ContractUSD" ColumnName="ContractUSD" />
-                <ScalarProperty Name="ContractUZS" ColumnName="ContractUZS" />
-                <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Role">
-            <EntityTypeMapping TypeName="time_trackerModel.Role">
-              <MappingFragment StoreEntitySet="Role">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="time_trackerModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserInfo">
-            <EntityTypeMapping TypeName="time_trackerModel.UserInfo">
-              <MappingFragment StoreEntitySet="UserInfo">
-                <ScalarProperty Name="Major" ColumnName="Major" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Workload">
-            <EntityTypeMapping TypeName="time_trackerModel.Workload">
-              <MappingFragment StoreEntitySet="Workload">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-                <ScalarProperty Name="Duration" ColumnName="Duration" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
-                <ScalarProperty Name="WorkloadTypeID" ColumnName="WorkloadTypeID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="WorkloadType">
-            <EntityTypeMapping TypeName="time_trackerModel.WorkloadType">
-              <MappingFragment StoreEntitySet="WorkloadType">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="time_trackerModel.Store.sp_alterdiagram" />
           <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="time_trackerModel.Store.sp_creatediagram" />
           <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="time_trackerModel.Store.sp_dropdiagram" />
@@ -862,6 +833,18 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="time_trackerModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="time_trackerModel.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="Access">
+            <EntityTypeMapping TypeName="time_trackerModel.Access">
+              <MappingFragment StoreEntitySet="Access">
+                <ScalarProperty Name="DateTo" ColumnName="DateTo" />
+                <ScalarProperty Name="DateFrom" ColumnName="DateFrom" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Customer">
             <EntityTypeMapping TypeName="time_trackerModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
@@ -897,7 +880,88 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="Position">
+            <EntityTypeMapping TypeName="time_trackerModel.Position">
+              <MappingFragment StoreEntitySet="Position">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Project">
+            <EntityTypeMapping TypeName="time_trackerModel.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="CType" ColumnName="CType" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
+                <ScalarProperty Name="ContractUZS" ColumnName="ContractUZS" />
+                <ScalarProperty Name="ContractUSD" ColumnName="ContractUSD" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="time_trackerModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="time_trackerModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInfo">
+            <EntityTypeMapping TypeName="time_trackerModel.UserInfo">
+              <MappingFragment StoreEntitySet="UserInfo">
+                <ScalarProperty Name="Major" ColumnName="Major" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Workload">
+            <EntityTypeMapping TypeName="time_trackerModel.Workload">
+              <MappingFragment StoreEntitySet="Workload">
+                <ScalarProperty Name="WorkloadTypeID" ColumnName="WorkloadTypeID" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkloadType">
+            <EntityTypeMapping TypeName="time_trackerModel.WorkloadType">
+              <MappingFragment StoreEntitySet="WorkloadType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
