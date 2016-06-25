@@ -22,10 +22,11 @@ namespace TimeEffortCore.Services
         private void ContextSet()
         {
             db = new time_trackerEntities1();
+
         }
 
         #region Access Services
-        
+
         public bool IsInvolved(int userId, int projectId)
         {
             return db.Access.Any(x => x.UserID == userId && x.ProjectID == projectId);
@@ -41,8 +42,8 @@ namespace TimeEffortCore.Services
 
             var user = db.UserInfo.FirstOrDefault(u => u.Username == username);
             var projects = db.Project.ToList();
-            
-            
+
+
             foreach (Project p in projects)
             {
                 if (IsInvolved(user.ID, p.ID) && p.ManagerID != user.ID)
@@ -80,7 +81,7 @@ namespace TimeEffortCore.Services
             //dbItem.UserID = item.UserID;
             var projectItem = db.Project.FirstOrDefault(p => p.ID == item.ProjectID);
 
-            if(item.DateFrom<projectItem.StartDate || item.DateFrom>projectItem.EndDate)
+            if (item.DateFrom < projectItem.StartDate || item.DateFrom > projectItem.EndDate)
                 throw new Exception("Date From should be between" + projectItem.StartDate.ToShortDateString() + " and " + projectItem.EndDate.ToShortDateString());
 
             if (item.DateTo < projectItem.StartDate || item.DateTo > projectItem.EndDate)
@@ -389,11 +390,9 @@ namespace TimeEffortCore.Services
         public List<UserInfo> GetAllUsers()
         {
             var users = db.UserInfo.Where(u => u.Username != "");
-            foreach (var user in users)
-                user.Password = ":p I will not show passwords";
             return users.ToList();
         }
-        
+
         //get by id
         public UserInfo GetUserById(int Id)
         {
@@ -779,8 +778,57 @@ namespace TimeEffortCore.Services
         }
         #endregion
 
+        #region Notification Service
+        public List<Notification> GetAllNotifications()
+        {
+            try
+            {
+                return db.Notification.ToList();
+            }
+            catch { return new List<Notification>(); }
+        }
+        public bool MarkNotificationAsReadSuccessfully(int id)
+        {
+            var notification = db.Notification.FirstOrDefault(x => x.ID == id);
+            if (notification == null)
+                return false;
+            else
+                notification.ISREAD = true;
+            try
+            {
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e) { return false; }
+        }
 
+        public bool DeleteSelectedNotificationSuccessfully(int id)
+        {
+            var notification = db.Notification.FirstOrDefault(x => x.ID == id);
+            if (notification == null)
+                return false;
+            else
+                db.Notification.Remove(notification);
+            try
+            {
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e) { return false; }
+        }
 
+        public bool MarkAllAsReadSuccessfully(string username)
+        {
+            var userId = GetUserIdByUsername(username);
+            foreach (var i in db.Notification.Where(x=>x.TOID==userId).ToList())
+            {
+                i.ISREAD = true;                
+            }
+
+            try { db.SaveChanges(); return true; }
+            catch { return false; }
+        }
+        #endregion
 
 
         /// <summary>
@@ -793,7 +841,9 @@ namespace TimeEffortCore.Services
         public List<Notification> GetNotificationsForUser(int userId, DateTime upToDate, bool OnlyUnread = true)
         {
             var returning = new List<Notification>();
-            if (OnlyUnread){
+            ContextSet();
+            if (OnlyUnread)
+            {
                 if (db.Notification.ToList().Count != 0) // && x.ISREAD == false
                     returning = db.Notification.Where(x => x.TOID == userId && x.Date <= upToDate && x.ISREAD == false).ToList();
             }

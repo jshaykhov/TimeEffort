@@ -87,6 +87,8 @@
     <div id="page-wrapper">
         @RenderBody()
         <hr />
+
+        <span class="notification"></span>
         <footer>
             <p>&copy; @DateTime.Now.Year - LG CNS UZBEKISTAN Time Effort</p>
         </footer>
@@ -103,5 +105,6 @@
     <script src="@Url.Content("~/Content/AnotherTheme/bower_components/morrisjs/morris.min.js")"></script>
     <script src="@Url.Content("~/Content/AnotherTheme/js/morris-data.js")"></script>
 
+    <script src="@Url.Content("~/Scripts/notify.min.js")"></script>
 </body>
 </html>

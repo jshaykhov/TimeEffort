@@ -3,18 +3,18 @@
 <ul class="nav navbar-top-links navbar-right" style="padding-right:5px;">
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            @if (Model.Count != 0) { 
-            <div class="icon-wrapper">
-                <i class="fa fa-bell fa-fw fa-border"></i>
-                <span class="badge">!</span>
-            </div>
-            <i class="fa fa-caret-down"></i>
+            @if (Model.Count != 0) {
+                <div class="icon-wrapper">
+                    <i class="fa fa-bell fa-fw fa-border"></i>
+                    <span class="badge">!</span>
+                </div>
+                <i class="fa fa-caret-down"></i>
             }
             else
             {
-                 
+
                 <i class="fa fa-bell fa-fw fa-border"></i>
-            <i class="fa fa-caret-down"></i>
+                <i class="fa fa-caret-down"></i>
             }
         </a>
         <ul class="dropdown-menu dropdown-alerts">
@@ -25,15 +25,22 @@
                     <li>
                         <a href='@Url.Action("Edit","Project", new { id = notification.ProjectId })'>
                             <div>
-                                <i class="fa fa-tasks fa-fw"></i> Project
-                                <span class="pull-right text-muted small">@(notification.MESSAGE)</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
+                                <i class="fa fa-file-powerpoint-o fa-fw"></i> @(notification.Project.Name+ notification.Project.Code.Substring(11))
+                                <span class="pull-right text-muted small">
+                                    @if(notification.MESSAGE.Length >= 34){
+                                        @(notification.MESSAGE.Substring(0,33)+"..." )}
+                                    else {
+                                        @notification.MESSAGE 
+                                    }
+                            </span>
+                        </div>
+                    </a>
+                </li>
+                <li class="divider"></li>
                 }
                 <li>
-                    <a class="text-center" href="#">
+                    <a class="text-center" href=@Url.Action("Index","Notification")>
+                        >
                         <strong>See all notifications</strong>
                         <i class="fa fa-angle-right"></i>
                     </a>
@@ -42,7 +49,7 @@
             else
             {
                 <li>
-                    <a href=#>
+                    <a href=@Url.Action("Index","Notification")>
                         <div>
                             <i class="fa fa-tasks fa-fw"></i>
                             <span class="pull-right text-muted small">No new notifications!</span>
