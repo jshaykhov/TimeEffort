@@ -64,9 +64,10 @@ namespace TimeEffort.Controllers
             int pageSize = 5;
             int pageNumber = (page ?? 1);
 
-            list.OrderBy(x => x.StartDate);
-            
+            list = list.OrderByDescending(x => x.StartDate).ToList();
+
             allProjects.UserProjects = list.ToPagedList(pageNumber, pageSize);
+            
 
             return View(model: allProjects, masterName: "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", viewName: "Index");
         }
@@ -76,8 +77,8 @@ namespace TimeEffort.Controllers
         {
             var allProjects = HelperUser.GetProjectsByManager(User);
             var list = ProjectMapper.MapProjectsToModels(allProjects);
-            
-            return list;
+
+            return list.OrderByDescending(x => x.StartDate).ToList();
 
         }
 
