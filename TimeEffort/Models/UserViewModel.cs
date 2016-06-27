@@ -17,17 +17,17 @@ namespace TimeEffort.Models
         public int Id { get; set; }
         [Required]
         [DataType(DataType.Text)]
-        [StringLength(maximumLength: 100, MinimumLength = 1)]
+        [StringLength(maximumLength: 50, MinimumLength = 1)]
         [Display(Name = "First name")]
         public string FirstName { get; set; }
         [Required]
         [DataType(DataType.Text)]
-        [StringLength(maximumLength: 100, MinimumLength = 1)]
+        [StringLength(maximumLength: 50, MinimumLength = 1)]
         [Display(Name = "Last name")]
         public string LastName { get; set; }
         [Required]
         [DataType(DataType.EmailAddress)]
-        [StringLength(maximumLength: 100, MinimumLength = 1)]
+        [StringLength(maximumLength: 50, MinimumLength = 1)]
         [Display(Name = "Email")]
         public string Email { get; set; }
         [Required]
