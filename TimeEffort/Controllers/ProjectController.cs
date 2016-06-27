@@ -64,6 +64,8 @@ namespace TimeEffort.Controllers
             int pageSize = 5;
             int pageNumber = (page ?? 1);
 
+            list.OrderBy(x => x.StartDate);
+            
             allProjects.UserProjects = list.ToPagedList(pageNumber, pageSize);
 
             return View(model: allProjects, masterName: "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", viewName: "Index");
