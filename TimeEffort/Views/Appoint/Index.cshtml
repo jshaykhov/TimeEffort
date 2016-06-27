@@ -350,9 +350,9 @@ else
         var from = $('#From').val();
         var to = $('#To').val();
         $('#msg').empty();
-        if (from > to)
+        if (from >=to)
         {
-            $('#msg').append("Date To cannot be earlier than Date From");
+            $('#msg').append("Date To cannot be earlier than or equal to Date From");
             $('#myModal').modal('show');
             return;
         }
