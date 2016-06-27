@@ -35,7 +35,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CMoneyUsd, new { @class = "control-label col-md-2" })
             <div class="col-md-2">
-                @Html.EditorFor(model => model.CMoneyUsd, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.CMoneyUsd, new { htmlAttributes = new { @class = "form-control key-numeric" } })
                 @Html.ValidationMessageFor(model => model.CMoneyUsd, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -43,7 +43,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CMoneyUzs, new { @class = "control-label col-md-2" })
             <div class="col-md-2">
-                @Html.EditorFor(model => model.CMoneyUzs, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.CMoneyUzs, new { htmlAttributes = new { @class = "form-control key-numeric" } })
                 @Html.ValidationMessageFor(model => model.CMoneyUzs, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -59,16 +59,16 @@
         <div class="form-group">
             @Html.LabelForRequired(model => model.StartDate, new { @class = "control-label col-md-2" })
             <div class="col-md-2">
-                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @id = "start" } })
+                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger", @id="StartValidationResult" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelForRequired(model => model.FinishDate, new { @class = "control-label col-md-2" })
             <div class="col-md-2">
-                @Html.EditorFor(model => model.FinishDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FinishDate, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.FinishDate, new { htmlAttributes = new { @class = "form-control", @id = "finish" } })
+                @Html.ValidationMessageFor(model => model.FinishDate, "", new { @class = "text-danger", @id = "FinishValidationResult" })
             </div>
         </div>
 
@@ -82,14 +82,58 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" onclick="return ValidateInput()" class="btn btn-default" />
                 <input type="button" onclick="location.href='@Url.Action("Index","Project")'" value="Cancel" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+<script>
+    $('.key-numeric').keypress(function (e) {
+        var verified = (e.which == 8 || e.which == 46 || e.which == 44 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+        if (verified) { e.preventDefault(); }
+    });
+
+    function ValidateInput()
+    {
+        var validationResult = true;
+        var startControl = $('#start');
+        var finishControl = $('#finish');
+        if (startControl.val() == 0) {
+            validationResult = false;
+            $('#StartValidationResult').get(0).innerHTML = "<font color='#b94a48'>Start date is required</font>";
+            startControl.css("border-color", "#b94a48");
+        }
+        else {
+            $('#StartValidationResult').get(0).innerHTML = "";
+            startControl.css("border-color", "#cccccc");
+        }
+        if (finishControl.val() == 0) {
+            validationResult = false;
+            $('#FinishValidationResult').get(0).innerHTML = "<font color='#b94a48'>Finish date is required</font>";
+            finishControl.css("border-color", "#b94a48");
+        }
+        else {
+            $('#FinishValidationResult').get(0).innerHTML = "";
+            finishControl.css("border-color", "#cccccc");
+        }
+        if (finishControl.val() != 0 && startControl.val() != 0) {
+            if (startControl.val() >= finishControl.val()) {
+                validationResult = false;
+                $('#FinishValidationResult').get(0).innerHTML = "<font color='#b94a48'>Finish date cannot be earlier than or equal to Start date</font>";
+                startControl.css("border-color", "#b94a48");
+                finishControl.css("border-color", "#b94a48");
+            }
+            else {
+                $('#FinishValidationResult').get(0).innerHTML = "";
+                startControl.css("border-color", "#cccccc");
+                finishControl.css("border-color", "#cccccc");
+            }
+        }
+        return validationResult;
+    }
+</script>
