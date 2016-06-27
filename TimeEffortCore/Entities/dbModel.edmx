@@ -60,10 +60,10 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ContractUSD" Type="decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="ContractUZS" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ContractUSD" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ContractUZS" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="ManagerID" Type="int" Nullable="false" />
           <Property Name="StartDate" Type="datetime" Nullable="false" />
           <Property Name="EndDate" Type="datetime" Nullable="false" />
@@ -559,10 +559,10 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ContractUSD" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="ContractUZS" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ContractUSD" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ContractUZS" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="ManagerID" Type="Int32" Nullable="false" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />

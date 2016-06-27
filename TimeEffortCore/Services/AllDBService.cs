@@ -82,13 +82,13 @@ namespace TimeEffortCore.Services
             var projectItem = db.Project.FirstOrDefault(p => p.ID == item.ProjectID);
 
             if (item.DateFrom < projectItem.StartDate || item.DateFrom > projectItem.EndDate)
-                throw new Exception("Date From should be between" + projectItem.StartDate.ToShortDateString() + " and " + projectItem.EndDate.ToShortDateString());
+                throw new Exception("Date From should be between " + projectItem.StartDate.ToShortDateString() + " and " + projectItem.EndDate.ToShortDateString());
 
             if (item.DateTo < projectItem.StartDate || item.DateTo > projectItem.EndDate)
-                throw new Exception("Date To should be between" + projectItem.StartDate.ToShortDateString() + " and " + projectItem.EndDate.ToShortDateString());
+                throw new Exception("Date To should be between " + projectItem.StartDate.ToShortDateString() + " and " + projectItem.EndDate.ToShortDateString());
 
-            if (item.DateFrom > projectItem.EndDate)
-                throw new Exception("Date To cannot be earlier than Date From");
+            if (item.DateFrom >= item.DateTo)
+                throw new Exception("Date To cannot be earlier than or equal to Date From");
             //dbItem.ProjectID = item.ProjectID;
 
             dbItem.RoleID = item.RoleID;
@@ -236,7 +236,7 @@ namespace TimeEffortCore.Services
 
             var notification = new Notification();
             notification.ProjectId = project.ID;
-            if (DateTime.Today <= project.StartDate)
+            if (DateTime.Today < project.StartDate)
             {
                 notification.MESSAGE = "Today is the start date of project " + db.Project.FirstOrDefault(x => x.ID == project.ID).Name + " (code: " + db.Project.FirstOrDefault(x => x.ID == project.ID).Code + "). Please change its status to 'Active'";
                 notification.ISREAD = false;

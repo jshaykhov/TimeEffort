@@ -181,7 +181,12 @@
         }
         var data = [];
         for (var i = 0; i < $("#body").find(".addForm").length; i++) {
-           
+            if ($("#Usd" + i).val() == "") {
+                $("#Usd" + i).val("0,00");
+            }
+            if ($("#Uzs" + i).val() == "") {
+                $("#Uzs" + i).val("0,00");
+            }
             data.push({
                 Id: 0,
                 CustomerId: $("#customer").val(),
@@ -208,6 +213,7 @@
                     window.location.href = "/Project";
                 }
                 else {
+                    $('#msg').empty();
                     $('#msg').append(data.msg);
                     $('#myModal').modal('show');
                 }
@@ -229,6 +235,7 @@
             sumUzs += Number($("#Uzs" + i).val().replace(",", "."));
         }
         if (sumActUsd != sumUsd || sumActUzs != sumUzs) {
+            $('#msg').empty();
             $('#msg').append("Total contract money and money for projects R,H,M,B do not match");
             $('#myModal').modal('show');
             return false;        }
@@ -247,30 +254,49 @@
                 nameControl.css("border-color", "#b94a48");
             }
             else {
-                $('#NameValidationResult').get(0).innerHTML = "";
-                nameControl.css("border-color", "#cccccc");
+                if (nameControl.val().length > 100) {
+                    validationResult = false;
+                    $('#NameValidationResult').get(0).innerHTML = "<font color='#b94a48'>Project name cannot include more than 100 characters</font>";
+                    nameControl.css("border-color", "#b94a48");
+                }
+                else {
+                    $('#NameValidationResult').get(0).innerHTML = "";
+                    nameControl.css("border-color", "#cccccc");
+                }
             }
-            if (nameControl.val().length >50) {
+            
+            if (isNaN(usdControl.val().replace(",","."))) {
                 validationResult = false;
-                $('#NameValidationResult').get(0).innerHTML = "<font color='#b94a48'>Project name cannot include more than 50 characters</font>";
-                nameControl.css("border-color", "#b94a48");
+                $('#UsdValidationResult').get(0).innerHTML = "<font color='#b94a48'>Please, enter valid sum</font>";
+                usdControl.css("border-color", "#b94a48");
             }
             else {
-                $('#NameValidationResult').get(0).innerHTML = "";
-                nameControl.css("border-color", "#cccccc");
+                $('#UsdValidationResult').get(0).innerHTML = "";
+                usdControl.css("border-color", "#cccccc");
             }
-            if ((usdControl.val() == 0 | usdControl.val() == "0,00") && (uzsControl.val() == 0 | uzsControl.val() == "0,00")) {
+            if (isNaN(uzsControl.val().replace(",", "."))) {
                 validationResult = false;
-                usdControl.css("border-color", "#b94a48");
-
-                $('#UzsValidationResult').get(0).innerHTML = "<font color='#b94a48'>Please enter contract money in UZS or/and USD</font>";
+                $('#UzsValidationResult').get(0).innerHTML = "<font color='#b94a48'>Please, enter valid sum</font>";
                 uzsControl.css("border-color", "#b94a48");
             }
             else {
-                $('#UsdValidationResult').innerHTML = "";
-                usdControl.css("border-color", "#cccccc");
                 $('#UzsValidationResult').get(0).innerHTML = "";
                 uzsControl.css("border-color", "#cccccc");
+            }
+            if (!(isNaN(usdControl.val().replace(",", ".")) || isNaN(uzsControl.val().replace(",", ".")))) {
+                if ((usdControl.val() == 0 | usdControl.val() == "0,00") && (uzsControl.val() == 0 | uzsControl.val() == "0,00")) {
+                    validationResult = false;
+                    usdControl.css("border-color", "#b94a48");
+
+                    $('#UzsValidationResult').get(0).innerHTML = "<font color='#b94a48'>Please enter contract money in UZS or/and USD</font>";
+                    uzsControl.css("border-color", "#b94a48");
+                }
+                else {
+                    $('#UsdValidationResult').innerHTML = "";
+                    usdControl.css("border-color", "#cccccc");
+                    $('#UzsValidationResult').get(0).innerHTML = "";
+                    uzsControl.css("border-color", "#cccccc");
+                }
             }
             if (startControl.val() == 0) {
                 validationResult = false;

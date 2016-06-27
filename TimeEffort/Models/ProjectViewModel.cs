@@ -57,6 +57,7 @@ namespace TimeEffort.Models
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Project name")]
+        [StringLength(maximumLength: 100, MinimumLength = 1)]
         public string ProjectName { get; set; }
         [Required]
         [Display(Name = "USD")]
