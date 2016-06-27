@@ -87,8 +87,8 @@ namespace TimeEffortCore.Services
             if (item.DateTo < projectItem.StartDate || item.DateTo > projectItem.EndDate)
                 throw new Exception("Date To should be between " + projectItem.StartDate.ToShortDateString() + " and " + projectItem.EndDate.ToShortDateString());
 
-            if (item.DateFrom > item.DateTo)
-                throw new Exception("Date To cannot be earlier than Date From");
+            if (item.DateFrom >= item.DateTo)
+                throw new Exception("Date To cannot be earlier than or equal to Date From");
             //dbItem.ProjectID = item.ProjectID;
 
             dbItem.RoleID = item.RoleID;
