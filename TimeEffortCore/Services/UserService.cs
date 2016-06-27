@@ -156,8 +156,6 @@ namespace TimeEffortCore.Services
         public IEnumerable<UserInfo> GetAllUsers()
         {
             var users = db.UserInfo.Where(u => u.Username != "");
-            foreach (var user in users)
-                user.Password = ":p I will not show passwords";
             return users;
         }
 

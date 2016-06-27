@@ -165,7 +165,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Notification\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -1750,6 +1749,7 @@
     <Content Include="Content\AnotherTheme\less\sb-admin-2.less" />
     <Content Include="Content\AnotherTheme\less\variables.less" />
     <Content Include="Scripts\jquery.jeditable.js" />
+    <Content Include="Scripts\notify.min.js" />
     <Content Include="XML\ProjectToCSV.xslt" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1838,6 +1838,7 @@
     <Content Include="Views\Customer\Delete.cshtml" />
     <Content Include="Views\Errors\NotFound.cshtml" />
     <Content Include="Views\Shared\_NotificationPartial.cshtml" />
+    <Content Include="Views\Notification\Index.cshtml" />
     <None Include="XML\ProjectSchema.xsd">
       <SubType>Designer</SubType>
     </None>
