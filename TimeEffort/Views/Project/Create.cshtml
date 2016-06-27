@@ -254,9 +254,9 @@
                 nameControl.css("border-color", "#b94a48");
             }
             else {
-                if (nameControl.val().length > 50) {
+                if (nameControl.val().length > 100) {
                     validationResult = false;
-                    $('#NameValidationResult').get(0).innerHTML = "<font color='#b94a48'>Project name cannot include more than 50 characters</font>";
+                    $('#NameValidationResult').get(0).innerHTML = "<font color='#b94a48'>Project name cannot include more than 100 characters</font>";
                     nameControl.css("border-color", "#b94a48");
                 }
                 else {
@@ -283,7 +283,7 @@
                 $('#UzsValidationResult').get(0).innerHTML = "";
                 uzsControl.css("border-color", "#cccccc");
             }
-            if (!(isNaN(usdControl.val().replace(",", ".")) && isNaN(uzsControl.val().replace(",", ".")))) {
+            if (!(isNaN(usdControl.val().replace(",", ".")) || isNaN(uzsControl.val().replace(",", ".")))) {
                 if ((usdControl.val() == 0 | usdControl.val() == "0,00") && (uzsControl.val() == 0 | uzsControl.val() == "0,00")) {
                     validationResult = false;
                     usdControl.css("border-color", "#b94a48");
