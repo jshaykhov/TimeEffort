@@ -242,13 +242,14 @@ namespace TimeEffortCore.Services
                 db.SaveChanges();
             }
             if (DateTime.Today <= project.EndDate)
+            {
                 notification.MESSAGE = "Today is the end date of project " + db.Project.FirstOrDefault(x => x.ID == project.ID).Name + " (code: " + db.Project.FirstOrDefault(x => x.ID == project.ID).Code + "). Please change its status to 'Completed'";
-            notification.ISREAD = false;
-            notification.Date = project.EndDate;
-            notification.TOID = db.UserInfo.FirstOrDefault(x => x.Position.Name == "Monitor").ID;
-            db.Notification.Add(notification);
-            db.SaveChanges();
-
+                notification.ISREAD = false;
+                notification.Date = project.EndDate;
+                notification.TOID = db.UserInfo.FirstOrDefault(x => x.Position.Name == "Monitor").ID;
+                db.Notification.Add(notification);
+                db.SaveChanges();
+            }
         }
         #endregion
 
