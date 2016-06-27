@@ -16,6 +16,7 @@
     @*<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>*@
     <script src="@Url.Content("~/Scripts/jquery-1.12.4.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/notify.min.js")"></script>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
@@ -26,6 +27,16 @@
     <script>
         $(document).ready(function () {
             $('#progressBar').hide();
+
+
+
+            //CAPS LOCK VALIDATION
+            $('#Password').keypress(function (e) {
+                var s = String.fromCharCode(e.which);
+                if (s.toUpperCase() === s && s.toLowerCase() !== s && !e.shiftKey) {
+                    $(".Absolute-Center").notify("Caps lock is on!", {class:"warn", position: "top center" } )
+                }
+            });
         });
 
         function checkLogin() {

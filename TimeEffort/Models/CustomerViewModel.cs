@@ -17,11 +17,13 @@ namespace TimeEffort.Models
         public int Id { get; set; }
         [Required]
         [DataType(DataType.Text)]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Name")]
         public string Name { get; set; }
         [Required]
         [DataType(DataType.Text)]
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "TIN must be a natural number")]
         [StringLength(maximumLength: 9, MinimumLength = 9)]
         [Display(Name = "TIN")]
         public string TIN { get; set; }
@@ -35,12 +37,14 @@ namespace TimeEffort.Models
         public string Address { get; set; }
 
         [DataType(DataType.Text)]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "General Director")]
         public string GenDirector { get; set; }
 
 
         [DataType(DataType.Text)]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Contact Person")]
         public string ContactPerson { get; set; }

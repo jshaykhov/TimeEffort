@@ -11,13 +11,17 @@ namespace TimeEffort.Models
         [Required]
         [DataType(DataType.Text)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         [Display(Name = "First name")]
         public string FirstName { get; set; }
+
         [Required]
         [DataType(DataType.Text)]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Last name")]
         public string LastName { get; set; }
+        
         [Required]
         [DataType(DataType.EmailAddress)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
@@ -32,6 +36,7 @@ namespace TimeEffort.Models
         public string Address { get; set; }
 
         [DataType(DataType.Text)]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         public string Major { get; set; }
         [Required]
         [Display(Name = "System role")]
