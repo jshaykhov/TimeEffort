@@ -33,7 +33,21 @@ namespace TimeEffort.Controllers
         {
             int id = HelperUser.GetUserByName(User.Identity.Name).ID;
             var notifications = db.GetNotificationsForUser(id, DateTime.Today, false);
-            return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", notifications);
+
+            var list = notifications.Select(c => new NotificationViewModel
+            {
+                ID = c.ID,
+                Date = c.Date,
+                FROMID = c.FROMID,
+                ISREAD = c.ISREAD,
+                MESSAGE = c.MESSAGE,
+                ProjectId = c.ProjectId,
+                TOID = c.TOID,
+                TYPEID = c.TYPEID,
+                Project = c.Project,
+            }).ToList();
+
+            return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", list);
         }
 
         [ChildActionOnly]
@@ -41,7 +55,21 @@ namespace TimeEffort.Controllers
         {
             var notifications = db.GetNotificationsForUser(HelperUser.GetUserByName(User.Identity.Name).ID, DateTime.Today);
             notifications.OrderByDescending(x => x.Date);
-            return PartialView("_NotificationPartial", notifications);
+
+            var list = notifications.Select(c => new NotificationViewModel
+            {
+                ID = c.ID,
+                Date = c.Date,
+                FROMID = c.FROMID,
+                ISREAD = c.ISREAD,
+                MESSAGE = c.MESSAGE,
+                ProjectId = c.ProjectId,
+                TOID = c.TOID,
+                Project = c.Project,
+                TYPEID = c.TYPEID
+            }).ToList();
+
+            return PartialView("_NotificationPartial", list);
             //return Json(notifications, JsonRequestBehavior.DenyGet);
         }
 

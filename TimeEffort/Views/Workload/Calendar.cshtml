@@ -795,7 +795,7 @@
                 break;
         }
 
-        if (!checkTotalSum(day)) {
+        if (checkTotalSum(day)) {
             if ((total + parseInt(value)) > 24) {
                 $('#message').text("Your cannot work more than 24 hours per day. Please try again");
                 $('#myModal').modal('show');

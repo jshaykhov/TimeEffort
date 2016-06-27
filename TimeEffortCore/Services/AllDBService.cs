@@ -133,7 +133,11 @@ namespace TimeEffortCore.Services
         //Projects
         public List<Project> GetAllProjects()
         {
-            return db.Project.ToList();
+            var list = db.Project.ToList();
+            var removing = db.Project.SingleOrDefault(x => x.ID == 0);
+            if (removing != null)
+                list.Remove(removing);
+            return list;
         }
 
         public Project GetProjectById(int Id)
