@@ -539,13 +539,15 @@ namespace TimeEffortCore.Services
         {
             var user = db.UserInfo.FirstOrDefault(u => u.Username == username);
             List<Project> list = new List<Project>();
-            foreach (Access item in db.Access.Where(x => x.UserID == user.ID && x.DateFrom >= from && x.DateTo <= to).ToList())
+            foreach (Access item in db.Access.Where(x => x.UserID == user.ID && (x.DateFrom >= from || x.DateTo <= to)).ToList())
             {
-                list.Add(item.Project);
+                if(item.ProjectID != 0)
+                    list.Add(item.Project);
             }
-            foreach (Project item in db.Project.Where(x => x.ManagerID == user.ID && !x.Status.Equals("Completed") && x.EndDate >= to).ToList())
+            foreach (Project item in db.Project.Where(x => x.ManagerID == user.ID && !x.Status.Equals("Completed") && (x.StartDate >= from || x.EndDate <= to)).ToList())
             {
-                list.Add(item);
+                if(item.ID != 0)
+                    list.Add(item);
             }
 
             return list;
