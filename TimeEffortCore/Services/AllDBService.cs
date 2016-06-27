@@ -236,7 +236,7 @@ namespace TimeEffortCore.Services
 
             var notification = new Notification();
             notification.ProjectId = project.ID;
-            if (DateTime.Today <= project.StartDate)
+            if (DateTime.Today < project.StartDate)
             {
                 notification.MESSAGE = "Today is the start date of project " + db.Project.FirstOrDefault(x => x.ID == project.ID).Name + " (code: " + db.Project.FirstOrDefault(x => x.ID == project.ID).Code + "). Please change its status to 'Active'";
                 notification.ISREAD = false;
