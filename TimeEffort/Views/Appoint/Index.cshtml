@@ -257,11 +257,18 @@ else
             }
             selectRoles += '</select>';
             row.append($('<td>' + selectRoles + '</td>'));
-            row.append($('<td>' +'<input class="form-control text-box single-line" data-val="true" data-val-date="The field Finish Date must be a date." id="From" type="date" value='+Date.now+ '/>'+'</td>'));
-            row.append($('<td>' + '<input class="form-control text-box single-line" data-val="true" data-val-date="The field Finish Date must be a date." id="To" type="date" value='+Date.now +'/>' + '</td>'));
+            row.append($('<td>' + '<input class="form-control text-box single-line" data-val="true" data-val-date="The field Finish Date must be a date." id="From" type="date" value="' + new Date().toJSON().slice(0, 10) + '"/> </td>'));
+            row.append($('<td><input class="form-control text-box single-line" data-val="true" data-val-date="The field Finish Date must be a date." id="To" type="date" value="' + new Date().toJSON().slice(0, 10) + '"/> </td>'));
             row.append($('<td><button onclick="Add()" class=\"btn btn-sm btn-info .btn-sx\" >Add</button> <button onclick="Cancel()" class=\"btn btn-sm btn-info .btn-sx\">Cancel</button> <button id="Schedule" onclick="ShowCalendar()" class=\"btn btn-sm btn-danger .btn-sx\"><i class="fa fa-calendar fa-fw"></i></button></td>'));
             SetEmpId();
+            setDatePicker();
         });
+    }
+    function setDatePicker()
+    {
+        if (!Modernizr.inputtypes.date) {
+            $('[type="date"]').datepicker();
+        }
     }
     function SetEmpId()
     {

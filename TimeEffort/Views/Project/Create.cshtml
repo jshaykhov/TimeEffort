@@ -120,8 +120,8 @@
 }
 <script>
     $(document).ready(function () {
-        $("#start").val(Date.now);
-        $("#finish").val(Date.now);
+        $("#start").val(new Date().toJSON().slice(0, 10));
+        $("#finish").val(new Date().toJSON().slice(0, 10));
     })
     function CreateProjects() {
 

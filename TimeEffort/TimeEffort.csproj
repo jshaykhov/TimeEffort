@@ -1124,6 +1124,7 @@
     <Content Include="Images\lg.png" />
     <Content Include="Images\LGCNSEFFORT.png" />
     <Content Include="Images\ppicture.png" />
+    <Content Include="Scripts\1jquery.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\AnotherTheme\bower.json" />
@@ -1750,8 +1751,13 @@
     <Content Include="Content\AnotherTheme\less\mixins.less" />
     <Content Include="Content\AnotherTheme\less\sb-admin-2.less" />
     <Content Include="Content\AnotherTheme\less\variables.less" />
+    <Content Include="Scripts\jquery-ui.css" />
+    <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.jeditable.js" />
+    <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\modernizr.js" />
     <Content Include="Scripts\notify.min.js" />
+    <Content Include="Scripts\yepnope.js" />
     <Content Include="XML\ProjectToCSV.xslt" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

@@ -8,7 +8,7 @@
     <script src="@Url.Content("~/Scripts/jquery.min.js")"></script>
     <script src="@Url.Content("~/Scripts/moment.min.js")"></script>
     <script src="@Url.Content("~/Scripts/fullcalendar.js")"></script>
-    
+
     <!-- Bootstrap Core CSS -->
     <link href="@Url.Content("~/Content/AnotherTheme/bower_components/bootstrap/dist/css/bootstrap.min.css")" rel="stylesheet">
 
@@ -44,7 +44,7 @@
                     <span class="icon-bar"></span>
                 </button>
 
-                <a class="navbar-brand" href="@Url.Action("Index","Home")"><img src="@Url.Content("~/Images/cnsHead.png")" style="height:30px" /></a>
+                <a class="navbar-brand" href="@Url.Action("Index","Home")"><img src="@Url.Content("~/Images/Long Logo.png")" style="height:30px" /></a>
             </div>
 
             <!-- /.navbar-header -->
@@ -84,13 +84,13 @@
 
         <div id="page-wrapper">
 
-                        @RenderBody()
+            @RenderBody()
             <span class="notification"></span>
         </div>
         <!-- /#page-wrapper -->
 
     </div>
-    <!-- /#wrapper -->    
+    <!-- /#wrapper -->
     @RenderSection("scripts", required: false)
     <!-- jQuery -->
     <script src="@Url.Content("~/Content/AnotherTheme/bower_components/jquery/dist/jquery.min.js")"></script>
@@ -136,5 +136,15 @@
         //    }
         //}
     </script>
+    <script src="@Url.Content("~/Scripts/modernizr.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-ui.min.js")"></script>
+    <link href="@Url.Content("~/Scripts/jquery-ui.css")" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+    <script>
+        if (!Modernizr.inputtypes.date) {
+            $('[type="date"]').datepicker();
+        }
+    </script>
+
 </body>
 </html>
