@@ -352,38 +352,68 @@ namespace TimeEffort.Controllers
                 var userId = db.GetUserIdByUsername(User.Identity.Name);
                 var wType = db.GetAllWorkloadTypes().FirstOrDefault(x => x.Name.Contains(json.workloadName));
                 Workload workload = new Workload();
-                switch (json.workloadName)
+                //switch (json.workloadName)
+                //{
+                //    case "Training":
+                //    case "Work (Administrative)":
+                //    case "Sick leave":
+                //    case "Annual":
+                //    case "Unpaid":
+
+                //        workload = new Workload
+                //        {
+                //            UserID = userId,
+                //            Date = date,
+                //            ProjectID = 0,                      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STATIC
+                //            Duration = duration,
+                //            WorkloadTypeID = wType.ID,
+
+                //        };
+                //        break;
+
+                //    default:
+                //        workload = new Workload
+                //        {
+                //            UserID = userId,
+                //            Date = date,
+                //            ProjectID = projectIdDone ? pId : 0,
+                //            Duration = duration,
+                //            WorkloadTypeID = 6,                 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STATIC
+                //        };
+                //        break;
+
+                //}
+                var wTypeID = 6;
+                switch (json.workloadType)
                 {
                     case "Training":
-                    case "Work (Administrative)":
+                        wTypeID = (int)WorkloadTypes.Training;
+                        break;
+                    case "Work":
+                        if(pId == 0)
+                            wTypeID = (int)WorkloadTypes.Overhead;
+                        else
+                            wTypeID = (int)WorkloadTypes.Work;
+                        break;
                     case "Sick leave":
+                        wTypeID = (int)WorkloadTypes.Sick;
+                        break;
                     case "Annual":
+                        wTypeID = (int)WorkloadTypes.Annual;
+                        break;
                     case "Unpaid":
-
-                        workload = new Workload
-                        {
-                            UserID = userId,
-                            Date = date,
-                            ProjectID = 0,                      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STATIC
-                            Duration = duration,
-                            WorkloadTypeID = wType.ID,
-
-                        };
+                        wTypeID = (int)WorkloadTypes.Unpaid;
                         break;
-
-                    default:
-                        workload = new Workload
-                        {
-                            UserID = userId,
-                            Date = date,
-                            ProjectID = projectIdDone ? pId : 0,
-                            Duration = duration,
-                            WorkloadTypeID = 1,                 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STATIC
-
-                        };
-                        break;
-
                 }
+
+                workload = new Workload
+                {
+                    UserID = userId,
+                    Date = date,
+                    ProjectID = projectIdDone ? pId : 0,
+                    Duration = duration,
+                    WorkloadTypeID = wTypeID,                 
+                };
 
                 var trying = db.GetAllWorkloads().FirstOrDefault(x => x.UserID == workload.UserID && x.ProjectID == workload.ProjectID && x.Date == workload.Date && x.WorkloadTypeID == workload.WorkloadTypeID);
                 if (trying != null)
@@ -434,5 +464,15 @@ namespace TimeEffort.Controllers
             else
                 return Json(new { success = false, reason = "Duration_wrong" });
         }
+
+    }
+        
+    enum WorkloadTypes {
+        Work = 1,
+        Annual = 2,
+        Sick = 3,
+        Unpaid = 4,
+        Training = 5,
+        Overhead = 6
     }
 }

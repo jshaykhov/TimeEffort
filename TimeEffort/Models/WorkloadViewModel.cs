@@ -128,6 +128,9 @@ namespace TimeEffort.Models
         [DataMember(Name = "WorkloadName")]
         public string workloadName{ get; set; }
 
+        [DataMember(Name = "WorkloadType")]
+        public string workloadType { get; set; }
+
     }
 
 

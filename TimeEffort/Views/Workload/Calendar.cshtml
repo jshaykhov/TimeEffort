@@ -1,182 +1,4 @@
-﻿@*@model Dictionary<TimeEffortCore.Entities.Project, List<TimeEffort.Models.CalendarDetails>>
-    @{
-        ViewBag.Title = "Calendar";
-    }
-
-    <h2>Calendar</h2>
-
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped">
-
-            <thead>
-                <tr>
-                    <th colspan="2">Week</th>
-                    <th id="previous">&lt;-</th>
-                    <th colspan="5"><span id ="currentWeek"> </span></th>
-                    <th id="next">-&gt;</th>
-                </tr>
-                <tr id="weekDays">
-                    <td colspan="2">Days</td>
-                    <td id="Mon">Mon</td>
-                    <td id="Tue">Tue</td>
-                    <td id="Wed">Wed</td>
-                    <td id="Thu">Thu</td>
-                    <td id="Fri">Fri</td>
-                    <td id="Sat">Sat</td>
-                    <td id="Sun">Sun</td>
-                </tr>
-
-            </thead>
-                <tr>
-                    <td id="total" colspan="2">Total worked hours</td>
-                    <td class="totalMon"></td>
-                    <td class="totalTue"></td>
-                    <td class="totalWed"></td>
-                    <td class="totalThu"></td>
-                    <td class="totalFri"></td>
-                    <td class="totalSat"></td>
-                    <td class="totalSun"></td>
-                </tr>
-                <tr>
-                    <td id="defaultProject" rowspan="5">Default project<br>PJ-2016001</td>
-                    <td>Work</td>
-                    <td class="duration" data-tabindex=@(tabindex++)>@Model.FirstOrDefault(x=>x.Key.Name.Equals("Overhead")).Value.FirstOrDefault(x=>x.Type.Equals("Work (Administrative)")).Duration</td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                </tr>
-                <tr>
-                    <td>Training</td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                </tr>
-                <tr>
-                    <td>Sick leave</td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                </tr>
-                <tr>
-                    <td>Annual</td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                </tr>
-                <tr>
-                    <td>Unpaid</td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                </tr>
-
-            <tbody id="tbody">
-                <tr>
-                    <td colspan="9"></td>
-                </tr>
-                <tr>
-                    <td rowspan="3">IPS project<br>PJ-2016001-R</td>
-                    <td class="duration" data-tabindex=@(tabindex++)>Work</td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                </tr>
-                <tr>
-                    <td>Trainig</td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                </tr>
-                <tr>
-                    <td class="duration" data-tabindex=@(tabindex++)>Leave</td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                    <td class="duration" data-tabindex=@(tabindex++)></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-
-
-    <script>
-        $('document').ready(function ()
-        {
-            var monday = getMonday(new Date());
-
-        })
-
-        function setAllDates(monday)
-        {
-            $('#Mon').text("Mon " + monday); monday.addDays(1);
-            $('#Tue').text("Tue " + monday); monday.addDays(1);
-            $('#Wed').text("Wed " + monday); monday.addDays(1);
-            $('#Thu').text("Thu " + monday); monday.addDays(1);
-            $('#Fri').text("Fri " + monday); monday.addDays(1);
-            $('#Sat').text("Sat " + monday); monday.addDays(1);
-            $('#Sun').text("Sun " + monday);
-        }
-
-        function DrawCalendar()
-        {
-
-        }
-
-
-
-
-
-
-
-
-
-        function getMonday(date) {
-            var day = date.getDay() || 7;
-            if (day !== 1)
-                date.setHours(-24 * (day - 1));
-            return date;
-        }
-
-        Date.prototype.addDays = function (days) {
-            var dat = new Date(this.valueOf());
-            dat.setDate(dat.getDate() + days);
-            return dat;
-        }
-
-    </script>*@
-
-@model  TimeEffort.Models.CalendarReturningModel
+﻿@model  TimeEffort.Models.CalendarReturningModel
 @{
     ViewBag.Title = "Calendar";
 }
@@ -228,10 +50,10 @@
         </thead>
         <tbody id="tbody">
             <tr>
-                <td class="td-head-default" id="Work (Administrative)" rowspan="4" style="vertical-align:middle;">Default project</td>
-                <td class="td-head-default">Work</td>
+                <td class="td-head-default" id="0" rowspan="4" style="vertical-align:middle;">Team project</td>
+                <td class="td-head-default" id="Work">Work</td>
                 @{TimeEffortCore.Entities.Workload item;
-                int tabindex = 0;}
+                int tabindex = 1;}
                 <td class="duration" data-tabindex=@(tabindex++) id="monForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Work (Administrative)").FirstOrDefault(x => x.Date == Model.Monday);}
                     @if (item != null)
@@ -290,13 +112,14 @@
                 </td>
             </tr>
             <tr>
+                <td class="hidden" id="0"></td>
                 <td id="Training" class="td-head-default">Training</td>
                 <td class="duration" data-tabindex=@(tabindex++) id="monForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Training").FirstOrDefault(x => x.Date == Model.Monday);}
                     @if (item != null)
                     {
                         monTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
                 <td class="duration" data-tabindex=@(tabindex++) id="tueForTotal">
@@ -304,7 +127,7 @@
                     @if (item != null)
                     {
                         tueTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
                 <td class="duration" data-tabindex=@(tabindex++) id="wedForTotal">
@@ -312,7 +135,7 @@
                     @if (item != null)
                     {
                         wedTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
                 <td class="duration" data-tabindex=@(tabindex++) id="thuForTotal">
@@ -320,7 +143,7 @@
                     @if (item != null)
                     {
                         thuTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
                 <td class="duration" data-tabindex=@(tabindex++) id="friForTotal">
@@ -328,7 +151,7 @@
                     @if (item != null)
                     {
                         friTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
                 <td class="duration" data-tabindex=@(tabindex++) id="satForTotal">
@@ -336,7 +159,7 @@
                     @if (item != null)
                     {
                         satTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
                 <td class="duration" data-tabindex=@(tabindex++) id="sunForTotal">
@@ -344,19 +167,20 @@
                     @if (item != null)
                     {
                         sunTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
 
             </tr>
             <tr>
+                <td class="hidden" id="0"></td>
                 <td id="Sick leave" class="td-head-default">Sick leave</td>
                 <td class="duration" data-tabindex=@(tabindex++) id="monForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Sick leave").FirstOrDefault(x => x.Date == Model.Monday);}
                     @if (item != null)
                     {
                         monTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
                 <td class="duration" data-tabindex=@(tabindex++) id="tueForTotal">
@@ -364,7 +188,7 @@
                     @if (item != null)
                     {
                         tueTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
                 <td class="duration" data-tabindex=@(tabindex++) id="wedForTotal">
@@ -379,7 +203,7 @@
                     @if (item != null)
                     {
                         thuTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
                 <td class="duration" data-tabindex=@(tabindex++) id="friForTotal">
@@ -387,7 +211,7 @@
                     @if (item != null)
                     {
                         friTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
                 <td class="duration" data-tabindex=@(tabindex++) id="satForTotal">
@@ -395,7 +219,7 @@
                     @if (item != null)
                     {
                         satTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
                 <td class="duration" data-tabindex=@(tabindex++) id="sunForTotal">
@@ -403,18 +227,19 @@
                     @if (item != null)
                     {
                         sunTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
             </tr>
             <tr>
+                <td class="hidden" id="0"></td>
                 <td id="Annual" class="td-head-default">Annual</td>
                 <td class="duration" data-tabindex=@(tabindex++) id="monForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Annual leave").FirstOrDefault(x => x.Date == Model.Monday);}
                     @if (item != null)
                     {
                         monTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
                 <td class="duration" data-tabindex=@(tabindex++) id="tueForTotal">
@@ -422,7 +247,7 @@
                     @if (item != null)
                     {
                         tueTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
                 <td class="duration" data-tabindex=@(tabindex++) id="wedForTotal">
@@ -430,7 +255,7 @@
                     @if (item != null)
                     {
                         wedTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
                 <td class="duration" data-tabindex=@(tabindex++) id="thuForTotal">
@@ -438,7 +263,7 @@
                     @if (item != null)
                     {
                         thuTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
                 <td class="duration" data-tabindex=@(tabindex++) id="friForTotal">
@@ -446,7 +271,7 @@
                     @if (item != null)
                     {
                         friTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
                 <td class="duration" data-tabindex=@(tabindex++) id="satForTotal">
@@ -454,7 +279,7 @@
                     @if (item != null)
                     {
                         satTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
                 <td class="duration" data-tabindex=@(tabindex++) id="sunForTotal">
@@ -462,11 +287,11 @@
                     @if (item != null)
                     {
                         sunTotal += item.Duration;
-                        @(item.Duration.ToString("0.#"))
+                    @(item.Duration.ToString("0.#"))
                     }
                 </td>
             </tr>
-        
+
 
 
 
@@ -475,95 +300,96 @@
                 <tr>
                     <td class="td-space" colspan="9"></td>
                 </tr>
-    <tr>
+                <tr>
 
-        <td class="td-head" rowspan="5" id="@(project.ID)">@project.Code @project.Name</td>
-        @*<td class="td-head">@project.Code</td>*@
-    </tr>
-        for (int i = 0; i < 4; i++)
-        {
-           <tr>
-                        @{var records = Model.Workloads.Where(x => x.ProjectID == project.ID);}
-    
-                        @if (i == 1)
-                            {
-                                <td class="td-head-default">Training</td>
-                                records = Model.Workloads.Where(x => x.ProjectID == project.ID && x.WorkloadType.Name == "Training");
-                            }
-                        @if (i == 2)
-                            {
-                                <td class="td-head-default">Sick leave</td>
-                                records = Model.Workloads.Where(x => x.ProjectID == project.ID && x.WorkloadType.Name == "Sick leave");
-                            }
-                        @if (i == 3)
-                            {
-                                <td class="td-head-default">Annual leave</td>
-                                records = Model.Workloads.Where(x => x.ProjectID == project.ID && x.WorkloadType.Name == "Annual leave");
-                            }
-                        @if (i == 0)
-                           { 
-                              <td class="td-head-default">Work</td>
-                           }
-           
-            <td class="duration" data-tabindex=@(tabindex++) id="monForTotal">
-                @{item = records.FirstOrDefault(x => x.Date == Model.Monday);}
-                @if (item != null)
-                        {
-                            monTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
-                        }
-            </td>
-            <td class="duration" data-tabindex=@(tabindex++) id="tueForTotal">
-                @{item = records.FirstOrDefault(x => x.Date == Model.Monday.AddDays(1));}
-                @if (item != null)
-                        {
-                            tueTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
-                        }
-            </td>
-            <td class="duration" data-tabindex=@(tabindex++) id="wedForTotal">
-                @{item = records.FirstOrDefault(x => x.Date == Model.Monday.AddDays(2));}
-                @if (item != null)
-                        {
-                            wedTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
-                        }
-            </td>
-            <td class="duration" data-tabindex=@(tabindex++) id="thuForTotal">
-                @{item = records.FirstOrDefault(x => x.Date == Model.Monday.AddDays(3));}
-                @if (item != null)
-                        {
-                            thuTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
-                        }
-            </td>
-            <td class="duration" data-tabindex=@(tabindex++) id="friForTotal">
-                @{item = records.FirstOrDefault(x => x.Date == Model.Monday.AddDays(4));}
-                @if (item != null)
-                        {
-                            friTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
-                        }
-            </td>
-            <td class="duration" data-tabindex=@(tabindex++) id="satForTotal">
-                @{item = records.FirstOrDefault(x => x.Date == Model.Monday.AddDays(5));}
-                @if (item != null)
-                        {
-                            satTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
-                        }
-            </td>
-            <td class="duration" data-tabindex=@(tabindex++) id="sunForTotal">
-                @{item = records.FirstOrDefault(x => x.Date == Model.Monday.AddDays(6));}
-                @if (item != null)
-                        {
-                            sunTotal += item.Duration;
-                    @(item.Duration.ToString("0.#"))
-                        }
-            </td>
+                    <td class="td-head" rowspan="5" id="@(project.ID)" style="vertical-align:middle;">@project.Code <br /> @project.Name</td>
+                    @*<td class="td-head">@project.Code</td>*@
                 </tr>
-        }
-          }
+                for (int i = 0; i < 4; i++)
+                {
+                    <tr>
+                        <td class="hidden"id="@project.ID"></td>
+                        @{var records = Model.Workloads.Where(x => x.ProjectID == project.ID);}
+
+                        @if (i == 1)
+                        {
+                            <td class="td-head-default" id="Training">Training</td>
+                            records = Model.Workloads.Where(x => x.ProjectID == project.ID && x.WorkloadType.Name == "Training");
+                        }
+                        @if (i == 2)
+                        {
+                            <td class="td-head-default" id="Sick leave">Sick leave</td>
+                            records = Model.Workloads.Where(x => x.ProjectID == project.ID && x.WorkloadType.Name == "Sick leave");
+                        }
+                        @if (i == 3)
+                        {
+                            <td class="td-head-default" id="Annual">Annual leave</td>
+                            records = Model.Workloads.Where(x => x.ProjectID == project.ID && x.WorkloadType.Name == "Annual leave");
+                        }
+                        @if (i == 0)
+                        {
+                            <td class="td-head-default" id="Work">Work</td>
+                        }
+
+                        <td class="duration" data-tabindex=@(tabindex++) id="monForTotal">
+                            @{item = records.FirstOrDefault(x => x.Date == Model.Monday);}
+                            @if (item != null)
+                            {
+                                monTotal += item.Duration;
+                                @(item.Duration.ToString("0.#"))
+                            }
+                        </td>
+                        <td class="duration" data-tabindex=@(tabindex++) id="tueForTotal">
+                            @{item = records.FirstOrDefault(x => x.Date == Model.Monday.AddDays(1));}
+                            @if (item != null)
+                            {
+                                tueTotal += item.Duration;
+                                @(item.Duration.ToString("0.#"))
+                            }
+                        </td>
+                        <td class="duration" data-tabindex=@(tabindex++) id="wedForTotal">
+                            @{item = records.FirstOrDefault(x => x.Date == Model.Monday.AddDays(2));}
+                            @if (item != null)
+                            {
+                                wedTotal += item.Duration;
+                                @(item.Duration.ToString("0.#"))
+                            }
+                        </td>
+                        <td class="duration" data-tabindex=@(tabindex++) id="thuForTotal">
+                            @{item = records.FirstOrDefault(x => x.Date == Model.Monday.AddDays(3));}
+                            @if (item != null)
+                            {
+                                thuTotal += item.Duration;
+                                @(item.Duration.ToString("0.#"))
+                            }
+                        </td>
+                        <td class="duration" data-tabindex=@(tabindex++) id="friForTotal">
+                            @{item = records.FirstOrDefault(x => x.Date == Model.Monday.AddDays(4));}
+                            @if (item != null)
+                            {
+                                friTotal += item.Duration;
+                                @(item.Duration.ToString("0.#"))
+                            }
+                        </td>
+                        <td class="duration" data-tabindex=@(tabindex++) id="satForTotal">
+                            @{item = records.FirstOrDefault(x => x.Date == Model.Monday.AddDays(5));}
+                            @if (item != null)
+                            {
+                                satTotal += item.Duration;
+                                @(item.Duration.ToString("0.#"))
+                            }
+                        </td>
+                        <td class="duration" data-tabindex=@(tabindex++) id="sunForTotal">
+                            @{item = records.FirstOrDefault(x => x.Date == Model.Monday.AddDays(6));}
+                            @if (item != null)
+                            {
+                                sunTotal += item.Duration;
+                                @(item.Duration.ToString("0.#"))
+                            }
+                        </td>
+                    </tr>
+                }
+            }
 
             <tr class="headers">
                 <td colspan="2" align="right">Total worked hours</td>
@@ -622,12 +448,14 @@
                 var val = current.children.edit.value;
                 if (checkInput(val)) {
                     var w = current.parentElement.children[0].id;
+                    var w2 = current.parentElement.children[1].id;
+
                     var day = 0;
                     if (w == "Training" || w == "Work (Administrative)" || w == "Sick leave" || w == "Annual" || w == "Unpaid")
                         day = current.cellIndex;
                     else
                         day = current.cellIndex - 1;
-                    if (sendData(val, day, w) == false) {
+                    if (sendData(val, day, w, w2) == false) {
                         $(current).empty().html(valu);
                         return false;
                     }
@@ -656,8 +484,9 @@
     })
 
     function blurCheck() {
-        if (globalTabIndex > $('#lastTabIndex').attr('data-tabindex'))
-            globalTabIndex = 0;
+        var temp = $('#lastTabIndex').attr('data-tabindex');
+        if (parseInt(globalTabIndex) > parseInt(temp))
+            globalTabIndex = 1;
         $('#edit').blur();
         var current = $('[data-tabindex=' + globalTabIndex + ']')[0];
         var curText = current.innerText;
@@ -684,13 +513,14 @@
             $('#edit').blur(function () {
                 var val = $(this).val();
                 if (checkInput(val)) {
-                    var w = t.parentElement.children[0].id;
+                    var w = t.parentElement.children[0].id;                   
+                    var w2 = t.parentElement.children[1].id;
                     var day = 0;
                     if (w == "Training" || w == "Work (Administrative)" || w == "Sick leave" || w == "Annual" || w == "Unpaid")
                         day = t.cellIndex;
                     else
                         day = t.cellIndex - 1;
-                    if (sendData(val, day, w) == false) {
+                    if (sendData(val, day, w, w2) == false) {
                         $(this).parent().empty().html(valu);
                         return false;
                     }
@@ -734,11 +564,14 @@
         });
     })
 
-    function sendData(value, day, w) {
-        if (value == "")
+    function sendData(value, day, w, w2) {
+        if (value == "") {
             value = 0;
-        if (w == "Work (Administrative)")
-            day -= 1;
+        }
+        if (!$.isNumeric(w)) {
+            $.notify("Sorry, something went wrong. Please, refresh the page");
+            return false;
+        }
 
         var total = 0;
         switch (day) {
@@ -775,6 +608,7 @@
 
         var requestData = {
             WorkloadName: w,
+            WorkloadType: w2,
             EnteredValue: value,
             WeekDate: day,
             Monday: $('#mondayHidden').text()
