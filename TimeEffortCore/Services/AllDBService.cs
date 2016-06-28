@@ -220,6 +220,7 @@ namespace TimeEffortCore.Services
 
                 if (i != "")
                 {
+                    returning.Add("PJ" + " " + DateTime.Now.Year + "-" + i + "-I");
                     returning.Add("PJ" + " " + DateTime.Now.Year + "-" + i + "-R");
                     returning.Add("PJ" + " " + DateTime.Now.Year + "-" + i + "-H");
                     returning.Add("PJ" + " " + DateTime.Now.Year + "-" + i + "-M");
