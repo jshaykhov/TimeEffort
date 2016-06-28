@@ -1123,7 +1123,10 @@
     <Content Include="Images\footerlogo.png" />
     <Content Include="Images\lg.png" />
     <Content Include="Images\LGCNSEFFORT.png" />
+    <Content Include="Images\Long Logo.png" />
+    <Content Include="Images\Long Logo1.png" />
     <Content Include="Images\ppicture.png" />
+    <Content Include="Images\tps.png" />
     <Content Include="Scripts\1jquery.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
