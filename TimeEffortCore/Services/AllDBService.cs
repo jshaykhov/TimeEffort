@@ -539,12 +539,12 @@ namespace TimeEffortCore.Services
         {
             var user = db.UserInfo.FirstOrDefault(u => u.Username == username);
             List<Project> list = new List<Project>();
-            foreach (Access item in db.Access.Where(x => x.UserID == user.ID && (x.DateFrom >= from || x.DateTo <= to)).ToList())
+            foreach (Access item in db.Access.Where(x => x.UserID == user.ID && ((x.DateFrom >= from && x.DateFrom <= to) || (x.DateTo <= to && x.DateTo >= from) || (x.DateFrom <= from && x.DateTo >= to))).ToList())
             {
                 if(item.ProjectID != 0)
                     list.Add(item.Project);
             }
-            foreach (Project item in db.Project.Where(x => x.ManagerID == user.ID && !x.Status.Equals("Completed") && (x.StartDate >= from || x.EndDate <= to)).ToList())
+            foreach (Project item in db.Project.Where(x => x.ManagerID == user.ID && !x.Status.Equals("Completed") && ((x.StartDate >= from && x.StartDate <= to) || (x.EndDate <= to && x.EndDate >= from) || (x.StartDate <= from && x.EndDate >= to))).ToList())
             {
                 if(item.ID != 0)
                     list.Add(item);
@@ -555,10 +555,11 @@ namespace TimeEffortCore.Services
 
         public bool IsAccessibleOnDate(DateTime date, int projectId, int userId)
         {
-            if (db.Access.Any(x => x.UserID == userId && x.ProjectID == projectId && x.DateFrom >= date && x.DateTo <= date))
+
+            if (db.Access.Any(x => x.UserID == userId && x.ProjectID == projectId && (x.DateFrom <= date && x.DateTo >= date)))
                 return true;
             else
-                return db.Project.Any(x => x.ManagerID == userId && x.StartDate >= date && x.EndDate <= date);
+                return db.Project.Any(x => x.ManagerID == userId && (x.StartDate <= date && x.EndDate >= date));
         }
         #endregion
 
