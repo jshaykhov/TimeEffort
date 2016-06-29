@@ -36,30 +36,44 @@ namespace TimeEffort.Controllers
         //
         // GET: /Project/
         [Authorize(Roles = "Admin,Master,CTO,Monitor,User")]
-        public ActionResult Index(int? page, string currentFilter, string searchByPName)
+        public ActionResult Index(int? page, string currentPName,string currentCustomer, string searchByPName, string searchByCustomer)
         {
+            int userId = Service.GetUserIdByUsername(User.Identity.Name);
             var allProjects = new AllUserModel();
 
-            var userProjects = Service.GetAllProjects();
+            var userProjects = Service.GetAllProjects().Where(p=>p.CustomerId!=null).ToList();
 
             if (User.IsInRole("User"))
-            {                                                                     //If user's role is USER
-                userProjects = HelperUser.GetProjectsByWorkingUser(User);        //show him only projects he is involved in
-                
+            {
+                //If user's role is USER
+                //userProjects = HelperUser.GetProjectsByWorkingUser(User);  
+                var involvedProjectsIds=Service.GetAllAccesses().Where(x => x.UserID == userId).Select(p=>p.ProjectID).ToList();//show him only projects he is involved in
+                userProjects = Service.GetAllProjects().Where(p=>involvedProjectsIds.Contains(p.ID)).ToList();
             }
-            allProjects.PMProjects = ManagedProjects();
+            allProjects.PMProjects = ProjectMapper.MapProjectsToModels(Service.GetAllProjects().Where(p=>p.ManagerID==userId && p.CustomerId!=null).ToList());
             var list = ProjectMapper.MapProjectsToModels(userProjects);
-            
-            
-            if (searchByPName != null)
+
+
+            if (searchByPName != null || searchByCustomer != null)
                 page = 1;
             else
-                searchByPName = currentFilter;
-
-            ViewBag.CurrentFilter = searchByPName;
-            if (!String.IsNullOrEmpty(searchByPName))
+            {
+                searchByPName = currentPName;
+                searchByCustomer = currentCustomer;
+            }
+            ViewBag.CurrentPName= searchByPName;
+            ViewBag.CurrentCustomer = searchByCustomer;
+            if (!String.IsNullOrEmpty(searchByPName) && !String.IsNullOrEmpty(searchByCustomer))
+            {
+                list = list.Where(p => p.ProjectName.ToLower().Contains(searchByPName.ToLower()) && p.Customer.ToLower().Contains(searchByCustomer.ToLower())).ToList();
+            }
+            else if (!(String.IsNullOrEmpty(searchByPName)))
             {
                 list = list.Where(p => p.ProjectName.ToLower().Contains(searchByPName.ToLower())).ToList();
+            }
+            else if (!(String.IsNullOrEmpty(searchByCustomer)))
+            {
+                list = list.Where(p => p.Customer.ToLower().Contains(searchByCustomer.ToLower())).ToList();
             }
             int pageSize = 5;
             int pageNumber = (page ?? 1);

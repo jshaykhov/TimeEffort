@@ -25,7 +25,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.UserProjects[0].ProjectName)
                 </th>
-
+               
 
                 <th colspan="2">
                     Contract Money
@@ -33,6 +33,9 @@
 
                 <th>
                     @Html.DisplayNameFor(model => model.UserProjects[0].ManagerName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserProjects[0].Customer)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.UserProjects[0].StartDate)
@@ -72,6 +75,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ProjectName)
                 </td>
+               
                 <td>
                     @Html.DisplayFor(modelItem => item.CMoneyUsd)
                 </td>
@@ -80,6 +84,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ManagerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.StartDate)
@@ -113,10 +120,39 @@
                 @Html.ActionLink("Create New Project", "Create", null, new { @class = "btn btn-sm btn-success .btn-sx" })
             </div>
         }
-        <div class="col-sm-3 pull-right">
-            <b>Search by Project name</b> @Html.TextBox("SearchByPName", ViewBag.CurrentFilter as string)
-            <input type="submit" value="Search" class="btn btn-sm btn-default" />
-        </div>
+        <div class="form-horizontal" >
+            <div class="form-group">
+               
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Search:", new { @class = "control-label col-md-1 pull-left" })
+                    @Html.Label("By Project name", new { @class = "control-label  col-md-2" })
+                    <div class="col-md-2">
+                        @Html.TextBox("SearchByPName", ViewBag.CurrentPName as string, new { @class = "form-control" })
+                    </div>
+                    @Html.Label("By Customer name", new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.TextBox("SearchByCustomer", ViewBag.CurrentCustomer as string, new { @class = "form-control" })
+                    </div>
+                    <div class=" col-md-2">
+                        <input type="submit" value="Search" class="btn btn-sm btn-default" />
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                    @Html.Label("By Customer name", new { @class = "control-label col-md-offset-4 col-md-3" })
+                    <div class="col-md-4">
+                        @Html.TextBox("SearchByCustomer", ViewBag.CurrentCustomer as string, new { @class = "form-control" })
+                    </div>
+                </div>*@
+                @*<b class="col-sm-2 ">By Project name</b> <div class="col-md-2"> @Html.TextBox("SearchByPName", ViewBag.CurrentPName as string, new { @class = "form-control" })</div>
+            <br>
+            <b>By Customer name</b> @Html.TextBox("SearchByCustomer", ViewBag.CurrentCustomer as string)*@
+                @*<div class="col-md-offset-2 col-md-2">
+                    <input type="submit" value="Search" class="btn btn-sm btn-default" />
+                </div>*@
+            </div>
     </div>
 }
 
@@ -144,6 +180,9 @@
 
                 <th>
                     @Html.DisplayNameFor(model => model.UserProjects[0].ManagerName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserProjects[0].Customer)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.UserProjects[0].StartDate)
@@ -215,6 +254,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ProjectName)
                 </td>
+               
                 <td>
                     @Html.DisplayFor(modelItem => item.CMoneyUsd)
                 </td>
@@ -223,6 +263,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ManagerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.StartDate)
@@ -251,7 +294,7 @@
 
 
     <span>Page</span> @(Model.UserProjects.PageCount < Model.UserProjects.PageNumber ? 0 : Model.UserProjects.PageNumber) <span> of </span>@Model.UserProjects.PageCount
-    @Html.PagedListPager(Model.UserProjects, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter, searchByPName = ViewBag.searchByPName }))
+    @Html.PagedListPager(Model.UserProjects, page => Url.Action("Index", new { page, currentPName = ViewBag.CurrentPName, currentCustomer = ViewBag.CurrentCustomer, searchByPName = ViewBag.searchByPName, searchByCustomer = ViewBag.searchByCustomer }))
 }
 
 <p>

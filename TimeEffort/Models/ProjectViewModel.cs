@@ -70,6 +70,8 @@ namespace TimeEffort.Models
         public int PManagerId { get; set; }
         [Display(Name = "Customer")]
         public int CustomerId { get; set; }
+        [Display(Name = "Customer")]
+        public string Customer { get; set; }
 
         [DataType(DataType.Text)]
         [StringLength(maximumLength: 100, MinimumLength = 1)]

@@ -22,6 +22,7 @@ namespace TimeEffort.Mappers
                 CMoneyUzs=project.ContractUZS,
                 PManagerId=project.ManagerID,
                 ManagerName=project.UserInfo.FirstName+" "+project.UserInfo.LastName,
+                Customer=project.Customer.Name,
                 StartDate=project.StartDate,
                 FinishDate=project.EndDate,
                 Status=project.Status
@@ -73,6 +74,7 @@ namespace TimeEffort.Mappers
                     CMoneyUsd = c.ContractUSD,
                     CMoneyUzs = c.ContractUZS,
                     PManagerId=c.ManagerID,
+                    Customer=c.Customer.Name,
                     ManagerName = c.UserInfo.FirstName + " " + c.UserInfo.LastName,
                     StartDate = c.StartDate,
                     FinishDate = c.EndDate,
