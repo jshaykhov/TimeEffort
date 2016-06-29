@@ -33,10 +33,10 @@
         <div class="col-md-12">
             <div class="error-template">
                 <h1>
-                    Oops!
+                    Connection with server is lost. 
                 </h1>
                 <h2>
-                    404 Not Found
+                    Check if you are connected to internet.
                 </h2>
                 <div class="error-details">
                     Sorry, an error has occured, Requested page not found!
@@ -74,3 +74,9 @@
             margin-right: 10px;
         }
 </style>
+
+<script>
+    window.setTimeout(function () {
+        location.pathname = "/Home/Index";
+    }, 2000)
+</script>
