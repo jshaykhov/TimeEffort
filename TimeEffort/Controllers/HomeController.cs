@@ -22,7 +22,7 @@ namespace TimeEffort.Controllers
        
         public ActionResult About()
         {
-            ViewBag.Message = "Time Effort web application for the employees of LG CNS Uzbekistan";
+            ViewBag.Message = "TAPPS web application for the employees of LG CNS Uzbekistan";
 
             return View("About", masterName: "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml");
         }
