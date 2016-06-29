@@ -1762,6 +1762,7 @@
     <Content Include="Scripts\notify.min.js" />
     <Content Include="Scripts\yepnope.js" />
     <Content Include="XML\ProjectToCSV.xslt" />
+    <None Include="Properties\PublishProfiles\Administrator.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
