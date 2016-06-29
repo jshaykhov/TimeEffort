@@ -136,7 +136,7 @@
                         @Html.TextBox("SearchByCustomer", ViewBag.CurrentCustomer as string, new { @class = "form-control" })
                     </div>
                     <div class=" col-md-2">
-                        <input type="submit" value="Search" class="btn btn-sm btn-default" />
+                        <input type="submit" id="submitBtn" onsubmit="DisableButton()" value="Search" class="btn btn-sm btn-default" />
                     </div>
                 </div>
 
@@ -303,3 +303,10 @@
     @Html.ActionLink("Export to Excel", "ExportToExcel", new { type = "excel" }, new { target = "_blank" })
 
 </p>
+
+<script>
+    function DisableButton()
+    {
+        $("#SubmitBtn").addClass("disabled");
+    }
+</script>

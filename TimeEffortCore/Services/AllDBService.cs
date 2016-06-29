@@ -201,8 +201,12 @@ namespace TimeEffortCore.Services
             var p = db.Project.AsEnumerable().LastOrDefault();
             string i = "";
             List<string> returning = new List<string>();
-            if (p != null)
-                i = p.Code.Substring(8, 3);
+            if (p != null) { 
+                if(p.Code.Length > 11)
+                    i = p.Code.Substring(8, 3);
+            }
+            if (i.Equals(""))
+                i = "000";
             int incrementor = 0;
             bool successful = int.TryParse(i, out incrementor);
             if (successful)
