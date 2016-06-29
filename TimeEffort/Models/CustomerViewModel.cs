@@ -18,7 +18,7 @@ namespace TimeEffort.Models
         [Required]
         [DataType(DataType.Text)]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Use letters only please")]
-        [StringLength(maximumLength: 100, MinimumLength = 1)]
+        [StringLength(maximumLength: 1000, MinimumLength = 1)]
         [Display(Name = "Name")]
         public string Name { get; set; }
         [Required]
