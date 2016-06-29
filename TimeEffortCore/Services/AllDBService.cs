@@ -81,8 +81,8 @@ namespace TimeEffortCore.Services
             //dbItem.UserID = item.UserID;
             var projectItem = db.Project.FirstOrDefault(p => p.ID == item.ProjectID);
 
-            if (item.DateFrom < projectItem.StartDate || item.DateFrom > projectItem.EndDate)
-                throw new Exception("Date From should be between " + projectItem.StartDate.ToShortDateString() + " and " + projectItem.EndDate.ToShortDateString());
+            if (item.DateFrom > projectItem.EndDate)
+                throw new Exception("Date From cannot be later than " + projectItem.EndDate.ToShortDateString());
 
             if (item.DateTo < projectItem.StartDate || item.DateTo > projectItem.EndDate)
                 throw new Exception("Date To should be between " + projectItem.StartDate.ToShortDateString() + " and " + projectItem.EndDate.ToShortDateString());
@@ -220,7 +220,7 @@ namespace TimeEffortCore.Services
 
                 if (i != "")
                 {
-                    returning.Add("PJ" + " " + DateTime.Now.Year + "-" + i + "-I");
+                    //returning.Add("PJ" + " " + DateTime.Now.Year + "-" + i + "-I");
                     returning.Add("PJ" + " " + DateTime.Now.Year + "-" + i + "-R");
                     returning.Add("PJ" + " " + DateTime.Now.Year + "-" + i + "-H");
                     returning.Add("PJ" + " " + DateTime.Now.Year + "-" + i + "-M");
