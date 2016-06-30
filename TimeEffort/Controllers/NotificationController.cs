@@ -31,7 +31,7 @@ namespace TimeEffort.Controllers
         // GET: /Notification/
         public ActionResult Index()
         {
-            int id = HelperUser.GetUserByName(User.Identity.Name).ID;
+            int id = db.GetUserByUsername(User.Identity.Name).ID;
             var notifications = db.GetNotificationsForUser(id, DateTime.Today, false);
 
             var list = notifications.Select(c => new NotificationViewModel
@@ -53,7 +53,7 @@ namespace TimeEffort.Controllers
         [ChildActionOnly]
         public ActionResult GetUnreadNotification()
         {
-            var notifications = db.GetNotificationsForUser(HelperUser.GetUserByName(User.Identity.Name).ID, DateTime.Today);
+            var notifications = db.GetNotificationsForUser(db.GetUserByName(User.Identity.Name).ID, DateTime.Today);
             notifications.OrderByDescending(x => x.Date);
 
             var list = notifications.Select(c => new NotificationViewModel

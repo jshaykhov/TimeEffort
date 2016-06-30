@@ -30,7 +30,7 @@ namespace TimeEffort.Controllers
         public ActionResult Index(int? page, string currentFilter, string searchByCName)
         {
             var model = new CustomerModel();
-            var allCustomers = Service.GetAllCustomers();
+            var allCustomers = Service.GetAllCustomers().Where(c=>c.ID!=0).ToList();
             var list = CustomerMapper.MapCustomersToModels(allCustomers);
             if (searchByCName != null)
                 page = 1;
@@ -124,6 +124,8 @@ namespace TimeEffort.Controllers
         public ActionResult Delete(int id)
         {
             var customer = Service.GetCustomerById(id);
+            if (customer.ID == 0)
+               return RedirectToAction("Index");
             var model = CustomerMapper.MapCustomerToModel(customer);
             return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }

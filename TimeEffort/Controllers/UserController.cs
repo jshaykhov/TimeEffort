@@ -234,7 +234,7 @@ namespace TimeEffort.Controllers
         {
             var sendingModel = new SendingModel();
             var allUserLists = new UserViewModel();
-            var allUsers = _userService.GetAllUsers();
+            var allUsers = _userService.GetAllUsers().Where(u=>u.PositionID!=1).ToList();
             var list = UserMapper.MapUsersToModels(allUsers);
             //Add paging
             int pageSize = 5;
@@ -249,6 +249,9 @@ namespace TimeEffort.Controllers
         public ActionResult Delete(int id)
         {
             var user = _userService.GetUserById(id);
+            if (user.PositionID == 1)
+                return RedirectToAction("Index");
+
             var model = UserMapper.MapUserToModel(user);
             return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
         }
@@ -274,8 +277,8 @@ namespace TimeEffort.Controllers
         //EDIT
         // GET: Position/Edit/5
         public ActionResult Edit(int id)
-        {
-            CreateSelectListForDropDown();
+        {         
+             CreateSelectListForDropDown();
             var model = UserMapper.MapUserToModel(_userService.GetUserById(id));
             return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml",model);
         }

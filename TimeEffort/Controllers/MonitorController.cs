@@ -47,13 +47,13 @@ namespace TimeEffort.Controllers
             var model = new MonitorViewModel();
             if (!User.IsInRole("User"))
             {
-                model.allEmployees = HelperUser.GetAllUsers();
+                model.allEmployees = db.GetAllUsers();
                 model.allProjects = db.GetAllProjects();
-                model.workloads = HelperUser.GetAllWorkloadTypes();
+                model.workloads = db.GetAllWorkloadTypes();
             }
             else
             {
-                var employees = new List<TimeEffortCore.Entities.UserInfo>(); employees.Add(HelperUser.GetUserByName(User.Identity.Name));
+                var employees = new List<TimeEffortCore.Entities.UserInfo>(); employees.Add(db.GetUserByName(User.Identity.Name));
                 model.allEmployees = employees;
                 model.allProjects = db.GetAllInvolvedUserPMProjects(User.Identity.Name);
                 model.workloads = db.GetAllWorkloadTypes();
