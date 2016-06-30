@@ -263,6 +263,7 @@ namespace TimeEffort.Controllers
         private void CreateSelectListForDropDownCustomer()
         {
             var listOfCustomers = Service.GetAllCustomers();
+            listOfCustomers = listOfCustomers.Where(c => c.ID != 0).ToList();
             SelectList customers = new SelectList(CustomerMapper.MapCustomersToModels(listOfCustomers),
                                                    "Id ", "Name");
             //store list of users in ViewBag 
