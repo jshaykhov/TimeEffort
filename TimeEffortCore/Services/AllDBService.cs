@@ -426,6 +426,10 @@ namespace TimeEffortCore.Services
             var dbItem = db.UserInfo.FirstOrDefault(p => p.ID == item.ID);
             if (dbItem == null)
                 throw new ArgumentNullException("User does not exist");
+
+            if (dbItem.PositionID == 1)
+                return;
+
             dbItem.FirstName = item.FirstName;
             dbItem.LastName = item.LastName;
             dbItem.Email = item.Email;
@@ -623,7 +627,8 @@ namespace TimeEffortCore.Services
 
                 if (dbItem == null)
                     throw new Exception("Customer does not exist");
-
+            if (item.ID == 0)
+                return;
             dbItem.Name = item.Name;
             dbItem.Address = item.Address;
             dbItem.ContactPhone = item.ContactPhone;

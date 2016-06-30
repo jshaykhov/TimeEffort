@@ -53,7 +53,8 @@ namespace TimeEffort.Controllers
         // GET: /Workload/
         public ActionResult Index()
         {
-            return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml");
+            //return View("Index", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml");
+            return RedirectToAction("Calendar");
         }
         public ActionResult Workloads(string dateClicked)
         {
