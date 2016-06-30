@@ -24,15 +24,15 @@
                         <a href="" onclick="ExportExcel()">Export to Excel</a>@*onclick="ExportExcel();@Url.Action("ExportToExcel", "Monitor")"*@
                     </li>
                     @*<li>
-                        <a href="#">Another action</a>
-                    </li>*@
+                            <a href="#">Another action</a>
+                        </li>*@
                     <li>
                         <a href="@Url.Action("ExportCSV", "Monitor")">Export to CSV</a>
                     </li>
                     <li class="divider"></li>
                     @*<li>
-                        <a href="#">Separated link</a>
-                    </li>*@
+                            <a href="#">Separated link</a>
+                        </li>*@
                 </ul>
             </div>
         </div>
@@ -43,7 +43,10 @@
             <div class="col-lg-2">
                 <label for="SelectUsers">Choose employee:</label>
                 <select class="form-control" id="SelectUsers" onchange="getval(this);">
-                    <option>All</option>
+                    @if (!User.IsInRole("User"))
+                    {
+                        <option>All</option>
+                    }
                     @foreach (var item in Model.allEmployees)
                     {
                         <option value=@item.Username>@(item.FirstName + " " + item.LastName)</option>
@@ -56,7 +59,7 @@
                     <option>All</option>
                     @foreach (var item in Model.allProjects)
                     {
-                        <option value="@item.Code">@item.Code</option>
+                        <option value="@item.Code">@item.Code @item.Name</option>
                     }
                 </select>
             </div>
@@ -154,16 +157,14 @@
             });
         }
 
-        function appendIntoTable(result)
-        {
+        function appendIntoTable(result) {
             $("#tbody").empty();
             if (result.projects.length == 0) {
                 var row = $("<tr/>")
                 $("#myTable").append(row);
-                row.append($("<td colspan = \"5\" align=\"center\"> There is no data to display for employee <b>" + $("#SelectUsers option:selected").text() + "</b>"+ " with workload of type <i>"+ $('#SelectTypes option:selected').text() + "</i> at project <b> " + $("#SelectProjects option:selected").text() + "</b>, from <u>" + $("#FromDate").val() + "</u> to <u>" + $("#ToDate").val() + "</u></td>"));
+                row.append($("<td colspan = \"5\" align=\"center\"> There is no data to display for employee <b>" + $("#SelectUsers option:selected").text() + "</b>" + " with workload of type <i>" + $('#SelectTypes option:selected').text() + "</i> at project <b> " + $("#SelectProjects option:selected").text() + "</b>, from <u>" + $("#FromDate").val() + "</u> to <u>" + $("#ToDate").val() + "</u></td>"));
             }
-            for (var i = 0; i < result.projects.length; i++)
-            {
+            for (var i = 0; i < result.projects.length; i++) {
                 drawRow(result.projects[i]);
             }
         }
@@ -195,7 +196,7 @@
             tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
 
             var ua = window.navigator.userAgent;
-            var msie = ua.indexOf("MSIE ");
+            var msie = ua.indexOf("MSIE");
 
             if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
             {
