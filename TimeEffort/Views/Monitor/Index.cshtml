@@ -178,16 +178,6 @@
             row.append($("<td>" + rowData.Duration + " hours </td>"));
         }
 
-        function ExportToExcel() {
-            $.ajax({
-                url: '@Url.Action("ExportToExcel", "Monitor")',
-                success: function (data) {
-                    // your data could be a View or Json or what ever you returned in your action method 
-                    // parse your data here
-                    alert(data);
-                }
-            });
-        }
 
         function ExportExcel() {
             var tab_text = "<table border='2px'><tr bgcolor='#87AFC6'>";
