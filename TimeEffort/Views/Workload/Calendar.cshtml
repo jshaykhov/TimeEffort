@@ -309,7 +309,7 @@
                 {
                     <tr>
                         <td class="hidden"id="@project.ID"></td>
-                        @{var records = Model.Workloads.Where(x => x.ProjectID == project.ID);}
+                        @{var records = Model.Workloads.Where(x => x.ProjectID == project.ID && x.WorkloadTypeID == 1);}
 
                         @if (i == 1)
                         {
