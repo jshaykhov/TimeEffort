@@ -3,29 +3,33 @@
     ViewBag.Title = "404 Error";
     Layout = null;
     if (User.IsInRole("Admin"))
-        {
-            Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-        }
-        else if (User.IsInRole("CTO"))
-        {
-            Layout = "~/Views/Shared/_LayoutCTO.cshtml";
-        }
-        else if (User.IsInRole("Master"))
-        {
-            Layout = "~/Views/Shared/_LayoutMaster.cshtml";
-        }
-        else if (User.IsInRole("Test"))
-        {
-            Layout = "~/Views/Shared/_LayoutTest.cshtml";
-        }
-        else if (User.IsInRole("User"))
-        {
-            Layout = "~/Views/Shared/_LayoutUser.cshtml";
-        }
-        else if (User.IsInRole("Monitor"))
-        {
-            Layout = "~/Views/Shared/_LayoutMonitor.cshtml";
-        }
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else if (User.IsInRole("CTO"))
+    {
+        Layout = "~/Views/Shared/_LayoutCTO.cshtml";
+    }
+    else if (User.IsInRole("Master"))
+    {
+        Layout = "~/Views/Shared/_LayoutMaster.cshtml";
+    }
+    else if (User.IsInRole("Test"))
+    {
+        Layout = "~/Views/Shared/_LayoutTest.cshtml";
+    }
+    else if (User.IsInRole("User"))
+    {
+        Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    }
+    else if (User.IsInRole("Monitor"))
+    {
+        Layout = "~/Views/Shared/_LayoutMonitor.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 }
 
 <div class="container">
@@ -33,7 +37,7 @@
         <div class="col-md-12">
             <div class="error-template">
                 <h1>
-                    Connection with server is lost. 
+                    Connection with server is lost.
                 </h1>
                 <h2>
                     Check if you are connected to internet.
