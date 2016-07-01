@@ -164,9 +164,15 @@
                 $("#myTable").append(row);
                 row.append($("<td colspan = \"5\" align=\"center\"> There is no data to display for employee <b>" + $("#SelectUsers option:selected").text() + "</b>" + " with workload of type <i>" + $('#SelectTypes option:selected').text() + "</i> at project <b> " + $("#SelectProjects option:selected").text() + "</b>, from <u>" + $("#FromDate").val() + "</u> to <u>" + $("#ToDate").val() + "</u></td>"));
             }
+            var tempTotal = 0;
             for (var i = 0; i < result.projects.length; i++) {
                 drawRow(result.projects[i]);
+                tempTotal += parseInt(result.projects[i].Duration);
             }
+            var row = $("<tr/>");
+            $("#myTable").append(row);
+            row.append($("<td colspan = \"4\" align=\"right\"> Total</td>"));
+            row.append($("<td><b>"+tempTotal+"</b></td>"));
         }
 
         function drawRow(rowData) {
@@ -176,7 +182,7 @@
             row.append($("<td>" + rowData.Project + "</td>"));
             row.append($("<td>" + rowData.Type + "</td>"));
             row.append($("<td>" + rowData.Date + "</td>"));
-            row.append($("<td>" + rowData.Duration + " hours </td>"));
+            row.append($("<td>" + rowData.Duration + " </td>"));
         }
 
 
