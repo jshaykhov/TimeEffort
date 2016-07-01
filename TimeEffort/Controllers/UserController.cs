@@ -149,11 +149,13 @@ namespace TimeEffort.Controllers
                     Email = registrationVM.Email
                 };
                 _userService.Register(curUser);
+                Logger.Info(User.Identity.Name, OperationType.Inserted, " " + curUser.FirstName+" "+curUser.LastName+ " " + curUser.Username);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
                 CreateSelectListForDropDown();
+                Logger.Info(User.Identity.Name, OperationType.Inserted, " " + ex.Message);
                 ModelState.AddModelError("", ex.Message);
                 return View("Registration", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", registrationVM);
             }
@@ -205,14 +207,18 @@ namespace TimeEffort.Controllers
                 {
                    curUser.Password = model.NewPassword;
                    bool successfullyChanged = _userService.ChangePassword(curUser);
-                   
-                    if(successfullyChanged)
-                        return RedirectToAction("Login");
-                    else
-                    {
-                        ModelState.AddModelError("", "Could not change, please contact administrator");
-                        return View("ChangePassword", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
-                    }
+
+                   if (successfullyChanged)
+                   {
+                       Logger.Info(User.Identity.Name, OperationType.Updated, " password of " + curUser.Username);
+                       FormsAuthentication.SignOut();
+                       return RedirectToAction("Login", "User");
+                   }
+                   else
+                   {
+                       ModelState.AddModelError("", "Could not change, please contact administrator");
+                       return View("ChangePassword", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
+                   }
                 }
                 else
                 {
@@ -223,6 +229,7 @@ namespace TimeEffort.Controllers
             }
             catch (Exception ex)
             {
+                Logger.Info(User.Identity.Name, OperationType.Updated, " " + ex.Message);
                 ModelState.AddModelError("", ex.Message);
                 return View(model);
             };
@@ -262,12 +269,15 @@ namespace TimeEffort.Controllers
         {
             try
             {
+                 var user = _userService.GetUserById(id);
                 _userService.DeleteUser(id);
+                Logger.Info(User.Identity.Name, OperationType.Deleted, " " + user.ID+" "+ user.FirstName+" " +user.LastName);
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
                 var user = _userService.GetUserById(id);
+                Logger.Info(User.Identity.Name, OperationType.Deleted, " "+ e.Message);
                 var model = UserMapper.MapUserToModel(user);
                 ModelState.AddModelError("", "You cannot delete this user, as the user is involved one or more projects");
                 return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
@@ -297,15 +307,19 @@ namespace TimeEffort.Controllers
                 {
                     var user = UserMapper.MapUserFromModel(model);
                     _userService.Update(user);
+                    Logger.Info(User.Identity.Name, OperationType.Updated, " " + user.ID+" "+ user.Username);
+
                     return RedirectToAction("Index");
                 }
                 CreateSelectListForDropDown();
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
-            catch
+            catch(Exception ex)
             {
                 //CreateSelectListForDropDown();
                 //ModelState.AddModelError("", ex.Message);
+                Logger.Info(User.Identity.Name, OperationType.Updated, " " + ex.Message);
+
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
@@ -335,15 +349,18 @@ namespace TimeEffort.Controllers
                 {
                     var curUser = UserMapper.MapProfileFromModel(model);
                     _userService.Update(curUser);
+                    Logger.Info(User.Identity.Name, OperationType.Updated, " " + user.Id+" "+ user.UserName);
+
                     return RedirectToAction("UserProfile");
                 }
                 CreateSelectListForDropDown();
                 return View("Manage", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
-            catch
+            catch(Exception e)
             {
                 //CreateSelectListForDropDown();
                 //ModelState.AddModelError("", ex.Message);
+                Logger.Info(User.Identity.Name, OperationType.Updated, " " + e.Message);
                 return View("Manage", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }

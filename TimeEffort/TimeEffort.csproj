@@ -53,6 +53,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -191,6 +194,7 @@
     <Compile Include="Helper\HelperProject.cs" />
     <Compile Include="Helper\HelperUser.cs" />
     <Compile Include="Helper\HtmlExtensions.cs" />
+    <Compile Include="Helper\Logger.cs" />
     <Compile Include="Mappers\AppointMapper.cs" />
     <Compile Include="Mappers\CustomerMapper.cs" />
     <Compile Include="Models\AppointViewModel.cs" />
