@@ -106,7 +106,7 @@ namespace TimeEffort.Controllers
                 1,                                                      //VERSION
                 username,
                 DateTime.Now,
-                DateTime.Now.AddMinutes(20),
+                DateTime.Now.AddMinutes(24),
                 remember,
                 _userService.GetUserByUsername(username).Position.Name  //ROLE OF THE USER
             );
