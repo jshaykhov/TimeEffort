@@ -347,6 +347,17 @@ else
         var projectId = $('table').find('tr.highlight').data('prop');
         ViewMembers(projectId);
     }
+
+    function ChangeDateFormat(curDate)
+    {
+        var month = curDate.substr(0,2);
+        var day = curDate.substr(3, 2);
+        var year = curDate.substr(6, 4);
+        var date = year + "-" + month + "-" + day;
+        return date;
+
+    }
+
     function Add() {
      
         var projectId = $('table').find('tr.highlight').data('prop');
@@ -354,10 +365,10 @@ else
         var projectEnd=$('table').find('tr.highlight').find('#End').html().trim();
         var empId = $('#Employee').val();
         var roleId = $('#Role').val();
-        var from = $('#From').val();
-        var to = $('#To').val();
+        var from = ChangeDateFormat($('#From').val());
+        var to = ChangeDateFormat($('#To').val());
         $('#msg').empty();
-        if (from >=to)
+        if (from>=to)
         {
             $('#msg').append("Date To cannot be earlier than or equal to Date From");
             $('#myModal').modal('show');
