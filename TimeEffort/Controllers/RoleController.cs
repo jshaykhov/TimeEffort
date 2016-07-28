@@ -55,6 +55,8 @@ namespace TimeEffort.Controllers
                     var role = RoleMapper.MapRoleFromModel(model);
 
                     Service.Insert(role);
+                    Logger.Info(User.Identity.Name, OperationType.Inserted, " " + role.ID + " " + role.Name);
+
                     return RedirectToAction("Index");
                 }
 
@@ -62,6 +64,8 @@ namespace TimeEffort.Controllers
             }
             catch (Exception e)
             {
+                Logger.Info(User.Identity.Name, OperationType.Inserted, " " +e.Message);
+
                 ModelState.AddModelError("", e.Message);
                 return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
@@ -84,12 +88,16 @@ namespace TimeEffort.Controllers
                 {
                     var role = RoleMapper.MapRoleFromModel(model);
                     Service.Update(role);
+                    Logger.Info(User.Identity.Name, OperationType.Updated, " " + role.ID + " " + role.Name);
+
                     return RedirectToAction("Index");
                 }
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
-            catch
+            catch(Exception e)
             {
+                Logger.Info(User.Identity.Name, OperationType.Updated, " " +e.Message);
+
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
@@ -108,12 +116,16 @@ namespace TimeEffort.Controllers
         {
             try
             {
+                var role = Service.GetRoleById(id);
                 Service.DeleteRole(id);
+                Logger.Info(User.Identity.Name, OperationType.Deleted, " " + role.ID + " " + role.Name);
+
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
                 var role = Service.GetRoleById(id);
+                Logger.Info(User.Identity.Name, OperationType.Deleted, " " + e.Message);
                 var model = RoleMapper.MapRoleToModel(role);
                 ModelState.AddModelError("", "This role is currently involved in one or more users. Deleting failed. "+"\n" + e.Message);
                 return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);

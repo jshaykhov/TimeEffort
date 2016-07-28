@@ -55,6 +55,8 @@ namespace TimeEffort.Controllers
                     var position = PositionMapper.MapPositionFromModel(model);
 
                     Position.Insert(position);
+                    Logger.Info(User.Identity.Name, OperationType.Inserted, " " + position.ID + " " + position.Name);
+
                     return RedirectToAction("Index");
                 }
 
@@ -62,6 +64,7 @@ namespace TimeEffort.Controllers
             }
             catch (Exception e)
             {
+                Logger.Info(User.Identity.Name, OperationType.Inserted, " " + e.Message);
                 ModelState.AddModelError("", e.Message);
                 return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml");
             }
@@ -84,12 +87,14 @@ namespace TimeEffort.Controllers
                 {
                     var position = PositionMapper.MapPositionFromModel(model);
                     Position.Update(position);
+                    Logger.Info(User.Identity.Name, OperationType.Updated, " " + position.ID + " " + position.Name);
                     return RedirectToAction("Index");
                 }
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
-            catch
+            catch(Exception e)
             {
+                Logger.Info(User.Identity.Name, OperationType.Updated, " " + e.Message);
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
         }
@@ -109,7 +114,9 @@ namespace TimeEffort.Controllers
         {
             try
             {
+                var position = Position.GetPositionById(id);
                 Position.DeletePosition(id);
+                Logger.Info(User.Identity.Name, OperationType.Deleted, " " + position.ID + " " + position.Name);
                 return RedirectToAction("Index");
             }
             catch (Exception e)

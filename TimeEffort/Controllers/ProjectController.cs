@@ -14,17 +14,20 @@ using System.IO;
 using System.Web.UI;
 using System.Xml.Linq;
 using System.Xml.Schema;
+using log4net.Config;
 
 namespace TimeEffort.Controllers
 {
   
     public class ProjectController : Controller
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         //static properties does not requiere instantiation on accessing different Actions
         static AllDBServices _Service;
         //singleton to ensure that there is only one instance of the service
         private AllDBServices Service
         {
+            
             get
             {
                 if (_Service == null)
@@ -36,21 +39,21 @@ namespace TimeEffort.Controllers
         //
         // GET: /Project/
         [Authorize(Roles = "Admin,Master,CTO,Monitor,User")]
-        public ActionResult Index(int? page, string currentPName,string currentCustomer, string searchByPName, string searchByCustomer)
+        public ActionResult Index(int? page, string currentPName, string currentCustomer, string searchByPName, string searchByCustomer)
         {
             int userId = Service.GetUserIdByUsername(User.Identity.Name);
             var allProjects = new AllUserModel();
 
-            var userProjects = Service.GetAllProjects().Where(p=>p.CustomerId!=null).ToList();
+            var userProjects = Service.GetAllProjects().Where(p => p.CustomerId != null).ToList();
 
             if (User.IsInRole("User"))
             {
                 //If user's role is USER
                 //userProjects = HelperUser.GetProjectsByWorkingUser(User);  
-                var involvedProjectsIds=Service.GetAllAccesses().Where(x => x.UserID == userId).Select(p=>p.ProjectID).ToList();//show him only projects he is involved in
-                userProjects = Service.GetAllProjects().Where(p=>involvedProjectsIds.Contains(p.ID)).ToList();
+                var involvedProjectsIds = Service.GetAllAccesses().Where(x => x.UserID == userId).Select(p => p.ProjectID).ToList();//show him only projects he is involved in
+                userProjects = Service.GetAllProjects().Where(p => involvedProjectsIds.Contains(p.ID)).ToList();
             }
-            allProjects.PMProjects = ProjectMapper.MapProjectsToModels(Service.GetAllProjects().Where(p=>p.ManagerID==userId && p.CustomerId!=null).ToList());
+            allProjects.PMProjects = ProjectMapper.MapProjectsToModels(Service.GetAllProjects().Where(p => p.ManagerID == userId && p.CustomerId != null).ToList());
             var list = ProjectMapper.MapProjectsToModels(userProjects);
 
 
@@ -61,7 +64,7 @@ namespace TimeEffort.Controllers
                 searchByPName = currentPName;
                 searchByCustomer = currentCustomer;
             }
-            ViewBag.CurrentPName= searchByPName;
+            ViewBag.CurrentPName = searchByPName;
             ViewBag.CurrentCustomer = searchByCustomer;
             if (!String.IsNullOrEmpty(searchByPName) && !String.IsNullOrEmpty(searchByCustomer))
             {
@@ -81,7 +84,6 @@ namespace TimeEffort.Controllers
             list = list.OrderByDescending(x => x.StartDate).ToList();
 
             allProjects.UserProjects = list.ToPagedList(pageNumber, pageSize);
-            
 
             return View(model: allProjects, masterName: "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", viewName: "Index");
         }
@@ -161,10 +163,11 @@ namespace TimeEffort.Controllers
                     
                     //Service.GetNextCode(model.CType);
                     Service.Insert(project);
+                    Logger.Info(User.Identity.Name, OperationType.Inserted, " " + project.ID + " " + project.Name);
                 }
                 return Json(new { msg = "" });
                 //}
-
+                
                 //CreateSelectListForDropDownUsers();
                 //CreateSelectListForDropDownStatus();
                 //return View("Create", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
@@ -172,6 +175,7 @@ namespace TimeEffort.Controllers
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
+                Logger.Info(User.Identity.Name, OperationType.Inserted, " " + e.Message);
                 return Json(new { msg = e.Message });
             }
 
@@ -199,14 +203,16 @@ namespace TimeEffort.Controllers
                 {
                     var project = ProjectMapper.MapProjectFromModel(model);
                     Service.Update(project);
+                    Logger.Info(User.Identity.Name, OperationType.Updated, " " + project.ID + " " + project.Name);
                     return RedirectToAction("Index");
                 }
                 CreateSelectListForDropDownUsers();
                 CreateSelectListForDropDownStatus();
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
-            catch
+            catch (Exception e)
             {
+                Logger.Info(User.Identity.Name, OperationType.Updated, " " + e.Message);
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
 
@@ -228,13 +234,16 @@ namespace TimeEffort.Controllers
         {
             try
             {
+                var project = Service.GetProjectById(id);
                 Service.DeleteProject(id);
+                Logger.Info(User.Identity.Name, OperationType.Deleted, " "+ project.ID + " " + project.Name);
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
                 var project = Service.GetProjectById(id);
                 var model = ProjectMapper.MapProjectToModel(project);
+                Logger.Info(User.Identity.Name, OperationType.Deleted," "+ e.Message);
                 ModelState.AddModelError("", "You cannot delete this project, because there are records of employee efforts for this project.");
                 return View("Delete", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }

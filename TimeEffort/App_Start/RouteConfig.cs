@@ -18,6 +18,7 @@ namespace TimeEffort
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+            log4net.Config.XmlConfigurator.Configure();
         }
     }
 }
