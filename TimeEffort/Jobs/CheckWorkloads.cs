@@ -37,6 +37,13 @@ namespace TimeEffort.Jobs
                 }
                 absentWorkloads.Add(tempUandW); //!!!!!!!!!!! is the list of users; for each user there is list of dates (only current month) when he didn't add any workload
             }
+            SendEmailsTo(absentWorkloads);
+        }
+
+        public void SendEmailsTo(List<UsersAndWorkloads> uaw)
+        {
+            //foreach (UsersAndWorkloads u in )
+            //call viktoriyas class and pass user, and list of days;
         }
     }
     private class UsersAndWorkloads

@@ -10,7 +10,7 @@ namespace TimeEffort.Jobs
     {
         public void Execute(IJobExecutionContext context)
         {
-            //Go through the workloads db and gather people who needs to receive email.
+            //call check.
         }
     }
 }
