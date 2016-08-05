@@ -42,6 +42,14 @@
     <Reference Include="ClosedXML">
       <HintPath>..\packages\ClosedXML.0.76.0\lib\net40-client\ClosedXML.dll</HintPath>
     </Reference>
+    <Reference Include="Common.Logging, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="DocumentFormat.OpenXml">
       <HintPath>..\packages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
@@ -86,6 +94,10 @@
     </Reference>
     <Reference Include="PagedList.Mvc">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz, Version=2.3.3.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quartz.2.3.3\lib\net40\Quartz.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -195,6 +207,9 @@
     <Compile Include="Helper\HelperUser.cs" />
     <Compile Include="Helper\HtmlExtensions.cs" />
     <Compile Include="Helper\Logger.cs" />
+    <Compile Include="Jobs\CheckWorkloads.cs" />
+    <Compile Include="Jobs\CheckWorkloadsJob.cs" />
+    <Compile Include="Jobs\CheckWorkloadsJobScheduler.cs" />
     <Compile Include="Mappers\AppointMapper.cs" />
     <Compile Include="Mappers\CustomerMapper.cs" />
     <Compile Include="Models\AppointViewModel.cs" />
@@ -1766,6 +1781,9 @@
     <Content Include="Scripts\notify.min.js" />
     <Content Include="Scripts\yepnope.js" />
     <Content Include="XML\ProjectToCSV.xslt" />
+    <None Include="job_scheduling_data_2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\PublishProfiles\Administrator.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
