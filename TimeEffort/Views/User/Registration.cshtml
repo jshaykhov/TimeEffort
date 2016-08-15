@@ -62,19 +62,21 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.HasHead, new { @class = "control-label col-md-2" })
-            <div class="col-md-2">
-                @Html.EditorFor(model => model.HasHead, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.HasHead)
-            </div>
-        </div>
+    
 
         <div class="form-group">
             @Html.LabelForRequired(model => model.PositionId, new { @class = "control-label col-md-2" })
             <div class="col-md-2">
                 @Html.DropDownListFor(model => model.PositionId, (SelectList)ViewBag.Positions, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.PositionId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HasHead, new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.CheckBoxFor(model => model.HasHead, new { @onclick = "DisableList()" })
+                @Html.ValidationMessageFor(model => model.HasHead)
             </div>
         </div>
         <div class="form-group">
@@ -124,3 +126,21 @@
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    function DisableList() {
+        if ($("#HasHead").attr("checked") != 'checked') {
+            $("#HeadId").prop('disabled', true)
+        }
+        else {
+            $("#HeadId").prop('disabled', false)
+        }
+    }
+    $(document).ready(function () {
+        if ($("#HasHead").attr("checked") != 'checked') {
+            $("#HeadId").prop('disabled', true)
+        }
+        else {
+            $("#HeadId").prop('disabled', false)
+        }
+    });
+</script>
