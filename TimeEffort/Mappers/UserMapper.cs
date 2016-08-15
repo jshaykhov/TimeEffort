@@ -23,7 +23,9 @@ namespace TimeEffort.Mappers
                 Position = userInfo.Position.Name,
                 PositionId = userInfo.PositionID,
                 UserName = userInfo.Username,
-                Password = userInfo.Password
+                Password = userInfo.Password,
+                HeadId=userInfo.DirectHead,
+                HeadName = userInfo.UserInfo2 == null ? "" : userInfo.UserInfo2.FirstName + " " + userInfo.UserInfo2.LastName
             };
 
         }
@@ -40,7 +42,9 @@ namespace TimeEffort.Mappers
                 Email = model.Email,
                 PositionID = model.PositionId,
                 // Position = model.Position,
-                Username = model.UserName
+                Username = model.UserName,
+                DirectHead=model.HeadId
+
             };
         }
         public static ProfileViewModel MapProfileToModel(UserInfo userInfo)
@@ -56,7 +60,9 @@ namespace TimeEffort.Mappers
                 Email = userInfo.Email,
                 Position = userInfo.Position.Name,
                 PositionId = userInfo.PositionID,
-                UserName = userInfo.Username
+                UserName = userInfo.Username,
+                HeadId=userInfo.DirectHead,
+                HeadName = userInfo.UserInfo2 == null ? "" : userInfo.UserInfo2.FirstName + " " + userInfo.UserInfo2.LastName
             };
 
         }
@@ -73,7 +79,8 @@ namespace TimeEffort.Mappers
                 Email = model.Email,
                 PositionID = model.PositionId,
                 Username = model.UserName,
-                Password=model.Password
+                Password=model.Password,
+                DirectHead = model.HeadId
             };
         }
         public static List<UserViewModel> MapUsersToModels(List<UserInfo> list)
@@ -90,7 +97,9 @@ namespace TimeEffort.Mappers
                 Major = c.Major,
                 Position = c.Position.Name,
                 PositionId = c.PositionID,
-                UserName = c.Username
+                UserName = c.Username,
+                HeadId = c.DirectHead,
+                HeadName = c.UserInfo2 ==null ? "": c.UserInfo2.FirstName + " " + c.UserInfo2.LastName
 
             }).ToList();
         }

@@ -120,6 +120,8 @@ namespace TimeEffort.Controllers
         //REGISTER 
         public ActionResult Registration()
         {
+            var curUser = _userService.GetUserIdByUsername(this.User.Identity.Name);
+            CreateSelectListForDropDownHeads(curUser);
             CreateSelectListForDropDown();
             return View("Registration", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml");
         }
@@ -146,7 +148,8 @@ namespace TimeEffort.Controllers
                     Address=registrationVM.Address,
                     Major=registrationVM.Major,
                     PositionID = registrationVM.PositionId,
-                    Email = registrationVM.Email
+                    Email = registrationVM.Email,
+                    DirectHead=registrationVM.HeadId == 0 ? null:registrationVM.HeadId
                 };
                 _userService.Register(curUser);
                 Logger.Info(User.Identity.Name, OperationType.Inserted, " " + curUser.FirstName+" "+curUser.LastName+ " " + curUser.Username);
@@ -154,6 +157,8 @@ namespace TimeEffort.Controllers
             }
             catch (Exception ex)
             {
+                var curUser = _userService.GetUserIdByUsername(this.User.Identity.Name);
+                CreateSelectListForDropDownHeads(curUser);
                 CreateSelectListForDropDown();
                 Logger.Info(User.Identity.Name, OperationType.Inserted, " " + ex.Message);
                 ModelState.AddModelError("", ex.Message);
@@ -172,6 +177,20 @@ namespace TimeEffort.Controllers
             //store list of positions in ViewBag 
             //for further use in view's dropdown list
             ViewBag.Positions = allpositions;
+        }
+        private void CreateSelectListForDropDownHeads(int userId)
+        {
+            //Create selectlist of users 
+            //to pass it to view's dropdown
+            //to allow user selection during registration
+          
+            var listOfHeads = _userService.GetAllUsers().Where(u=>u.ID!=userId).ToList();
+            SelectList allHeads = new SelectList(UserMapper.MapUsersToModels(listOfHeads),
+                                                   "Id ", "FullName");
+            
+            //store list of heads in ViewBag 
+            //for further use in view's dropdown list
+            ViewBag.Heads = allHeads;
         }
 
         [HttpPost]
@@ -287,7 +306,8 @@ namespace TimeEffort.Controllers
         //EDIT
         // GET: Position/Edit/5
         public ActionResult Edit(int id)
-        {         
+        {
+            CreateSelectListForDropDownHeads(id);
              CreateSelectListForDropDown();
             var model = UserMapper.MapUserToModel(_userService.GetUserById(id));
             return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml",model);
@@ -311,6 +331,7 @@ namespace TimeEffort.Controllers
 
                     return RedirectToAction("Index");
                 }
+                CreateSelectListForDropDownHeads(id);
                 CreateSelectListForDropDown();
                 return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml", model);
             }
@@ -343,6 +364,7 @@ namespace TimeEffort.Controllers
             model.UserName = user.UserName;
             model.PositionId = user.PositionId;
             model.Password = user.Password;
+            model.HeadId = user.HeadId;
             try
             {
                 if (ModelState.IsValid)

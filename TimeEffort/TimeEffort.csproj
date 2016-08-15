@@ -191,6 +191,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\EmailHelper.cs" />
     <Compile Include="Helper\HelperProject.cs" />
     <Compile Include="Helper\HelperUser.cs" />
     <Compile Include="Helper\HtmlExtensions.cs" />

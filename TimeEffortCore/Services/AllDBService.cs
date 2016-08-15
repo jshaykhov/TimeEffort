@@ -439,6 +439,7 @@ namespace TimeEffortCore.Services
             dbItem.Project = item.Project;
             dbItem.Username = item.Username;
             dbItem.PositionID = item.PositionID;
+            dbItem.DirectHead = item.DirectHead ==0 ? null:item.DirectHead;
             dbItem.Address = item.Address;
             dbItem.Major = item.Major;
 

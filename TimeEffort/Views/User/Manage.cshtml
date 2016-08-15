@@ -31,6 +31,13 @@
                 @Html.ValidationMessageFor(model => model.Position)
             </div>
         </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.HeadName, new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DisplayFor(model => model.HeadName)
+                @Html.ValidationMessageFor(model => model.Position)
+            </div>
+        </div>
 
         <div class="form-group">
             @Html.LabelForRequired(model => model.FirstName, new { @class = "control-label col-md-2" })

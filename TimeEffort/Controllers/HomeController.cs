@@ -16,6 +16,7 @@ namespace TimeEffort.Controllers
         public ActionResult Index()
         {
             //
+            
             return View("Index" + HelperUser.GetRoleName(User), masterName: "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml");
         }
 

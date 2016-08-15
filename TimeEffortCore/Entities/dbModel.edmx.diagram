@@ -29,6 +29,7 @@
         <AssociationConnector Association="time_trackerModel.FK_Workload_Project" />
         <AssociationConnector Association="time_trackerModel.FK_Workload_UserInfo" />
         <AssociationConnector Association="time_trackerModel.FK_Workload_WorkloadType" />
+        <AssociationConnector Association="time_trackerModel.FK_UserInfo_UserInfo" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

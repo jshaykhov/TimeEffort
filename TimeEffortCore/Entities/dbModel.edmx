@@ -68,7 +68,7 @@
           <Property Name="StartDate" Type="datetime" Nullable="false" />
           <Property Name="EndDate" Type="datetime" Nullable="false" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="CType" Type="text" />
+          <Property Name="CType" Type="varchar" MaxLength="50" />
           <Property Name="CustomerId" Type="int" />
         </EntityType>
         <EntityType Name="Role">
@@ -102,6 +102,7 @@
           <Property Name="Password" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="Major" Type="nvarchar(max)" />
+          <Property Name="DirectHead" Type="int" />
         </EntityType>
         <EntityType Name="Workload">
           <Key>
@@ -252,6 +253,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserInfo_UserInfo">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+          <End Role="UserInfo1" Type="Self.UserInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserInfo1">
+              <PropertyRef Name="DirectHead" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Workload_Project">
           <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
           <End Role="Workload" Type="Self.Workload" Multiplicity="*" />
@@ -371,6 +384,10 @@
             <End Role="Position" EntitySet="Position" />
             <End Role="UserInfo" EntitySet="UserInfo" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserInfo_UserInfo" Association="Self.FK_UserInfo_UserInfo">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="UserInfo1" EntitySet="UserInfo" />
+          </AssociationSet>
           <AssociationSet Name="FK_Workload_Project" Association="Self.FK_Workload_Project">
             <End Role="Project" EntitySet="Project" />
             <End Role="Workload" EntitySet="Workload" />
@@ -482,6 +499,10 @@
             <End Role="WorkloadType" EntitySet="WorkloadType" />
             <End Role="Workload" EntitySet="Workload" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserInfo_UserInfo" Association="time_trackerModel.FK_UserInfo_UserInfo">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="UserInfo1" EntitySet="UserInfo" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -567,7 +588,7 @@
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CType" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CustomerId" Type="Int32" />
           <NavigationProperty Name="Access" Relationship="time_trackerModel.FK_Access_Project" FromRole="Project" ToRole="Access" />
           <NavigationProperty Name="Customer" Relationship="time_trackerModel.FK_Project_Customer" FromRole="Project" ToRole="Customer" />
@@ -613,6 +634,9 @@
           <NavigationProperty Name="Position" Relationship="time_trackerModel.FK_UserInfo_Position" FromRole="UserInfo" ToRole="Position" />
           <NavigationProperty Name="Project" Relationship="time_trackerModel.FK_Project_UserInfo" FromRole="UserInfo" ToRole="Project" />
           <NavigationProperty Name="Workload" Relationship="time_trackerModel.FK_Workload_UserInfo" FromRole="UserInfo" ToRole="Workload" />
+          <Property Name="DirectHead" Type="Int32" />
+          <NavigationProperty Name="UserInfo1" Relationship="time_trackerModel.FK_UserInfo_UserInfo" FromRole="UserInfo" ToRole="UserInfo1" />
+          <NavigationProperty Name="UserInfo2" Relationship="time_trackerModel.FK_UserInfo_UserInfo" FromRole="UserInfo1" ToRole="UserInfo" />
         </EntityType>
         <EntityType Name="Workload">
           <Key>
@@ -803,6 +827,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserInfo_UserInfo">
+          <End Type="time_trackerModel.UserInfo" Role="UserInfo" Multiplicity="0..1" />
+          <End Type="time_trackerModel.UserInfo" Role="UserInfo1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserInfo1">
+              <PropertyRef Name="DirectHead" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -927,6 +963,7 @@
           <EntitySetMapping Name="UserInfo">
             <EntityTypeMapping TypeName="time_trackerModel.UserInfo">
               <MappingFragment StoreEntitySet="UserInfo">
+                <ScalarProperty Name="DirectHead" ColumnName="DirectHead" />
                 <ScalarProperty Name="Major" ColumnName="Major" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Password" ColumnName="Password" />

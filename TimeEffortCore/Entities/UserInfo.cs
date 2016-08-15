@@ -21,6 +21,7 @@ namespace TimeEffortCore.Entities
             this.Notification1 = new HashSet<Notification>();
             this.Project = new HashSet<Project>();
             this.Workload = new HashSet<Workload>();
+            this.UserInfo1 = new HashSet<UserInfo>();
         }
     
         public int ID { get; set; }
@@ -33,6 +34,7 @@ namespace TimeEffortCore.Entities
         public string Password { get; set; }
         public string Address { get; set; }
         public string Major { get; set; }
+        public Nullable<int> DirectHead { get; set; }
     
         public virtual ICollection<Access> Access { get; set; }
         public virtual ICollection<Notification> Notification { get; set; }
@@ -40,5 +42,7 @@ namespace TimeEffortCore.Entities
         public virtual Position Position { get; set; }
         public virtual ICollection<Project> Project { get; set; }
         public virtual ICollection<Workload> Workload { get; set; }
+        public virtual ICollection<UserInfo> UserInfo1 { get; set; }
+        public virtual UserInfo UserInfo2 { get; set; }
     }
 }

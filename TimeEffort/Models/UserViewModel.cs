@@ -41,7 +41,8 @@ namespace TimeEffort.Models
 
         [DataType(DataType.Text)]
         public string Major { get; set; }
-      
+
+       
         [Display(Name = "System role")]
         public int PositionId { get; set; }
 
@@ -49,6 +50,12 @@ namespace TimeEffort.Models
         public string Position { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+        [Display(Name = "Head")]
+        public int? HeadId { get; set; }
+
+        [Display(Name = "Head")]
+        public string HeadName { get; set; }
+        
     }
 
     public class UserViewModel
@@ -82,6 +89,8 @@ namespace TimeEffort.Models
 
         [DataType(DataType.Text)]
         public string Major { get; set; }
+        [Display(Name = "Has head")]
+        public bool HasHead { get; set; }
         [Required]
 
         [Display(Name = "System role")]
@@ -102,6 +111,12 @@ namespace TimeEffort.Models
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Password")]
         public string Password { get; set; }
+        [Required]
+        [Display(Name = "Head")]
+        public int? HeadId { get; set; }
+       
+        [Display(Name = "Head")]
+        public string HeadName { get; set; }
 
     }
 }

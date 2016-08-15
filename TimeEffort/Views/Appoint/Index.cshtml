@@ -350,6 +350,8 @@ else
 
     function ChangeDateFormat(curDate)
     {
+        if (curDate.substr(0, 4) > 0)
+            return curDate;
         var month = curDate.substr(0,2);
         var day = curDate.substr(3, 2);
         var year = curDate.substr(6, 4);

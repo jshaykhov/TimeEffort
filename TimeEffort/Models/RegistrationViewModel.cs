@@ -61,6 +61,12 @@ namespace TimeEffort.Models
         [CompareAttribute("Password", ErrorMessage = "Repeat password mismatch")]
         [Display(Name = "Repeat password")]
         public string RepeatPassword { get; set; }
+        [Display(Name = "Has head")]
+        public bool HasHead { get; set; }
+
+        [Required]
+        [Display(Name = "Head")]
+        public int? HeadId { get; set; }
      
     }
 }
