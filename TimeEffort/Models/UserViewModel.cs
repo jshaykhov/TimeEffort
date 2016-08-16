@@ -111,7 +111,7 @@ namespace TimeEffort.Models
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-        [Required]
+   
         [Display(Name = "Head")]
         public int? HeadId { get; set; }
        

@@ -310,6 +310,8 @@ namespace TimeEffort.Controllers
             CreateSelectListForDropDownHeads(id);
              CreateSelectListForDropDown();
             var model = UserMapper.MapUserToModel(_userService.GetUserById(id));
+            if (model.HeadId != null)
+                model.HasHead = true;
             return View("Edit", "~/Views/Shared/_Layout" + HelperUser.GetRoleName(User) + ".cshtml",model);
         }
 

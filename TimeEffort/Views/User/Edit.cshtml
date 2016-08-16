@@ -81,27 +81,18 @@
             </div>
         </div>
         
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.HasHead, new { @class = "control-label col-md-2" })
-            <div class="col-md-2">
-                @Html.CheckBoxFor(model => model.HasHead, new { htmlAttributes = new { @class = "form-control", @id = "hasHeadCb" } })
-                @Html.ValidationMessageFor(model => model.HasHead)
-            </div>
-        </div>*@
-
         <div class="form-group">
             @Html.LabelFor(model => model.HasHead, new { @class = "control-label col-md-2" })
             <div class="col-md-2">
-                <input type="checkbox" class="checkbox checkbox-inline" />
-                @*@Html.CheckBoxFor(model => model.HasHead, new { htmlAttributes = new { @class = "form-control", @id = "hasHeadCb" } })
-                @Html.ValidationMessageFor(model => model.HasHead)*@
+                @Html.CheckBoxFor(model => model.HasHead, new {@onclick ="DisableList()"} )
+                @Html.ValidationMessageFor(model => model.HasHead)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelForRequired(model => model.HeadId, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.HeadId, new { @class = "control-label col-md-2" })
             <div class="col-md-2">
-                @Html.DropDownListFor(model => model.HeadId, (SelectList)ViewBag.Heads, new { @class = "form-control", @id="heads"})
+                @Html.DropDownListFor(model => model.HeadId, (SelectList)ViewBag.Heads, new { @class = "form-control"})
                 @Html.ValidationMessageFor(model => model.HeadId)
             </div>
         </div>
@@ -122,14 +113,21 @@
     @Scripts.Render("~/bundles/jqueryval")
 }
 <script>
+    function DisableList()
+    {
+        if ($("#HasHead").attr("checked") != 'checked') {
+            $("#HeadId").prop('disabled', true)
+        }
+        else {
+            $("#HeadId").prop('disabled', false)
+        }
+    }
     $(document).ready(function () {
-        $("#hasHeadCb").click(function () {
-            if ($("#hasHeadCb").attr("checked") != 'checked') {
-                $("heads").prop('disabled', false)
-            }
-            else {
-                $("heads").prop('disabled', true)
-            }
-        });
+        if ($("#HasHead").attr("checked") != 'checked') {
+            $("#HeadId").prop('disabled', true)
+        }
+        else {
+            $("#heads").prop('disabled', false)
+        }
     });
 </script>

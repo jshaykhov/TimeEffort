@@ -64,7 +64,7 @@ namespace TimeEffort.Models
         [Display(Name = "Has head")]
         public bool HasHead { get; set; }
 
-        [Required]
+
         [Display(Name = "Head")]
         public int? HeadId { get; set; }
      
