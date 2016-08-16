@@ -33,6 +33,8 @@ namespace TimeEffort.Helper
             Message.Subject = subject;
             Message.Body = text;
 
+
+            Message.IsBodyHtml = true;
             //sending
             Smtp.Send(Message);
         }

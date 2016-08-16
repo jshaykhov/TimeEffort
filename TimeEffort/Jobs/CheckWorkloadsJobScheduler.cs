@@ -27,11 +27,12 @@ namespace TimeEffort.Jobs
 
             ITrigger trigger = TriggerBuilder.Create()
                                              .StartNow()
-                                             .WithSimpleSchedule(x => x
-                                                 .WithIntervalInMinutes(15)
-                                                 .RepeatForever())
-                                                 .Build();
-
+                                             .WithDailyTimeIntervalSchedule(s =>
+                                                 s.WithIntervalInHours(24)
+                                                 .OnEveryDay()
+                                                 .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(18, 45))
+                                                 )
+                                             .Build();
             scheduler.ScheduleJob(job, trigger);
         }
     }
