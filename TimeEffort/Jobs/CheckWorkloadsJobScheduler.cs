@@ -15,24 +15,26 @@ namespace TimeEffort.Jobs
             scheduler.Start();
 
             IJobDetail job = JobBuilder.Create<CheckWorkloadsJob>().Build();
-
+            
             //ITrigger trigger = TriggerBuilder.Create()
-            //    .WithDailyTimeIntervalSchedule
-            //      (s =>
-            //         s.WithIntervalInSeconds(50)//s.WithIntervalInHours(24)
-            //        .OnEveryDay()
-            //        .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(17, 45))
-            //      )
-            //    .Build();
+            //                                 .StartNow()
+            //                                 .WithDailyTimeIntervalSchedule(s =>
+            //                                     s.WithIntervalInHours(24)
+            //                                     .OnEveryDay()
+            //                                     .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(18, 45))
+            //                                     )
+            //                                 .Build();
+
+            var runTime = new DateTimeOffset(DateTime.Today, new TimeSpan(13, 45, 0)); //Today at 13:45 UTC (18:45 Tashkent time)
 
             ITrigger trigger = TriggerBuilder.Create()
-                                             .StartNow()
-                                             .WithDailyTimeIntervalSchedule(s =>
-                                                 s.WithIntervalInHours(24)
-                                                 .OnEveryDay()
-                                                 .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(18, 45))
-                                                 )
-                                             .Build();
+                                            .WithIdentity("trigger1", "group1")
+                                            .StartAt(runTime)
+                                            .WithSimpleSchedule(x => x
+                                                .WithIntervalInHours(24)
+                                                .RepeatForever())
+                                            .Build();
+
             scheduler.ScheduleJob(job, trigger);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -50,17 +51,17 @@ namespace TimeEffort.Jobs
             {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append("Dear <i>" + u.user.FirstName + u.user.LastName +"</i>, <br><br>");
+                sb.Append("Dear <i>" + u.user.FirstName + " "+ u.user.LastName +"</i>, <br><br>");
                 sb.Append("This email is to remind you that you have not filled in any workloads for following dates: <br>");
 
                 for(int i = 0; i < u.days.Count; i++){
-                    sb.Append(u.days.ElementAt(i).Date.ToString());
-                    sb.Append((i == u.days.Count) ?  " of" + u.days.ElementAt(i).Month : ", ");
+                    sb.Append(u.days.ElementAt(i).Day.ToString());
+                    sb.Append((i == u.days.Count - 1) ?  " of " + u.days.ElementAt(i).ToString("MMMM", CultureInfo.GetCultureInfo("en-GB")) : ", ");
                 }
 
                 sb.Append("<br><br>Best regards, <br> <h4>TaPPS team.</h4>");
                 sb.Append("<hr>");
-                sb.AppendLine("***This email can't receive replies. To give us feedback on this alert,***");
+                sb.AppendLine("***This email can't receive replies. If this email wasn't meant to be sent to you, or to give us feedback on this alert, please <a href='mailto:bakir@lgcns.uz' style='text-decoration: none; color:#808080;'>write</a> to project manager***");
 
                 string text = sb.ToString();
 
