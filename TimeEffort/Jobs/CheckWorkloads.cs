@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
+using TimeEffort.Helper;
 using TimeEffortCore.Entities;
 using TimeEffortCore.Services;
 
@@ -30,7 +32,7 @@ namespace TimeEffort.Jobs
             {
                 UsersAndWorkloads tempUandW = new UsersAndWorkloads(user);
                 
-                for(DateTime i = new DateTime(date.Year,date.Month,1); i<=DateTime.Today; i.AddDays(1)){
+                for(DateTime i = new DateTime(date.Year,date.Month,1); i<=DateTime.Today; i = i.AddDays(1)){
                     var temp = Service.GetAllbyUserAndDate(user.ID,i);
                     if(temp.Count ==0)
                         tempUandW.AddDay(i);
@@ -40,23 +42,51 @@ namespace TimeEffort.Jobs
             SendEmailsTo(absentWorkloads);
         }
 
+
         public void SendEmailsTo(List<UsersAndWorkloads> uaw)
         {
-            //foreach (UsersAndWorkloads u in )
-            //call viktoriyas class and pass user, and list of days;
+            EmailHelper emailSender = new EmailHelper();
+            foreach (UsersAndWorkloads u in uaw)
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append("Dear <i>" + u.user.FirstName + u.user.LastName +"</i>, <br><br>");
+                sb.Append("This email is to remind you that you have not filled in any workloads for following dates: <br>");
+
+                for(int i = 0; i < u.days.Count; i++){
+                    sb.Append(u.days.ElementAt(i).Date.ToString());
+                    sb.Append((i == u.days.Count) ?  " of" + u.days.ElementAt(i).Month : ", ");
+                }
+
+                sb.Append("<br><br>Best regards, <br> <h4>TaPPS team.</h4>");
+                sb.Append("<hr>");
+                sb.AppendLine("***This email can't receive replies. To give us feedback on this alert,***");
+
+                string text = sb.ToString();
+
+                if (u.user.DirectHead.HasValue){
+                    sb.Append("This is only for beta. The original email is to be sent to " + u.user.Email + " and CC: " + u.user.UserInfo2.Email);// !!!! Line is to be removed
+                    emailSender.SendEmail(text, "rafatdin@lgcns.uz", "viktoriya@lgcns.uz"); // u.user.Email, u.user.UserInfo2.Email);
+                }
+                else {
+                    sb.Append("This is only for beta. The original email is to be sent to " + u.user.Email);// !!!! Line is to be removed
+                    emailSender.SendEmail(text, "rafatdin@lgcns.uz");
+                }
+            }
         }
     }
-    private class UsersAndWorkloads
+    public class UsersAndWorkloads
     {
         public UsersAndWorkloads(UserInfo _user)
         {
             user = _user;
+            days = new List<DateTime>();
         }
         public void AddDay(DateTime day)
         {
             days.Add(day);
         }
-        UserInfo user;
-        List<DateTime> days;
+        public UserInfo user;
+        public List<DateTime> days;
     }
 }

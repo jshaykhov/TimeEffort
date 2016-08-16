@@ -16,14 +16,21 @@ namespace TimeEffort.Jobs
 
             IJobDetail job = JobBuilder.Create<CheckWorkloadsJob>().Build();
 
+            //ITrigger trigger = TriggerBuilder.Create()
+            //    .WithDailyTimeIntervalSchedule
+            //      (s =>
+            //         s.WithIntervalInSeconds(50)//s.WithIntervalInHours(24)
+            //        .OnEveryDay()
+            //        .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(17, 45))
+            //      )
+            //    .Build();
+
             ITrigger trigger = TriggerBuilder.Create()
-                .WithDailyTimeIntervalSchedule
-                  (s =>
-                     s.WithIntervalInHours(24)
-                    .OnEveryDay()
-                    .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(0, 0))
-                  )
-                .Build();
+                                             .StartNow()
+                                             .WithSimpleSchedule(x => x
+                                                 .WithIntervalInMinutes(15)
+                                                 .RepeatForever())
+                                                 .Build();
 
             scheduler.ScheduleJob(job, trigger);
         }

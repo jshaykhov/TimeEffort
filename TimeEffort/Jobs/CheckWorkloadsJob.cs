@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
+using TimeEffort.Helper;
 
 namespace TimeEffort.Jobs
 {
@@ -10,7 +12,9 @@ namespace TimeEffort.Jobs
     {
         public void Execute(IJobExecutionContext context)
         {
-            //call check.
+            CheckWorkloads cw = new CheckWorkloads();
+            cw.Check();
+            
         }
     }
 }
