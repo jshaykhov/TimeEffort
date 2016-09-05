@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Web;
-using TimeEffort.Helper;
+using System.Threading.Tasks;
 using TimeEffortCore.Entities;
 using TimeEffortCore.Services;
 
-namespace TimeEffort.Jobs
+namespace WindowsServiceProject1.Jobs
 {
     public class CheckWorkloads
     {
@@ -43,11 +42,11 @@ namespace TimeEffort.Jobs
                     }
                 }
 
-                if(tempUandW.days.Count != 0)
+                if (tempUandW.days.Count != 0)
                     absentWorkloads.Add(tempUandW); //!!!!!!!!!!! is the list of users; for each user there is list of dates (only current month) when he didn't add any workload
             }
 
-            if(absentWorkloads.Count != 0)
+            if (absentWorkloads.Count != 0)
                 SendEmailsTo(absentWorkloads);
         }
 
@@ -76,8 +75,10 @@ namespace TimeEffort.Jobs
 
                 if (u.user.DirectHead.HasValue)
                     emailSender.SendEmail(text, "rafatdin@lgcns.uz", "viktoriya@lgcns.uz"); // u.user.Email, u.user.UserInfo2.Email);
+                    //SendMailService.SendEmail("rafatdin@lgcns.uz", "from windows service", text);
                 else
                     emailSender.SendEmail(text, "rafatdin@lgcns.uz"); // u.user.Email,
+                    //SendMailService.SendEmail("rafatdin@lgcns.uz", "from windows service", text);
             }
         }
     }

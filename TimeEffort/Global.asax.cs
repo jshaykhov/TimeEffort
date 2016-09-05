@@ -21,7 +21,6 @@ namespace TimeEffort
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            CheckWorkloadsJobScheduler.Start();
         }
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
         {

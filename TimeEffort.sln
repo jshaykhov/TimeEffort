@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeEffort", "TimeEffort\Ti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeEffortCore", "TimeEffortCore\TimeEffortCore.csproj", "{9AD1DC53-406B-465F-A9A6-8200B807AA63}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DailyNotificationSender", "DailyNotificationSender\DailyNotificationSender.csproj", "{0AF9031F-A1EB-4850-BDF9-CC310B321DCC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{9AD1DC53-406B-465F-A9A6-8200B807AA63}.Debug|Any CPU.ActiveCfg = Release|Any CPU
 		{9AD1DC53-406B-465F-A9A6-8200B807AA63}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{9AD1DC53-406B-465F-A9A6-8200B807AA63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AF9031F-A1EB-4850-BDF9-CC310B321DCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AF9031F-A1EB-4850-BDF9-CC310B321DCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AF9031F-A1EB-4850-BDF9-CC310B321DCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AF9031F-A1EB-4850-BDF9-CC310B321DCC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

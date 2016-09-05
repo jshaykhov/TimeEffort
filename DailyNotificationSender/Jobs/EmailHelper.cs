@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Mail;
 using System.Text;
-using System.Web;
+using System.Threading.Tasks;
 
-namespace TimeEffort.Helper
+namespace WindowsServiceProject1.Jobs
 {
     public class EmailHelper
     {
@@ -18,10 +16,10 @@ namespace TimeEffort.Helper
 
             MailAddress recipient = new MailAddress(to);
             MailAddress copy = new MailAddress(cc.ToString());
-            
+
             Message.To.Add(recipient);
             Message.CC.Add(copy);
-            
+
             string subject = "TAPPS Notification";
             Message.Subject = subject;
             Message.Body = text;
@@ -87,6 +85,5 @@ namespace TimeEffort.Helper
 
             //client.Send(mm);
         }
-
     }
 }
