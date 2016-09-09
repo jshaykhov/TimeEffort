@@ -10,12 +10,8 @@ using System.Web;
 using System.Web.Mvc;
 using TimeEffort.Helper;
 using TimeEffort.Models;
-using TimeEffortCore.Services;
-using System.IO;
-using System.Data;
+using TimeEffort.DAL;
 using ClosedXML.Excel;
-using System.Configuration;
-using System.Data.SqlClient;
 using System.Web.UI.WebControls;
 using System.Web.UI;
 using System.Xml.Linq;
@@ -53,7 +49,7 @@ namespace TimeEffort.Controllers
             }
             else
             {
-                var employees = new List<TimeEffortCore.Entities.UserInfo>(); employees.Add(db.GetUserByName(User.Identity.Name));
+                var employees = new List<UserInfo>(); employees.Add(db.GetUserByName(User.Identity.Name));
                 model.allEmployees = employees;
                 model.allProjects = db.GetAllInvolvedUserPMProjects(User.Identity.Name);
                 model.workloads = db.GetAllWorkloadTypes();

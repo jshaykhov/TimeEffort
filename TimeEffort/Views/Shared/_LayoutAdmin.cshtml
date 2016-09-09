@@ -29,7 +29,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="@Url.Content("~/Content/AnotherTheme/dist/js/sb-admin-2.js")"></script>
-    
+
 
 
 </head>
@@ -56,13 +56,13 @@
                 <ul class="nav" id="side-menu">
                     <li class="sidebar-search">
                         @*<div class="input-group custom-search-form">
-                            <input type="text" class="form-control" placeholder="Search...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>*@
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>*@
                         <!-- /input-group -->
                     </li>
                     <li>
@@ -87,8 +87,8 @@
                         <a href="@Url.Action("Index", "Position")"><i class="fa fa-signal fa-fw"></i> System roles</a>
                     </li>
                     @*<li>
-                        <a href="@Url.Action("Index", "Approve")"><i class=" fa fa-check-circle fa-fw"></i> Approve</a>
-                    </li>*@
+                            <a href="@Url.Action("Index", "Approve")"><i class=" fa fa-check-circle fa-fw"></i> Approve</a>
+                        </li>*@
                     <li>
                         <a href="@Url.Action("Index", "Appoint")"><i class=" fa fa-hand-o-up fa-fw"></i> Appoint</a>
                     </li>
@@ -131,10 +131,19 @@
     <link href="@Url.Content("~/Scripts/jquery-ui.css")" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
     <script>
-        if(!Modernizr.inputtypes.date)
-        {
+        if (!Modernizr.inputtypes.date) {
             $('[type="date"]').datepicker();
         }
+
+        //session end
+        @*var sessionTimeoutWarning = @Session.Timeout -1;
+
+        var sTimeout = parseInt(sessionTimeoutWarning) * 60 * 1000;
+        setTimeout('SessionEnd()', sTimeout);
+
+        function SessionEnd() {
+            window.location = "/User/LogOff";
+        }*@
     </script>
 </body>
 </html>

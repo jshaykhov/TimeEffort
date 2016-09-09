@@ -5,10 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using TimeEffort.Mappers;
 using TimeEffort.Models;
-using TimeEffortCore.Services;
 using PagedList;
 using TimeEffort.Helper;
-using TimeEffortCore.Entities;
+using TimeEffort.DAL;
 using System.Web.UI.WebControls;
 using System.IO;
 using System.Web.UI;
@@ -21,7 +20,7 @@ namespace TimeEffort.Controllers
   
     public class ProjectController : Controller
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         //static properties does not requiere instantiation on accessing different Actions
         static AllDBServices _Service;
         //singleton to ensure that there is only one instance of the service

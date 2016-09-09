@@ -52,7 +52,7 @@
             <tr>
                 <td class="td-head-default" id="0" rowspan="4" style="vertical-align:middle;">Team project</td>
                 <td class="td-head-default" id="Work">Work</td>
-                @{TimeEffortCore.Entities.Workload item;
+                @{TimeEffort.Models.Workload item;
                 int tabindex = 1;}
                 <td class="duration" data-tabindex=@(tabindex++) id="monForTotal">
                     @{item = Model.Workloads.Where(x => x.ProjectID == 0 && x.WorkloadType.Name == "Work (Administrative)").FirstOrDefault(x => x.Date == Model.Monday);}

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using TimeEffortCore.Entities;
-using TimeEffortCore.Services;
+using TimeEffort.Models;
+using TimeEffortCore.DAL;
 
 namespace TimeEffort.Helper
 {
@@ -27,7 +27,7 @@ namespace TimeEffort.Helper
 
         public static bool IsInvolvedInProject(Project project, UserInfo user)
         {
-            using (time_trackerEntities1 ctx = new time_trackerEntities1())
+            using (ErpSystemContext ctx = new ErpSystemContext())
             {
                 return ctx.Access.Any(x => x.UserID == user.ID && x.ProjectID == project.ID);
             }
@@ -35,7 +35,7 @@ namespace TimeEffort.Helper
 
         public static List<Project> GetAllInvolvedProjects(System.Security.Principal.IPrincipal _user)
         {
-            using (time_trackerEntities1 ctx = new time_trackerEntities1())
+            using (ErpSystemContext ctx = new ErpSystemContext())
             {
 
                 var allProjects = ctx.Project.ToList(); ;
@@ -52,7 +52,7 @@ namespace TimeEffort.Helper
 
         public static List<Project> GetProjectsByManager(System.Security.Principal.IPrincipal _user)
         {
-            using (time_trackerEntities1 ctx = new time_trackerEntities1())
+            using (ErpSystemContext ctx = new ErpSystemContext())
             {
                 UserInfo user = ctx.UserInfo.FirstOrDefault(u => u.Username == _user.Identity.Name);
                 return ctx.Project.Where(p => p.ManagerID == user.ID).ToList();
@@ -61,7 +61,7 @@ namespace TimeEffort.Helper
 
         public static List<Project> GetProjectsByWorkingUser(System.Security.Principal.IPrincipal _user)
         {
-            using (time_trackerEntities1 ctx = new time_trackerEntities1())
+            using (ErpSystemContext ctx = new ErpSystemContext())
             {
                 List<Project> returningList = new List<Project>();
 
@@ -81,7 +81,7 @@ namespace TimeEffort.Helper
 
         public static UserInfo GetUserByName(string username)
         {
-            using (time_trackerEntities1 ctx = new time_trackerEntities1())
+            using (ErpSystemContext ctx = new ErpSystemContext())
             {
                 return ctx.UserInfo.FirstOrDefault(u => u.Username == username);
             }
@@ -90,7 +90,7 @@ namespace TimeEffort.Helper
 
         public static Project GetProjectByCode(string projectCode)
         {
-            using (time_trackerEntities1 ctx = new time_trackerEntities1())
+            using (ErpSystemContext ctx = new ErpSystemContext())
             {
                 return ctx.Project.FirstOrDefault(p => p.Code.Equals(projectCode));
             }
@@ -98,7 +98,7 @@ namespace TimeEffort.Helper
 
         public static List<UserInfo> GetAllUsers()
         {
-            using (time_trackerEntities1 ctx = new time_trackerEntities1())
+            using (ErpSystemContext ctx = new ErpSystemContext())
             {
                 return ctx.UserInfo.ToList();
             }
@@ -106,7 +106,7 @@ namespace TimeEffort.Helper
 
         internal static List<WorkloadType> GetAllWorkloadTypes()
         {
-            using (time_trackerEntities1 ctx = new time_trackerEntities1())
+            using (ErpSystemContext ctx = new ErpSystemContext())
             {
                 return ctx.WorkloadType.ToList();
             }

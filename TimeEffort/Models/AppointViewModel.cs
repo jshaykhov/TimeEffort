@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using TimeEffortCore.Entities;
 
 namespace TimeEffort.Models
 {

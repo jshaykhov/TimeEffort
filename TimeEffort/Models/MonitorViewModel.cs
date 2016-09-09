@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using TimeEffortCore.Entities;
 using Newtonsoft.Json;
 using System.Runtime.Serialization;
 namespace TimeEffort.Models

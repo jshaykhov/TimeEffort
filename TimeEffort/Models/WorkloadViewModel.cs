@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
-using TimeEffortCore.Entities;
 
 namespace TimeEffort.Models
 {

@@ -5,8 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using TimeEffort.Models;
 using TimeEffort.Mappers;
-using TimeEffortCore.Entities;
-using TimeEffortCore.Services;
+using TimeEffort.DAL;
 using System.Web.Security;
 using System.Net;
 
@@ -108,7 +107,7 @@ namespace TimeEffort.Controllers
                 DateTime.Now,
                 DateTime.Now.AddMinutes(24),
                 remember,
-                _userService.GetUserByUsername(username).Position.Name  //ROLE OF THE USER
+                _userService.GetUserByUsername(username).Position.Name           //ROLE OF THE USER
             );
             string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
             var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using TimeEffortCore.Entities;
 
 namespace TimeEffort.Models
 {
@@ -18,12 +17,5 @@ namespace TimeEffort.Models
         public int ProjectId { get; set; }
 
         public Project Project { get; set; }
-    }
-
-    public class NotificationType
-    {
-        public int ID { get; set; }
-        public string NAME { get; set; }
-
     }
 }

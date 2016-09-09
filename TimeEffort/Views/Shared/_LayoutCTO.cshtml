@@ -123,6 +123,16 @@
         if (!Modernizr.inputtypes.date) {
             $('[type="date"]').datepicker();
         }
+
+        //session end
+        @*var sessionTimeoutWarning = @Session.Timeout -1;
+
+        var sTimeout = parseInt(sessionTimeoutWarning) * 60 * 1000;
+        setTimeout('SessionEnd()', sTimeout);
+
+        function SessionEnd() {
+            window.location = "/User/LogOff";
+        }*@
     </script>
 
 </body>

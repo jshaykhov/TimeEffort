@@ -4,9 +4,9 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Web;
+using TimeEffort.DAL;
 using TimeEffort.Helper;
-using TimeEffortCore.Entities;
-using TimeEffortCore.Services;
+using TimeEffort.Models;
 
 namespace TimeEffort.Jobs
 {

@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using TimeEffort.Helper;
 using TimeEffort.Mappers;
 using TimeEffort.Models;
-using TimeEffortCore.Services;
+using TimeEffort.DAL;
 
 namespace TimeEffort.Controllers
 {

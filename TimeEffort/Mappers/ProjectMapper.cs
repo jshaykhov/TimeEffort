@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Web;
-using TimeEffortCore.Entities;
 using TimeEffort.Models;
 
 namespace TimeEffort.Mappers

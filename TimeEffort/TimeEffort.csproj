@@ -61,6 +61,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework6.Npgsql, Version=3.1.1.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework6.Npgsql.3.1.1\lib\net45\EntityFramework6.Npgsql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -85,6 +89,10 @@
     </Reference>
     <Reference Include="Microsoft.Owin.Security.OAuth">
       <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql, Version=3.1.2.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.3.1.2\lib\net45\Npgsql.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -200,6 +208,8 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WorkloadController.cs" />
     <Compile Include="Controllers\WorkloadTypeController.cs" />
+    <Compile Include="DAL\AllDBServices.cs" />
+    <Compile Include="DAL\ErpSystemContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -213,6 +223,12 @@
     <Compile Include="Jobs\CheckWorkloadsJobScheduler.cs" />
     <Compile Include="Mappers\AppointMapper.cs" />
     <Compile Include="Mappers\CustomerMapper.cs" />
+    <Compile Include="Migrations\201609090546136_InitialCreate.cs" />
+    <Compile Include="Migrations\201609090546136_InitialCreate.Designer.cs">
+      <DependentUpon>201609090546136_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="DAL\Models\Access.cs" />
     <Compile Include="Models\AppointViewModel.cs" />
     <Compile Include="Models\ChangePasswordViewModel.cs" />
     <Compile Include="Mappers\PositionMapper.cs" />
@@ -221,9 +237,16 @@
     <Compile Include="Mappers\WLoadTypeMapper.cs" />
     <Compile Include="Mappers\ProjectMapper.cs" />
     <Compile Include="Mappers\WorkloadMapper.cs" />
+    <Compile Include="DAL\Models\Customer.cs" />
     <Compile Include="Models\MonitorViewModel.cs" />
     <Compile Include="Models\CustomerViewModel.cs" />
+    <Compile Include="DAL\Models\Notification.cs" />
+    <Compile Include="DAL\Models\NotificationType.cs" />
     <Compile Include="Models\NotificationViewModel.cs" />
+    <Compile Include="DAL\Models\Position.cs" />
+    <Compile Include="DAL\Models\Project.cs" />
+    <Compile Include="DAL\Models\Role.cs" />
+    <Compile Include="DAL\Models\UserInfo.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\PositionViewModel.cs" />
@@ -231,6 +254,8 @@
     <Compile Include="Models\RegistrationViewModel.cs" />
     <Compile Include="Models\RoleViewModel.cs" />
     <Compile Include="Models\WloadTypeViewModel.cs" />
+    <Compile Include="DAL\Models\Workload.cs" />
+    <Compile Include="DAL\Models\WorkloadType.cs" />
     <Compile Include="Models\WorkloadViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -1890,6 +1915,11 @@
       <Project>{9ad1dc53-406b-465f-a9a6-8200b807aa63}</Project>
       <Name>TimeEffortCore</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201609090546136_InitialCreate.resx">
+      <DependentUpon>201609090546136_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -6,8 +6,8 @@ using System.Web.Mvc;
 using TimeEffort.Helper;
 using TimeEffort.Mappers;
 using TimeEffort.Models;
-using TimeEffortCore.Services;
 using PagedList;
+using TimeEffort.DAL;
 namespace TimeEffort.Controllers
 {
     [Authorize(Roles = "Admin, Master, Monitor, User,CTO, Test")]
